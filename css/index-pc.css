@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+.game {
+  position: absolute;
+  width: 100%; }
+  .game .topBar {
+    position: relative;
+    display: flex;
+    height: 55px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: #6effab; }
+    .game .topBar .example {
+      position: absolute;
+      left: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .game .topBar .example .pd1 {
+        width: 45px;
+        height: 45px;
+        background: url(../img/puddings/p1.png) no-repeat center/cover; }
+        .game .topBar .example .pd1::after {
+          content: '+1';
+          position: absolute;
+          left: 50px;
+          top: 8px;
+          font-size: 24px; }
+      .game .topBar .example .pd2 {
+        width: 45px;
+        height: 45px;
+        margin-left: 45px;
+        background: url(../img/puddings/p2.png) no-repeat center/cover; }
+        .game .topBar .example .pd2::after {
+          content: '+2';
+          position: absolute;
+          left: 140px;
+          top: 8px;
+          font-size: 24px; }
+      .game .topBar .example .pd3 {
+        width: 45px;
+        height: 45px;
+        margin-left: 45px;
+        background: url(../img/puddings/p3.png) no-repeat center/cover; }
+        .game .topBar .example .pd3::after {
+          content: '+3';
+          position: absolute;
+          left: 230px;
+          top: 8px;
+          font-size: 24px; }
+    .game .topBar .health {
+      display: flex;
+      margin-right: 35px; }
+      .game .topBar .health img {
+        width: 45px;
+        height: 46px; }
+      .game .topBar .health .t {
+        font-size: 30px;
+        margin-left: 10px; }
+    .game .topBar .currentScore {
+      margin-right: 35px;
+      font-size: 26px;
+      color: #ff00c4; }
+    .game .topBar .highScore {
+      font-size: 26px;
+      color: #001ddb; }
+  .game .gameBg {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 55px);
+    background-color: #aaffff; }
+    .game .gameBg .miyako {
+      position: absolute;
+      width: 110px;
+      height: 108px;
+      background: url(../img/miyako-normal.png) no-repeat center/cover; }
+    .game .gameBg .puddings {
+      position: absolute;
+      display: flex;
+      right: 0px; }
+      .game .gameBg .puddings img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 5px; }
+      .game .gameBg .puddings .col1, .game .gameBg .puddings .col2, .game .gameBg .puddings .col3, .game .gameBg .puddings .col4 {
+        display: flex;
+        margin-right: 10px;
+        flex-direction: column; }
+
+.failed {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); }
+  .failed .t1 {
+    font-size: 68px;
+    color: orangered; }
