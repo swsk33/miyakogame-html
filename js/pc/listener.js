@@ -11,3 +11,5 @@ window.addEventListener('keydown', function(e) {
 		down(5);
 	}
 })
+
+//自动开火按钮
