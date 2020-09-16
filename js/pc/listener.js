@@ -27,7 +27,7 @@ autoFireBtn.addEventListener('click', function() {
 		autoFireBtn.style.backgroundImage = 'url(./img/buttons/btn_on.png)';
 		afc = setInterval(function() {
 			fire();
-		}, 300);
+		}, 500);
 	} else {
 		autoFireBtn.style.backgroundImage = 'url(./img/buttons/btn_off.png)';
 		clearInterval(afc);
