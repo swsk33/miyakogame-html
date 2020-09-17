@@ -1,6 +1,5 @@
 //初始化
-let bgHeight = window.innerHeight - 55; //游戏背景高度
-let bgWidth = window.innerWidth; //游戏背景宽度
+let bg = document.querySelector('.game .gameBg'); //获取游戏背景
 //游戏控制
 let isPaused = false; //游戏是否暂停
 let isAutoFire = false; //是否自动开火

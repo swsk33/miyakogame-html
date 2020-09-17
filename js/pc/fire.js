@@ -1,5 +1,4 @@
 //火控系统
-let bg = document.querySelector('.game .gameBg');
 //开火函数
 function fire() {
 	//在装填完毕的时候可以开火
@@ -25,7 +24,7 @@ function fire() {
 			bulletX = bulletX + 2;
 			bullet.style.left = bulletX + 'px';
 			//子弹飞出边界，停止飞行控制并销毁自身
-			if (bullet.offsetLeft + bullet.offsetWidth > bgWidth) {
+			if (bullet.offsetLeft + bullet.offsetWidth > bg.offsetWidth) {
 				clearInterval(flyController);
 				bullet.remove();
 			}

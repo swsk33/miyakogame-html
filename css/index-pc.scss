@@ -1,3 +1,6 @@
+$cols: 4; //布丁列数
+$pdEachCol: 8; //每一列的布丁数
+
 * {
 	margin: 0;
 	padding: 0;
@@ -124,18 +127,23 @@
 		
 		.puddings {
 			position: absolute;
-			display: flex;
+			width: $cols * 70px;
+			height: $pdEachCol * 65px;
 			right: 0px;
 			img {
 				width: 60px;
 				height: 60px;
-				margin-bottom: 5px;
 			}
 			
-			.col1, .col2, .col3, .col4 {
-				display: flex;
-				margin-right: 10px;
-				flex-direction: column;
+			//设置每一个布丁的位置，每一列之间相隔10px，每一行之间相隔5px
+			@for $i from 1 through $cols {
+				@for $j from 1 through $pdEachCol {
+					.pudding-#{$i}-#{$j} {
+						position: absolute;
+						left: ($i - 1) * 70px;
+						top: ($j - 1) * 65px;
+					}
+				}
 			}
 			
 		}
