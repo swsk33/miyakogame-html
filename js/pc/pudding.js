@@ -25,4 +25,8 @@ function getPuddings() {
 			puddingArray.push(eachPudding);
 		}
 	}
+	console.log(puddingArray[1].dom.className);
+	console.log(puddingArray[1].dom.getBoundingClientRect());
 }
+
+getPuddings();
