@@ -1,30 +1,40 @@
 //控制布丁的移动
 let puddingArray = []; //存放布丁对象的数组
-let puds = document.querySelector('.gameBg .puddings').children;
+let puddingBox = document.querySelector('.gameBg .puddings'); //获取布丁所在的容器
+let puds = puddingBox.children; //获取全部布丁dom
 
 //获取布丁，用于每一关的初始化
 function getPuddings() {
 	for (let i = 0; i < puds.length; i++) {
-		let col = puds[i].children;
-		//分数判定与设置
-		let scoreEach;
-		if (i == 2) {
-			scoreEach = 2;
-		} else if (i == 3) {
-			scoreEach = 3;
-		} else {
-			scoreEach = 1;
+		let scoreEachPudding; //每个布丁的分数
+		if (i >= 0 && i <= 15) {
+			scoreEachPudding = 1;
+		} else if (i >= 16 && i <= 23) {
+			scoreEachPudding = 2;
+		} else if (i >= 24 && i <= 31) {
+			scoreEachPudding = 3;
 		}
-		for (let j = 0; j < col.length; j++) {
-			//读取并构建每一个布丁对象并存入全局数组
-			let eachPudding = {
-				dom: col[j],
-				isEaten: false,
-				score: scoreEach
-			};
-			puddingArray.push(eachPudding);
-		}
+		//构建每个布丁的模型对象并存入全局数组
+		let eachPudding = {
+			dom: puds[i],
+			isEaten: false,
+			score: scoreEachPudding
+		};
+		puddingArray.push(eachPudding);
 	}
 }
 
-getPuddings();
+//获取某个布丁的全局绝对位置，传入构造的布丁对象
+function getPuddingPosition(puddingObject) {
+	let pos = {
+		left: puddingObject.dom.offsetLeft + puddingBox.offsetLeft,
+		top: puddingObject.dom.offsetTop + puddingBox.offsetTop
+	};
+	return pos;
+}
+
+//布丁的移动
+function puddingMove() {
+	let velocity = 5 * level; //布丁移动的速度，和关卡数成正比
+	
+}
