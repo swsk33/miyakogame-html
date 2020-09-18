@@ -3,10 +3,9 @@ let level = 1; //关卡
 let currentScore = 0; //当前分数
 let highScore = 0; //最高分数
 let health = 3; //生命值
-
 //加分函数
-let currentScoreDom = document.querySelector('.game .topBar .currentScore');//当前分数dom
-let highScoreDom = document.querySelector('.game .topBar .highScore');//最高分数dom
+let currentScoreDom = document.querySelector('.game .topBar .currentScore'); //当前分数dom
+let highScoreDom = document.querySelector('.game .topBar .highScore'); //最高分数dom
 function addScore(score) {
 	currentScore = currentScore + score;
 	currentScoreDom.innerHTML = '当前分数：' + currentScore;

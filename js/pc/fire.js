@@ -33,6 +33,7 @@ function bulletFly(bullet) {
 		if (collideCheck(bullet, puddingArray) || bullet.offsetLeft + bullet.offsetWidth > bg.offsetWidth) {
 			clearInterval(flyController);
 			bullet.remove();
+			puddingCount--;
 		}
 	}, 3);
 }

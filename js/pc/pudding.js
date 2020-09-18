@@ -2,8 +2,9 @@
 let puddingArray = []; //存放布丁对象的数组
 let puddingBox = document.querySelector('.gameBg .puddings'); //获取布丁所在的容器
 let puds = puddingBox.children; //获取全部布丁dom
+let puddingCount; //布丁的总数
 
-//获取布丁，用于每一关的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
+//获取布丁，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
 function getPuddings() {
 	for (let i = 0; i < puds.length; i++) {
 		let scoreEachPudding; //每个布丁的分数
@@ -20,8 +21,12 @@ function getPuddings() {
 			isEaten: false, //布丁是否被吃掉（击中）
 			score: scoreEachPudding //这个布丁的分值
 		};
+		eachPudding.dom.style.display = 'block';
 		puddingArray.push(eachPudding);
 	}
+	puddingBox.style.right = '0px';
+	puddingBox.style.top = '0px';
+	puddingCount = puddingArray.length;
 }
 
 //获取某个布丁的全局绝对位置，传入构造的布丁对象
@@ -69,7 +74,6 @@ function puddingBoxBorder() {
 			break;
 		}
 	}
-	console.log(pdBorder);
 	return pdBorder;
 }
 
@@ -103,5 +107,40 @@ function puddingMove() {
 				puddingBox.style.top = (puddingBox.offsetTop - velocity) + 'px';
 			}
 		}
-	}, 100);
+		//如果移动过程中出界或者碰到宫子
+		if (isPuddingOutOfBound()) {
+			clearInterval(moveControl);
+			healthDown();
+		}
+		//布丁被吃完了，停止计时器并显示胜利界面
+		if (puddingCount == 0) {
+			clearInterval(moveControl);
+			level++;
+			addScore(level * 10);
+			succeedPage.style.display = 'flex';
+			isPaused = true;
+		}
+	}, 1);
+}
+
+//判定是否有布丁碰到宫子或者跑出左边界
+function isPuddingOutOfBound() {
+	let isOut = false;
+	for (let i = 0; i < puddingArray.length; i++) {
+		//如果这个布丁是存活状态，则开始执行判断。
+		if (!puddingArray[i].isEaten) {
+			//条件1：宫子的右下方在该布丁范围内
+			let criteria1 = (miyako.offsetTop + miyako.offsetHeight) >= getPuddingPosition(puddingArray[i]).top && (miyako.offsetLeft +
+				miyako.offsetWidth) >= getPuddingPosition(puddingArray[i]).left;
+			//条件2：宫子的左上方在该布丁范围内
+			let criteria2 = miyako.offsetTop <= (getPuddingPosition(puddingArray[i]).top + puddingArray[i].dom.offsetHeight) &&
+				miyako.offsetLeft <= (getPuddingPosition(puddingArray[i]).left + puddingArray[i].dom.offsetWidth);
+			//条件3：布丁越界
+			let criteria3 = getPuddingPosition(puddingArray[i]).left <= 0;
+			//总条件：上述1和2同时满足或者3满足时
+			isOut = (criteria1 && criteria2) || criteria3;
+			break;
+		}
+	}
+	return isOut;
 }
