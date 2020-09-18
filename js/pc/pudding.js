@@ -4,6 +4,12 @@ let puddingBox = document.querySelector('.gameBg .puddings'); //获取布丁所�
 let puds = puddingBox.children; //获取全部布丁dom
 let puddingCount; //布丁的总数
 
+//重置布丁的位置
+function resetPuddingPosition() {
+	puddingBox.style.left = (bg.offsetWidth - puddingBox.offsetWidth) + 'px';
+	puddingBox.style.top = '0px';
+}
+
 //获取布丁，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
 function getPuddings() {
 	for (let i = 0; i < puds.length; i++) {
@@ -24,9 +30,8 @@ function getPuddings() {
 		eachPudding.dom.style.display = 'block';
 		puddingArray.push(eachPudding);
 	}
-	puddingBox.style.right = '0px';
-	puddingBox.style.top = '0px';
 	puddingCount = puddingArray.length;
+	resetPuddingPosition();
 }
 
 //获取某个布丁的全局绝对位置，传入构造的布丁对象
@@ -120,7 +125,7 @@ function puddingMove() {
 			succeedPage.style.display = 'flex';
 			isPaused = true;
 		}
-	}, 1);
+	}, 100);
 }
 
 //判定是否有布丁碰到宫子或者跑出左边界
@@ -139,7 +144,9 @@ function isPuddingOutOfBound() {
 			let criteria3 = getPuddingPosition(puddingArray[i]).left <= 0;
 			//总条件：上述1和2同时满足或者3满足时
 			isOut = (criteria1 && criteria2) || criteria3;
-			break;
+			if (isOut) {
+				break;
+			}
 		}
 	}
 	return isOut;

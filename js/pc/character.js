@@ -26,11 +26,11 @@ function down(i) {
 
 //宫子扣生命值
 function healthDown() {
-	//如果生命值高于0，扣血并实现闪烁效果，然后继续游戏（！此处有错误，明天来改）
+	//如果生命值高于0，扣血并实现闪烁效果，然后继续游戏
 	if (health > 0) {
 		health--;
 		healthDom.innerHTML = 'x' + health;
-		let i = 3;
+		let i = 6;
 		let isCharShow = true;
 		let flashing = setInterval(function() {
 			isCharShow = !isCharShow;
@@ -43,7 +43,7 @@ function healthDown() {
 			if (i <= 0) {
 				clearInterval(flashing);
 			}
-		}, 1000);
+		}, 300);
 		getPuddings();
 		puddingMove();
 	} else {
