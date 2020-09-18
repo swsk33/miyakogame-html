@@ -2,12 +2,12 @@
 window.addEventListener('keydown', function(e) {
 	//宫子向上移动
 	if ((e.keyCode == 38 || e.keyCode == 87) && !isPaused) {
-		up(8);
+		up(10);
 	}
 
 	//宫子向下移动
 	if ((e.keyCode == 40 || e.keyCode == 83) && !isPaused) {
-		down(8);
+		down(10);
 	}
 
 	//开火
