@@ -52,7 +52,8 @@
           top: 8px;
           font-size: 24px; }
     .game .topBar .level {
-      margin-right: 90px;
+      margin-left: 100px;
+      margin-right: 100px;
       font-size: 24px; }
     .game .topBar .health {
       display: flex;
@@ -64,15 +65,17 @@
         font-size: 30px;
         margin-left: 10px; }
     .game .topBar .currentScore {
-      margin-right: 45px;
+      margin-left: 35px;
       font-size: 26px;
       color: #ff00c4; }
     .game .topBar .highScore {
+      margin-left: 100px;
       font-size: 26px;
       color: #001ddb; }
     .game .topBar .autoFire {
+      position: absolute;
       display: flex;
-      margin-left: 50px; }
+      right: 50px; }
       .game .topBar .autoFire .t {
         font-size: 18px; }
       .game .topBar .autoFire .btn {

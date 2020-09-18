@@ -14,7 +14,6 @@ window.addEventListener('keydown', function(e) {
 	if (e.keyCode == 32 && !isPaused && !isAutoFire) {
 		fire();
 	}
-	console.log('键盘调试输出：' + e.keyCode);
 });
 
 
@@ -23,13 +22,16 @@ let autoFireBtn = document.querySelector('.game .topBar .autoFire .btn');
 let afc; //自动开火控制器
 autoFireBtn.addEventListener('click', function() {
 	isAutoFire = !isAutoFire;
+	isLoadingBullet = false;
+	loadingInterval = 300;
 	if (isAutoFire) {
 		autoFireBtn.style.backgroundImage = 'url(./img/buttons/btn_on.png)';
 		afc = setInterval(function() {
 			fire();
-		}, 500);
+		}, loadingInterval);
 	} else {
 		autoFireBtn.style.backgroundImage = 'url(./img/buttons/btn_off.png)';
+		loadingInterval = 500;
 		clearInterval(afc);
 	}
 });
