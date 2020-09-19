@@ -1,6 +1,5 @@
 //宫子的行为模块
 let miyako = document.querySelector('.game .gameBg .miyako'); //获取宫子dom
-let healthDom = document.querySelector('.game .topBar .health .t'); //获取生命值文字部分dom
 let y = 0;
 miyako.style.top = y + 'px';
 
@@ -29,7 +28,6 @@ function healthDown() {
 	//如果生命值高于0，扣血并实现闪烁效果，然后继续游戏
 	if (health > 0) {
 		health--;
-		healthDom.innerHTML = 'x' + health;
 		let i = 6;
 		let isCharShow = true;
 		let flashing = setInterval(function() {
@@ -46,6 +44,8 @@ function healthDown() {
 		}, 300);
 		getPuddings();
 		puddingMove();
+		saveData();
+		refreshDom();
 	} else {
 		failedPage.style.display = 'flex';
 		isPaused = true;

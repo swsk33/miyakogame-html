@@ -2,15 +2,16 @@
 let puddingArray = []; //存放布丁对象的数组
 let puddingBox = document.querySelector('.gameBg .puddings'); //获取布丁所在的容器
 let puds = puddingBox.children; //获取全部布丁dom
-let puddingCount; //布丁的总数
+let moveUp; //布丁移动方向，false为下true为上
 
 //重置布丁的位置
 function resetPuddingPosition() {
 	puddingBox.style.left = (bg.offsetWidth - puddingBox.offsetWidth) + 'px';
 	puddingBox.style.top = '0px';
+	moveUp = false;
 }
 
-//获取布丁，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
+//获取布丁并重置位置，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
 function getPuddings() {
 	for (let i = 0; i < puds.length; i++) {
 		let scoreEachPudding; //每个布丁的分数
@@ -30,7 +31,6 @@ function getPuddings() {
 		eachPudding.dom.style.display = 'block';
 		puddingArray.push(eachPudding);
 	}
-	puddingCount = puddingArray.length;
 	resetPuddingPosition();
 }
 
@@ -82,17 +82,16 @@ function puddingBoxBorder() {
 	return pdBorder;
 }
 
-//布丁的移动
+//布丁的移动（回调函数）（此处有误。考完6级来改）
 function puddingMove() {
 	let velocity = 5 * level; //布丁移动的速度，和关卡数成正比
-	let moveUp = false; //布丁移动方向，false为下true为上
 	let moveControl = setInterval(function() {
 		if (!moveUp) {
 			//得到下边界位置
 			let pdb = (puddingBoxBorder().borderBottom + 1) * 65 - 5;
-			if (puddingBox.offsetTop + pdb + velocity > bg.offsetHeight) { //布丁即将移动到底部时
+			if (puddingBox.offsetTop + pdb + velocity >= bg.offsetHeight) { //布丁即将移动到底部时
 				moveUp = true;
-				puddingBox.style.bottom = (-5 - (puddingBox.offsetHeight - pdb)) + 'px';
+				puddingBox.style.top = (bg.offsetHeight - pdb) + 'px';
 				setTimeout(function() {
 					puddingBox.style.left = (puddingBox.offsetLeft - 50) + 'px';
 				}, 5);
@@ -102,7 +101,7 @@ function puddingMove() {
 		} else {
 			//得到上边界位置
 			let pdt = puddingBoxBorder().borderTop * 65;
-			if (puddingBox.offsetTop + pdt - velocity < 0) { //布丁即将运动到上边界时
+			if (puddingBox.offsetTop + pdt - velocity <= 0) { //布丁即将运动到上边界时
 				moveUp = false;
 				puddingBox.style.top = (0 - pdt) + 'px';
 				setTimeout(function() {
@@ -112,20 +111,33 @@ function puddingMove() {
 				puddingBox.style.top = (puddingBox.offsetTop - velocity) + 'px';
 			}
 		}
+		//游戏暂停了，停止移动
+		if (isPaused) {
+			clearInterval(moveControl);
+		}
 		//如果移动过程中出界或者碰到宫子
 		if (isPuddingOutOfBound()) {
 			clearInterval(moveControl);
 			healthDown();
 		}
-		//布丁被吃完了，停止计时器并显示胜利界面
-		if (puddingCount == 0) {
+		//布丁被吃完了，停止计时器并显示胜利界面，进入下一关
+		if (isEatUp()) {
 			clearInterval(moveControl);
 			level++;
 			addScore(level * 10);
 			succeedPage.style.display = 'flex';
 			isPaused = true;
+			saveData();
+			refreshDom();
 		}
 	}, 100);
+}
+
+//操作布丁的移动（暂停时不动，不暂停就动）
+function puddingMoveControl(notMove, callback) {
+	if (!notMove) {
+		callback();
+	}
 }
 
 //判定是否有布丁碰到宫子或者跑出左边界
@@ -150,4 +162,16 @@ function isPuddingOutOfBound() {
 		}
 	}
 	return isOut;
+}
+
+//判断布丁是否被吃完
+function isEatUp() {
+	let isDone = true;
+	for (let i = 0; i < puddingArray.length; i++) {
+		if (!puddingArray[i].isEaten) {
+			isDone = false;
+			break;
+		}
+	}
+	return isDone;
 }

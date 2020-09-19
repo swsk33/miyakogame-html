@@ -30,7 +30,7 @@ function bulletFly(bullet) {
 		bulletX = bulletX + 2;
 		bullet.style.left = bulletX + 'px';
 		//如果子弹和敌人相碰或者飞出边界，则停止飞行并销毁自身
-		if (collideCheck(bullet, puddingArray) || bullet.offsetLeft + bullet.offsetWidth > bg.offsetWidth) {
+		if (collideCheck(bullet, puddingArray) || bullet.offsetLeft + bullet.offsetWidth >= bg.offsetWidth) {
 			clearInterval(flyController);
 			bullet.remove();
 		}
@@ -55,7 +55,6 @@ function collideCheck(bullet, objectArray) {
 			objectArray[i].dom.style.display = 'none';
 			objectArray[i].isEaten = true;
 			addScore(objectArray[i].score);
-			puddingCount--;
 			break;
 		}
 	}
