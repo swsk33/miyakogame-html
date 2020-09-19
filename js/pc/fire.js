@@ -48,8 +48,10 @@ function collideCheck(bullet, objectArray) {
 		//条件2：子弹左上部分在敌人贴图范围内
 		let criteria2 = bullet.offsetTop <= (getPuddingPosition(objectArray[i]).top + objectArray[i].dom.offsetHeight) &&
 			bullet.offsetLeft <= (getPuddingPosition(objectArray[i]).left + objectArray[i].dom.offsetWidth);
-		//总条件：条件1和条件2需要同时满足
-		let criteriaTotal = criteria1 && criteria2;
+		//条件3：子弹碰到的敌人是没被击中的状态
+		let criteria3 = !objectArray[i].isEaten;
+		//总条件：三个条件需要同时满足
+		let criteriaTotal = criteria1 && criteria2 && criteria3;
 		if (criteriaTotal) {
 			isCollide = true;
 			objectArray[i].dom.style.display = 'none';

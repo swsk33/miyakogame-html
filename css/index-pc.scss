@@ -1,6 +1,3 @@
-$cols: 4; //布丁列数
-$pdEachCol: 8; //每一列的布丁数
-
 * {
 	margin: 0;
 	padding: 0;
@@ -128,30 +125,16 @@ $pdEachCol: 8; //每一列的布丁数
 			background: url(../img/miyako-normal.png) no-repeat center/cover;
 		}
 		
+		//布丁容器
 		.puddings {
 			position: absolute;
-			width: $cols * 70px;
-			height: $pdEachCol * 65 - 5px;
-			right: 0px;
 			img {
+				position: absolute;
 				width: 60px;
 				height: 60px;
 			}
-			
-			//设置每一个布丁的位置，每一列之间相隔10px，每一行之间相隔5px
-			@for $i from 1 through $cols {
-				@for $j from 1 through $pdEachCol {
-					.pudding-#{$i}-#{$j} {
-						position: absolute;
-						left: ($i - 1) * 70px;
-						top: ($j - 1) * 65px;
-					}
-				}
-			}
-			
 		}
 	}
-
 }
 
 .start {

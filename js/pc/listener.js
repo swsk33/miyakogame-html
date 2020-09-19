@@ -66,7 +66,7 @@ succeedPageBtn[0].addEventListener('click', function() {
 	isPaused = false;
 	succeedPage.style.display = 'none';
 	getPuddings();
-	puddingMoveControl(isPaused, puddingMove());
+	puddingMoveControl(isPaused, puddingMove);
 });
 //返回主菜单按钮
 succeedPageBtn[1].addEventListener('click', function() {
