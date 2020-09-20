@@ -1,0 +1,28 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.bg {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	background-color: lightblue;
+	
+	.content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: calc(50vh - 41px);
+		.img {
+			width: 70px;
+			height: 82px;
+			background: url(../img/youl-dynamic.gif) no-repeat center/cover;
+		}
+		
+		.t {
+			font-size: 32px;
+			margin-left: 18px;
+		}
+	}
+}
