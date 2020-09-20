@@ -42,7 +42,7 @@ autoFireBtn.addEventListener('click', function () {
 let startPageBtn = document.querySelector('.start ul').children;
 //继续游戏按钮
 startPageBtn[0].addEventListener('click', function () {
-	if (!(currentScore == 0 && highScore == 0 && health == 3 && level == 1)) {
+	if (!(currentScore == 0 && health == 3 && level == 1) || highScore != 0) {
 		isPaused = false;
 		startPage.style.display = 'none';
 		getPuddings();
@@ -57,6 +57,10 @@ startPageBtn[1].addEventListener('click', function () {
 	startPage.style.display = 'none';
 	getPuddings();
 	puddingMoveControl(isPaused, puddingMove);
+});
+//帮助按钮
+startPageBtn[2].addEventListener('click', function() {
+	helpPage.style.display = 'block';
 });
 
 //成功界面监听
@@ -88,4 +92,10 @@ failedPageBtn[0].addEventListener('click', function () {
 failedPageBtn[1].addEventListener('click', function () {
 	failedPage.style.display = 'none';
 	startPage.style.display = 'flex';
+});
+
+//帮助界面按钮
+let helpPageBtn = helpPage.children[0];
+helpPageBtn.children[4].addEventListener('click', function() {
+	helpPage.style.display = 'none';
 });
