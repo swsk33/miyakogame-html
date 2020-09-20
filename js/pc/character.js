@@ -30,7 +30,7 @@ function healthDown() {
 		health--;
 		let i = 6;
 		let isCharShow = true;
-		let flashing = setInterval(function() {
+		let flashing = setInterval(function () {
 			isCharShow = !isCharShow;
 			i--;
 			if (isCharShow) {

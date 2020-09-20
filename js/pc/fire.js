@@ -5,7 +5,7 @@ function fire() {
 	if (!isLoadingBullet) {
 		//射击后装载时间
 		isLoadingBullet = true;
-		let loading = setTimeout(function() {
+		let loading = setTimeout(function () {
 			isLoadingBullet = false;
 		}, loadingInterval);
 		//生成子弹
@@ -26,7 +26,7 @@ function fire() {
 //子弹飞行方法，传入子弹dom对象
 function bulletFly(bullet) {
 	let bulletX = bullet.offsetLeft;
-	let flyController = setInterval(function() {
+	let flyController = setInterval(function () {
 		bulletX = bulletX + 2;
 		bullet.style.left = bulletX + 'px';
 		//如果子弹和敌人相碰或者飞出边界，则停止飞行并销毁自身
@@ -43,11 +43,11 @@ function collideCheck(bullet, objectArray) {
 	//依次判断这个子弹是否和每一个敌人相碰，相碰后把相应的敌人构造对象标记为已被击中，加分并跳出遍历
 	for (let i = 0; i < objectArray.length; i++) {
 		//条件1：子弹的右下部分在敌人贴图范围内
-		let criteria1 = (bullet.offsetTop + bullet.offsetHeight) >= getPuddingPosition(objectArray[i]).top && (bullet.offsetLeft +
-			bullet.offsetWidth) >= getPuddingPosition(objectArray[i]).left;
+		let criteria1 = bullet.offsetTop + bullet.offsetHeight >= objectArray[i].dom.offsetTop && bullet.offsetLeft +
+			bullet.offsetWidth >= objectArray[i].dom.offsetLeft;
 		//条件2：子弹左上部分在敌人贴图范围内
-		let criteria2 = bullet.offsetTop <= (getPuddingPosition(objectArray[i]).top + objectArray[i].dom.offsetHeight) &&
-			bullet.offsetLeft <= (getPuddingPosition(objectArray[i]).left + objectArray[i].dom.offsetWidth);
+		let criteria2 = bullet.offsetTop <= objectArray[i].dom.offsetTop + objectArray[i].dom.offsetHeight &&
+			bullet.offsetLeft <= objectArray[i].dom.offsetLeft + objectArray[i].dom.offsetWidth;
 		//条件3：子弹碰到的敌人是没被击中的状态
 		let criteria3 = !objectArray[i].isEaten;
 		//总条件：三个条件需要同时满足

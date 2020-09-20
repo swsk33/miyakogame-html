@@ -21,7 +21,6 @@ function getPuddings() {
 		for (let j = 0; j < puddingRol; j++) {
 			eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
 			puddingDom.push(eachPuddingDom);
-			console.log(eachPuddingDom.className);
 			eachPuddingDom.style.left = (bg.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 			eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
 		}
@@ -47,11 +46,6 @@ function getPuddings() {
 		eachPudding.dom.style.display = 'block';
 		puddingArray.push(eachPudding);
 	}
-	puddingBox.style.width = (puddingCol * (puddingSize.puddingWidth + 10) - 10) + 'px';
-	puddingBox.style.height = (puddingRol * (puddingSize.puddingHeight + 5) - 5) + 'px';
-	puddingBox.style.left = (bg.offsetWidth - puddingBox.offsetWidth) + 'px';
-	puddingBox.style.top = '0px';
-	boxOriginHeight = puddingBox.offsetHeight;
 	moveUp = false;
 }
 
@@ -97,28 +91,6 @@ function getPuddingAtBorder() {
 function puddingMove() {
 	let velocity = 3 + level * 2; //布丁移动的速度，和关卡数成正比
 	let moveControl = setInterval(function () {
-		if (!moveUp) { //向下移动时
-			if (getPuddingAtBorder().borderBottom.offsetTop + puddingSize.puddingHeight + velocity >= bg.offsetHeight) { //布丁即将移动到底部时
-				moveUp = true;
-				for (let i = 0; i < puddingArray.length; i++) {
-					if (!puddingArray[i].isEaten) {
-						puddingArray[i].dom.style.top = puddingArray[i].dom.offsetTop + (bg.offsetHeight - (getPuddingAtBorder().borderBottom.offsetTop + puddingSize.puddingHeight)) + 'px';
-					}
-				}
-			} else {
-				puddingBox.style.top = (puddingBox.offsetTop + velocity) + 'px';
-			}
-		} else { //向下移动时
-			if (puddingBox.offsetTop - velocity <= 0) { //布丁即将运动到上边界时
-				moveUp = false;
-				puddingBox.style.top = 0 + 'px';
-				setTimeout(function () {
-					puddingBox.style.left = (puddingBox.offsetLeft - 50) + 'px';
-				}, 5);
-			} else {
-				puddingBox.style.top = (puddingBox.offsetTop - velocity) + 'px';
-			}
-		}
 		//游戏暂停了，停止移动
 		if (isPaused) {
 			clearInterval(moveControl);
@@ -128,7 +100,7 @@ function puddingMove() {
 			clearInterval(moveControl);
 			healthDown();
 		}
-		//布丁被吃完了，停止计时器并显示胜利界面，进入下一关
+		//布丁被吃完了，停止计时器并显示胜利界面，进入下一关（先判断布丁是否被吃完了，否则在最后判断边界的时候会出错）
 		if (isEatUp()) {
 			clearInterval(moveControl);
 			level++;
@@ -137,6 +109,55 @@ function puddingMove() {
 			isPaused = true;
 			saveData();
 			refreshDom();
+		}
+		let topDistance = getPuddingAtBorder().borderTop.offsetTop; //上部离顶端距离
+		let bottomDistance = bg.offsetHeight - getPuddingAtBorder().borderBottom.offsetTop - puddingSize.puddingHeight; //下部离底端距离
+		console.log(topDistance);
+		console.log(bottomDistance);
+		if (!moveUp) { //向下移动时
+			if (bottomDistance <= velocity) { //布丁即将移动到底部时，把每个存活的布丁向下移动，移动距离为最底部的布丁到底部的距离，然后再左移50px
+				for (let i = 0; i < puddingArray.length; i++) {
+					if (!puddingArray[i].isEaten) {
+						puddingArray[i].dom.style.top = (puddingArray[i].dom.offsetTop + bottomDistance) + 'px';
+					}
+				}
+				moveUp = true;
+				setTimeout(function () {
+					for (let i = 0; i < puddingArray.length; i++) {
+						if (!puddingArray[i].isEaten) {
+							puddingArray[i].dom.style.left = (puddingArray[i].dom.offsetLeft - 50) + 'px';
+						}
+					}
+				}, 5);
+			} else {
+				for (let i = 0; i < puddingArray.length; i++) {
+					if (!puddingArray[i].isEaten) {
+						puddingArray[i].dom.style.top = (puddingArray[i].dom.offsetTop + velocity) + 'px';
+					}
+				}
+			}
+		} else { //向上移动时
+			if (topDistance - velocity <= 0) { //布丁即将运动到上边界时，把每个存活的布丁向上移动，移动距离为最顶部的布丁到顶部的距离，然后再左移50px
+				for (let i = 0; i < puddingArray.length; i++) {
+					if (!puddingArray[i].isEaten) {
+						puddingArray[i].dom.style.top = (puddingArray[i].dom.offsetTop - topDistance) + 'px';
+					}
+				}
+				moveUp = false;
+				setTimeout(function () {
+					for (let i = 0; i < puddingArray.length; i++) {
+						if (!puddingArray[i].isEaten) {
+							puddingArray[i].dom.style.left = (puddingArray[i].dom.offsetLeft - 50) + 'px';
+						}
+					}
+				}, 5);
+			} else {
+				for (let i = 0; i < puddingArray.length; i++) {
+					if (!puddingArray[i].isEaten) {
+						puddingArray[i].dom.style.top = (puddingArray[i].dom.offsetTop - velocity) + 'px';
+					}
+				}
+			}
 		}
 	}, 100);
 }
@@ -155,13 +176,13 @@ function isPuddingOutOfBound() {
 		//如果这个布丁是存活状态，则开始执行判断。
 		if (!puddingArray[i].isEaten) {
 			//条件1：宫子的右下方在该布丁范围内
-			let criteria1 = (miyako.offsetTop + miyako.offsetHeight) >= getPuddingPosition(puddingArray[i]).top && (miyako.offsetLeft +
-				miyako.offsetWidth) >= getPuddingPosition(puddingArray[i]).left;
+			let criteria1 = (miyako.offsetTop + miyako.offsetHeight) >= puddingArray[i].dom.offsetTop && (miyako.offsetLeft +
+				miyako.offsetWidth) >= puddingArray[i].dom.offsetLeft;
 			//条件2：宫子的左上方在该布丁范围内
-			let criteria2 = miyako.offsetTop <= (getPuddingPosition(puddingArray[i]).top + puddingArray[i].dom.offsetHeight) &&
-				miyako.offsetLeft <= (getPuddingPosition(puddingArray[i]).left + puddingArray[i].dom.offsetWidth);
+			let criteria2 = miyako.offsetTop <= puddingArray[i].dom.offsetTop + puddingArray[i].dom.offsetHeight &&
+				miyako.offsetLeft <= puddingArray[i].dom.offsetLeft + puddingArray[i].dom.offsetWidth;
 			//条件3：布丁越界
-			let criteria3 = getPuddingPosition(puddingArray[i]).left <= 0;
+			let criteria3 = puddingArray[i].dom.offsetLeft <= 0;
 			//总条件：上述1和2同时满足或者3满足时
 			isOut = (criteria1 && criteria2) || criteria3;
 			if (isOut) {
