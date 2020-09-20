@@ -6,6 +6,7 @@
 .game {
 	position: absolute;
 	width: 100%;
+
 	.topBar {
 		position: relative;
 		display: flex;
@@ -14,46 +15,51 @@
 		align-items: center;
 		justify-content: center;
 		background-color: #6effab;
+
 		.example {
 			position: absolute;
 			left: 35px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+
 			.pd1 {
 				width: 45px;
 				height: 45px;
 				background: url(../img/puddings/p1.png) no-repeat center/cover;
+
 				&::after {
-					content: '+1';
+					content: "+1";
 					position: absolute;
 					left: 50px;
 					top: 8px;
 					font-size: 24px;
 				}
 			}
-			
+
 			.pd2 {
 				width: 45px;
 				height: 45px;
 				margin-left: 45px;
 				background: url(../img/puddings/p2.png) no-repeat center/cover;
+
 				&::after {
-					content: '+2';
+					content: "+2";
 					position: absolute;
 					left: 140px;
 					top: 8px;
 					font-size: 24px;
 				}
 			}
-			
+
 			.pd3 {
 				width: 45px;
 				height: 45px;
 				margin-left: 45px;
 				background: url(../img/puddings/p3.png) no-repeat center/cover;
+
 				&::after {
-					content: '+3';
+					content: "+3";
 					position: absolute;
 					left: 230px;
 					top: 8px;
@@ -61,47 +67,49 @@
 				}
 			}
 		}
-		
+
 		.level {
 			margin-left: 100px;
 			margin-right: 100px;
 			font-size: 24px;
 		}
-		
+
 		.health {
 			display: flex;
 			margin-right: 55px;
+
 			img {
 				width: 45px;
 				height: 46px;
 			}
-			
+
 			.t {
 				font-size: 30px;
 				margin-left: 10px;
 			}
 		}
-		
+
 		.currentScore {
 			margin-left: 35px;
 			font-size: 26px;
 			color: #ff00c4;
 		}
-		
+
 		.highScore {
 			margin-left: 100px;
 			font-size: 26px;
 			color: #001ddb;
 		}
-		
+
 		.autoFire {
 			position: absolute;
 			display: flex;
 			right: 50px;
+
 			.t {
 				font-size: 18px;
 			}
-			
+
 			.btn {
 				width: 43px;
 				height: 20px;
@@ -111,12 +119,13 @@
 			}
 		}
 	}
-	
+
 	.gameBg {
 		position: relative;
 		width: 100%;
 		height: calc(100vh - 55px);
 		background-color: #aaffff;
+
 		.miyako {
 			position: absolute;
 			left: 0px;
@@ -124,14 +133,35 @@
 			height: 108px;
 			background: url(../img/miyako-normal.png) no-repeat center/cover;
 		}
-		
-		//布丁容器
-		.puddings {
-			position: absolute;
-			img {
+
+		//布丁的贴图和大小位置设置
+		//布丁1
+		@for $i from 0 through 1 {
+			@for $j from 0 through 7 {
+				.pudding-#{$i}-#{$j} {
+					position: absolute;
+					width: 60px;
+					height: 60px;
+					background: url(../img/puddings/p1.png) no-repeat center/cover;
+				}
+			}
+		}
+		//布丁2
+		@for $i from 0 through 7 {
+			.pudding-2-#{$i} {
 				position: absolute;
 				width: 60px;
 				height: 60px;
+				background: url(../img/puddings/p2.png) no-repeat center/cover;
+			}
+		}
+		//布丁3
+		@for $i from 0 through 7 {
+			.pudding-3-#{$i} {
+				position: absolute;
+				width: 60px;
+				height: 60px;
+				background: url(../img/puddings/p3.png) no-repeat center/cover;
 			}
 		}
 	}
@@ -144,16 +174,19 @@
 	width: 100%;
 	height: 100vh;
 	background-color: #c2ffff;
+
 	.title {
 		display: flex;
 		justify-content: center;
 		margin-top: 15vh;
+
 		.main {
 			width: 487px;
 			height: 85px;
 			margin-top: 2px;
 			background: url(../img/textImg/title.png) no-repeat center/cover;
 		}
+
 		.avatar {
 			width: 95px;
 			height: 95px;
@@ -164,15 +197,17 @@
 			border-style: solid;
 		}
 	}
-	
+
 	ul {
 		list-style: none;
 		margin-top: 90px;
+
 		li {
 			margin-top: 45px;
 			text-align: center;
 			font-size: 38px;
 			color: #ff5500;
+
 			&:hover {
 				cursor: pointer;
 				color: #00a6ff;
@@ -188,6 +223,7 @@
 	width: 100%;
 	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.8);
+
 	.t1 {
 		display: inline-block;
 		margin-top: 12vh;
@@ -196,7 +232,7 @@
 		color: orangered;
 		text-align: center;
 	}
-	
+
 	.say {
 		display: flex;
 		justify-content: center;
@@ -204,11 +240,12 @@
 		height: 80px;
 		margin-top: 20px;
 		margin-right: 25px;
+
 		.t2 {
 			font-size: 24px;
 			color: #014dff;
 		}
-		
+
 		.avatar {
 			width: 80px;
 			height: 80px;
@@ -219,15 +256,17 @@
 			border-style: solid;
 		}
 	}
-	
+
 	ul {
 		list-style: none;
 		margin-top: 90px;
+
 		li {
 			margin-top: 45px;
 			text-align: center;
 			font-size: 38px;
 			color: #ff007f;
+
 			&:hover {
 				cursor: pointer;
 				color: #00a6ff;
@@ -243,6 +282,7 @@
 	width: 100%;
 	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.8);
+
 	.t1 {
 		display: inline-block;
 		margin-top: 12vh;
@@ -251,7 +291,7 @@
 		color: orangered;
 		text-align: center;
 	}
-	
+
 	.say {
 		display: flex;
 		justify-content: center;
@@ -259,11 +299,12 @@
 		height: 80px;
 		margin-top: 20px;
 		margin-right: 25px;
+
 		.t2 {
 			font-size: 24px;
 			color: #014dff;
 		}
-		
+
 		.avatar {
 			width: 80px;
 			height: 80px;
@@ -274,15 +315,17 @@
 			border-style: solid;
 		}
 	}
-	
+
 	ul {
 		list-style: none;
 		margin-top: 45px;
+
 		li {
 			margin-top: 45px;
 			text-align: center;
 			font-size: 38px;
 			color: #ff007f;
+
 			&:hover {
 				cursor: pointer;
 				color: #00a6ff;

@@ -1,28 +1,35 @@
 //控制布丁的移动
 let puddingArray = []; //存放布丁对象的数组
-let puddingBox = document.querySelector('.gameBg .puddings'); //获取布丁所在的容器
-let boxOriginHeight; //布丁容器原始高度
 let moveUp; //布丁移动方向，false为下true为上
-let puddingRol = 8; //布丁总行数
-let puddingCol = 4; //布丁总列数
+const puddingRol = 8; //布丁总行数
+const puddingCol = 4; //布丁总列数
 const puddingSize = {
 	puddingWidth: 60,
 	puddingHeight: 60
 }; //每个布丁单位的尺寸
+const puddingMatrixSize = {
+	matrixWidth: puddingCol * (puddingSize.puddingWidth + 10) - 10,
+	matrixHeight: puddingRol * (puddingSize.puddingHeight + 5) - 5
+}; //布丁矩阵的尺寸
 
 //获取布丁并重置位置，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
-function getPuddings() { //(此处有误，明天来改)
-	let puds = puddingBox.children; //获取全部布丁dom
-	//设置每个布丁相对容器的位置,使得每一列之间相隔10px，每一行之间相隔5px
+function getPuddings() {
+	//获取全部布丁dom并设置每个布丁相对容器的位置,使得每一列之间相隔10px，每一行之间相隔5px
+	let puddingDom = [];
+	let eachPuddingDom;
 	for (let i = 0; i < puddingCol; i++) {
 		for (let j = 0; j < puddingRol; j++) {
-			puds[j + i * 8].style.left = (i * (puddingSize.puddingWidth + 10)) + 'px';
-			puds[j + i * 8].style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
+			eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
+			puddingDom.push(eachPuddingDom);
+			console.log(eachPuddingDom.className);
+			eachPuddingDom.style.left = (bg.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
+			eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
 		}
 	}
 	//清空数组
 	puddingArray = [];
-	for (let i = 0; i < puds.length; i++) {
+	//开始构造每个布丁对象
+	for (let i = 0; i < puddingDom.length; i++) {
 		let scoreEachPudding; //每个布丁的分数
 		if (i >= 0 && i <= 15) {
 			scoreEachPudding = 1;
@@ -33,8 +40,7 @@ function getPuddings() { //(此处有误，明天来改)
 		}
 		//构建每个布丁的模型对象并存入全局数组
 		let eachPudding = {
-			dom: puds[i], //布丁dom节点
-			originTop: puds[i].offsetTop, //这个布丁初始时相对于容器顶的距离
+			dom: puddingDom[i], //布丁dom节点
 			isEaten: false, //布丁是否被吃掉（击中）
 			score: scoreEachPudding //这个布丁的分值
 		};
@@ -49,19 +55,12 @@ function getPuddings() { //(此处有误，明天来改)
 	moveUp = false;
 }
 
-//获取某个布丁的全局绝对位置，传入构造的布丁对象
-function getPuddingPosition(puddingObject) {
-	let pos = {
-		left: puddingObject.dom.offsetLeft + puddingBox.offsetLeft,
-		top: puddingObject.dom.offsetTop + puddingBox.offsetTop
-	};
-	return pos;
-}
-
-//布丁容器大小动态改变
-function puddingBoxChange() {
-	let topReduce = 0; //上部减少的总行数
-	let bottomReduce = 0; //下部减少的总行数
+//获取在上下边界的布丁作为边界判定依据
+function getPuddingAtBorder() {
+	let puddingAtBorder = {
+		borderTop: null,
+		borderBottom: null
+	} //上下边缘的两个布丁dom
 	let rolIsExists; //表示该行是否存在
 	//上判定
 	rolIsExists = false;
@@ -69,13 +68,12 @@ function puddingBoxChange() {
 		for (let j = 0; j < 4; j++) {
 			if (!puddingArray[(j * 8) + i].isEaten) {
 				rolIsExists = true;
+				puddingAtBorder.borderTop = puddingArray[(j * 8) + i].dom;
 				break;
 			}
 		}
 		if (rolIsExists) {
 			break;
-		} else {
-			topReduce++;
 		}
 	}
 	//下判定
@@ -84,38 +82,29 @@ function puddingBoxChange() {
 		for (let j = 0; j < 4; j++) {
 			if (!puddingArray[(j * 8) + i].isEaten) {
 				rolIsExists = true;
+				puddingAtBorder.borderBottom = puddingArray[(j * 8) + i].dom;
 				break;
 			}
 		}
 		if (rolIsExists) {
 			break;
-		} else {
-			bottomReduce++;
 		}
 	}
-	//改变容器大小及其布丁的位置：上部减少和下部减少行数之和乘每一行高度即为容器减小的大小，但是布丁只需上移上部减少行数乘以每行高度
-	let boxHeightReduce = (topReduce + bottomReduce) * (puddingSize.puddingHeight + 5); //容器减小的总大小
-	let puddingUpOffset = topReduce * (puddingSize.puddingHeight + 5);
-	puddingBox.style.height = (boxOriginHeight - boxHeightReduce) + 'px';
-	for (let i = 0; i < puddingArray.length; i++) {
-		if (!puddingArray[i].isEaten) {
-			puddingArray[i].dom.style.top = (puddingArray[i].originTop - puddingUpOffset) + 'px';
-		}
-	}
+	return puddingAtBorder;
 }
 
 //布丁的移动（回调函数）
 function puddingMove() {
-	let velocity = 5 * level; //布丁移动的速度，和关卡数成正比
-	let moveControl = setInterval(function() {
-		puddingBoxChange(); //先动态改变容器大小
+	let velocity = 3 + level * 2; //布丁移动的速度，和关卡数成正比
+	let moveControl = setInterval(function () {
 		if (!moveUp) { //向下移动时
-			if (puddingBox.offsetTop + puddingBox.offsetHeight + velocity >= bg.offsetHeight) { //布丁即将移动到底部时
+			if (getPuddingAtBorder().borderBottom.offsetTop + puddingSize.puddingHeight + velocity >= bg.offsetHeight) { //布丁即将移动到底部时
 				moveUp = true;
-				puddingBox.style.top = (bg.offsetHeight - puddingBox.offsetHeight) + 'px';
-				setTimeout(function() {
-					puddingBox.style.left = (puddingBox.offsetLeft - 50) + 'px';
-				}, 5);
+				for (let i = 0; i < puddingArray.length; i++) {
+					if (!puddingArray[i].isEaten) {
+						puddingArray[i].dom.style.top = puddingArray[i].dom.offsetTop + (bg.offsetHeight - (getPuddingAtBorder().borderBottom.offsetTop + puddingSize.puddingHeight)) + 'px';
+					}
+				}
 			} else {
 				puddingBox.style.top = (puddingBox.offsetTop + velocity) + 'px';
 			}
@@ -123,7 +112,7 @@ function puddingMove() {
 			if (puddingBox.offsetTop - velocity <= 0) { //布丁即将运动到上边界时
 				moveUp = false;
 				puddingBox.style.top = 0 + 'px';
-				setTimeout(function() {
+				setTimeout(function () {
 					puddingBox.style.left = (puddingBox.offsetLeft - 50) + 'px';
 				}, 5);
 			} else {
