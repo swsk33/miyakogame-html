@@ -50,13 +50,6 @@ function clearData() {
 	refreshDom();
 }
 
-//重新复活游戏处理
-function reTry() {
-	clearData();
-	getPuddings();
-	puddingMoveControl(isPaused, puddingMove);
-}
-
 //刷新dom
 function refreshDom() {
 	currentScoreDom.innerHTML = '当前分数：' + currentScore;

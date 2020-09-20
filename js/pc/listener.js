@@ -73,3 +73,19 @@ succeedPageBtn[1].addEventListener('click', function () {
 	succeedPage.style.display = 'none';
 	startPage.style.display = 'flex';
 });
+
+//失败界面监听
+let failedPageBtn = document.querySelector('.failed ul').children;
+let failedAudio = document.querySelector('.failed .failedAudio');
+//重新开始按钮
+failedPageBtn[0].addEventListener('click', function () {
+	failedPage.style.display = 'none';
+	isPaused = false;
+	getPuddings();
+	puddingMoveControl(isPaused, puddingMove);
+});
+//返回主菜单按钮
+failedPageBtn[1].addEventListener('click', function () {
+	failedPage.style.display = 'none';
+	startPage.style.display = 'flex';
+});

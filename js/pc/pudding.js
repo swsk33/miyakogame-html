@@ -89,7 +89,7 @@ function getPuddingAtBorder() {
 
 //布丁的移动（回调函数）
 function puddingMove() {
-	let velocity = 3 + level * 2; //布丁移动的速度，和关卡数成正比
+	let velocity = 2 + level * 3; //布丁移动的速度，和关卡数成正比
 	let moveControl = setInterval(function () {
 		//游戏暂停了，停止移动
 		if (isPaused) {
@@ -112,8 +112,6 @@ function puddingMove() {
 		}
 		let topDistance = getPuddingAtBorder().borderTop.offsetTop; //上部离顶端距离
 		let bottomDistance = bg.offsetHeight - getPuddingAtBorder().borderBottom.offsetTop - puddingSize.puddingHeight; //下部离底端距离
-		console.log(topDistance);
-		console.log(bottomDistance);
 		if (!moveUp) { //向下移动时
 			if (bottomDistance <= velocity) { //布丁即将移动到底部时，把每个存活的布丁向下移动，移动距离为最底部的布丁到底部的距离，然后再左移50px
 				for (let i = 0; i < puddingArray.length; i++) {

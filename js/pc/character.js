@@ -48,6 +48,8 @@ function healthDown() {
 		refreshDom();
 	} else {
 		failedPage.style.display = 'flex';
+		clearData();
+		failedAudio.play();
 		isPaused = true;
 	}
 }
