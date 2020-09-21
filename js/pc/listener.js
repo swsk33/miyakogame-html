@@ -76,6 +76,7 @@ succeedPageBtn[0].addEventListener('click', function () {
 succeedPageBtn[1].addEventListener('click', function () {
 	succeedPage.style.display = 'none';
 	startPage.style.display = 'flex';
+	startPageBtn[0].style.color = '#ff5500';
 });
 
 //失败界面监听
