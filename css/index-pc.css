@@ -57,7 +57,7 @@
       font-size: 24px; }
     .game .topBar .health {
       display: flex;
-      margin-right: 55px; }
+      margin-right: 60px; }
       .game .topBar .health img {
         width: 45px;
         height: 46px; }
@@ -268,9 +268,10 @@
     justify-content: center;
     margin-top: 15vh; }
     .start .title .main {
-      width: 487px;
-      height: 85px;
-      margin-top: 2px;
+      position: relative;
+      width: 600px;
+      height: 150px;
+      bottom: 24px;
       background: url(../img/textImg/title.png) no-repeat center/cover; }
     .start .title .avatar {
       width: 95px;
@@ -282,7 +283,7 @@
       border-style: solid; }
   .start ul {
     list-style: none;
-    margin-top: 90px; }
+    margin-top: 30px; }
     .start ul li {
       margin-top: 45px;
       text-align: center;

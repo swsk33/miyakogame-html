@@ -76,7 +76,7 @@
 
 		.health {
 			display: flex;
-			margin-right: 55px;
+			margin-right: 60px;
 
 			img {
 				width: 45px;
@@ -181,9 +181,10 @@
 		margin-top: 15vh;
 
 		.main {
-			width: 487px;
-			height: 85px;
-			margin-top: 2px;
+			position: relative;
+			width: 600px;
+			height: 150px;
+			bottom: 24px;
 			background: url(../img/textImg/title.png) no-repeat center/cover;
 		}
 
@@ -200,7 +201,7 @@
 
 	ul {
 		list-style: none;
-		margin-top: 90px;
+		margin-top: 30px;
 
 		li {
 			margin-top: 45px;
