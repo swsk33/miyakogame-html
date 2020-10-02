@@ -35,14 +35,14 @@ function fire() {
 function bulletFly(bullet) {
 	let bulletX = bullet.offsetLeft;
 	let flyController = setInterval(function () {
-		bulletX = bulletX + 2;
+		bulletX = bulletX + 3;
 		bullet.style.left = bulletX + 'px';
 		//如果子弹和敌人相碰或者飞出边界，则停止飞行并销毁自身
 		if (collideCheck(bullet, puddingArray) || bullet.offsetLeft + bullet.offsetWidth >= bg.offsetWidth) {
 			clearInterval(flyController);
 			bullet.remove();
 		}
-	}, 3);
+	}, 5);
 }
 
 //碰撞检测与计算，传入子弹dom和构造敌人对象数组

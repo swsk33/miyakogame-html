@@ -8,7 +8,7 @@ let helpPage = document.querySelector('.help'); //获取帮助界面
 //游戏控制变量
 let isPaused = true; //游戏是否暂停
 let isAutoFire = false; //是否自动开火
-let loadingInterval = 500; //装填间隔
+let loadingInterval = 600; //装填间隔
 let isLoadingBullet = false; //是否正在装填子弹
 //先读取储存区
 readData();

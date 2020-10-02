@@ -23,7 +23,7 @@ let afc; //自动开火控制器
 autoFireBtn.addEventListener('click', function () {
 	isAutoFire = !isAutoFire;
 	isLoadingBullet = false;
-	loadingInterval = 300;
+	loadingInterval = 350;
 	if (isAutoFire) {
 		autoFireBtn.style.backgroundImage = 'url(./img/buttons/btn_on.png)';
 		afc = setInterval(function () {
