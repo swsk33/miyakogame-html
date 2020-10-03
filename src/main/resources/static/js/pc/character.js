@@ -49,7 +49,7 @@ function healthDown() {
 	} else {
 		failedPage.style.display = 'flex';
 		clearData();
-		failedAudio.play();
+		document.querySelector('.failedAudio-' + genRandom(1, 3)).play();
 		isPaused = true;
 	}
 }

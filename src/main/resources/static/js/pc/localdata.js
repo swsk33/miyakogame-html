@@ -57,3 +57,12 @@ function refreshDom() {
 	healthDom.innerHTML = 'x' + health;
 	levelDom.innerHTML = '第' + level + '关';
 }
+
+//生成十以内随机整数（传入最大值和最小值整数）
+function genRandom(min, max) {
+	let number = Math.floor(Math.random() * 10 + min);
+	if (number > max) {
+		number = max;
+	}
+	return number;
+}

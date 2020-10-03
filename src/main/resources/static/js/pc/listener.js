@@ -43,6 +43,7 @@ let startPageBtn = document.querySelector('.start ul').children;
 //继续游戏按钮
 startPageBtn[0].addEventListener('click', function () {
 	if (!(currentScore == 0 && health == 3 && level == 1) || highScore != 0) {
+		document.querySelector('.startAudio').play();
 		isPaused = false;
 		startPage.style.display = 'none';
 		getPuddings();
@@ -53,6 +54,7 @@ startPageBtn[0].addEventListener('click', function () {
 startPageBtn[1].addEventListener('click', function () {
 	window.localStorage.clear();
 	readData();
+	document.querySelector('.startAudio').play();
 	isPaused = false;
 	startPage.style.display = 'none';
 	getPuddings();
@@ -81,7 +83,6 @@ succeedPageBtn[1].addEventListener('click', function () {
 
 //失败界面监听
 let failedPageBtn = document.querySelector('.failed ul').children;
-let failedAudio = document.querySelector('.failed .failedAudio');
 //重新开始按钮
 failedPageBtn[0].addEventListener('click', function () {
 	failedPage.style.display = 'none';

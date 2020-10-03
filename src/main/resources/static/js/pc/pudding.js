@@ -106,6 +106,7 @@ function puddingMove() {
 			level++;
 			addScore(level * 10);
 			succeedPage.style.display = 'flex';
+			document.querySelector('.succeedAduio-' + genRandom(1,2)).play();
 			isPaused = true;
 			saveData();
 			refreshDom();
