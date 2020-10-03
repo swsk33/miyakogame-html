@@ -11,12 +11,12 @@
     height: 55px;
     width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: #6effab; }
     .game .topBar .example {
-      position: absolute;
-      left: 35px;
+      position: relative;
       display: flex;
+      left: 25px;
       justify-content: center;
       align-items: center; }
       .game .topBar .example .pd1 {
@@ -52,12 +52,12 @@
           top: 8px;
           font-size: 24px; }
     .game .topBar .level {
-      margin-left: 100px;
-      margin-right: 100px;
+      position: relative;
+      left: 40px;
       font-size: 24px; }
     .game .topBar .health {
-      display: flex;
-      margin-right: 60px; }
+      position: relative;
+      display: flex; }
       .game .topBar .health img {
         width: 45px;
         height: 46px; }
@@ -65,15 +65,15 @@
         font-size: 30px;
         margin-left: 10px; }
     .game .topBar .currentScore {
-      margin-left: 35px;
+      position: relative;
       font-size: 26px;
       color: #ff00c4; }
     .game .topBar .highScore {
-      margin-left: 100px;
+      position: relative;
       font-size: 26px;
       color: #001ddb; }
     .game .topBar .autoFire {
-      position: absolute;
+      position: relative;
       display: flex;
       right: 50px; }
       .game .topBar .autoFire .t {

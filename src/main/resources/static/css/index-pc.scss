@@ -13,13 +13,13 @@
 		height: 55px;
 		width: 100%;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
 		background-color: #6effab;
 
 		.example {
-			position: absolute;
-			left: 35px;
+			position: relative;
 			display: flex;
+			left: 25px;
 			justify-content: center;
 			align-items: center;
 
@@ -69,14 +69,14 @@
 		}
 
 		.level {
-			margin-left: 100px;
-			margin-right: 100px;
+			position: relative;
+			left: 40px;
 			font-size: 24px;
 		}
 
 		.health {
+			position: relative;
 			display: flex;
-			margin-right: 60px;
 
 			img {
 				width: 45px;
@@ -90,19 +90,19 @@
 		}
 
 		.currentScore {
-			margin-left: 35px;
+			position: relative;
 			font-size: 26px;
 			color: #ff00c4;
 		}
 
 		.highScore {
-			margin-left: 100px;
+			position: relative;
 			font-size: 26px;
 			color: #001ddb;
 		}
 
 		.autoFire {
-			position: absolute;
+			position: relative;
 			display: flex;
 			right: 50px;
 
