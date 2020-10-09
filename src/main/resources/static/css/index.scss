@@ -3,6 +3,18 @@
 	margin: 0;
 }
 
+@media screen and (max-width: 768px) {
+	html {
+		font-size: 20px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	html {
+		font-size: 16px;
+	}
+}
+
 .bg {
 	position: absolute;
 	width: 100%;
@@ -13,16 +25,16 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-top: calc(50vh - 41px);
+		margin-top: calc(50vh - 2.5625rem);
 		.img {
-			width: 70px;
-			height: 82px;
+			width: 4.375rem;
+			height: 5.125rem;
 			background: url(../img/youl-dynamic.gif) no-repeat center/cover;
 		}
 		
 		.t {
-			font-size: 32px;
-			margin-left: 18px;
+			font-size: 2rem;
+			margin-left: 1.125rem;
 		}
 	}
 }
