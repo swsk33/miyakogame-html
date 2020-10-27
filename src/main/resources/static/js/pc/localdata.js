@@ -27,19 +27,21 @@ function saveData() {
 
 //读取所有数据
 function readData() {
+	let isNewGame = false;
 	currentScore = window.localStorage.getItem('current'); //读取当前分数
 	highScore = window.localStorage.getItem('high'); //读取最高分
 	health = window.localStorage.getItem('health'); //读取生命值
 	level = window.localStorage.getItem('level'); //读取关卡
-	if (currentScore == null || highScore == null || health == null || level == null) {
+	if ((currentScore == null || highScore == null || health == null || level == null) || highScore == 0) {
 		currentScore = 0;
 		highScore = 0;
 		health = 3;
 		level = 1;
-		document.querySelector('.start ul').children[0].style.color = 'gray';
+		isNewGame = true;
 	}
 	//对应修改dom
 	refreshDom();
+	return isNewGame;
 }
 
 //清除所有数据（不清除最高分）

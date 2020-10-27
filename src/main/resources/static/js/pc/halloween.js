@@ -7,7 +7,7 @@ let date = mainDate.getDate(); //获取日期
 let dateCriteria1 = month == 9 && date >= 26;
 let dateCriteria2 = month == 10 && date <= 3;
 let dateCriteria = dateCriteria1 || dateCriteria2;
-//如果是万圣节，那么替换主页背景、游戏背景、宫子贴图等等
+//如果是万圣节前后，那么替换主页背景、游戏背景、宫子贴图等等
 if (dateCriteria) {
 	let style = document.createElement('style');
 	let text = document.createTextNode(
