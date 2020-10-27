@@ -77,11 +77,11 @@
       display: flex;
       right: 50px; }
       .game .topBar .autoFire .t {
-        font-size: 18px; }
+        font-size: 24px; }
       .game .topBar .autoFire .btn {
         width: 43px;
         height: 20px;
-        margin-top: 3px;
+        margin-top: 7px;
         margin-left: 8px;
         background: url(../img/buttons/btn_off.png) no-repeat center/cover; }
   .game .gameBg {
