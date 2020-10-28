@@ -3,27 +3,91 @@
 	padding: 0;
 }
 
-.bg {
-	position: absolute;
-	width: 100%;
-	height: 100vh;
-	background-color: lightblue;
-	
-	.content {
+html {
+	font-size: 20px;
+}
+
+.game {
+	.topBar {
+		position: relative;
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		margin-top: calc(45vh - 82px);
-		.img {
-			width: 140px;
-			height: 164px;
-			background: url(../img/youl-dynamic.gif) no-repeat center/cover;
+		justify-content: space-around;
+		height: 2.5rem;
+		background-color: #00ff7f;
+		
+		.level {
+			margin-left: -0.8rem;
+			margin-top: 0.5rem;
 		}
 		
-		.t {
-			font-size: 65px;
-			margin-left: 18px;
+		.health {
+			display: flex;
+			margin-top: 0.2rem;
+			.hIcon {
+				width: 1.8rem;
+				height: 2rem;
+				background: url(../img/yuol-static.png) no-repeat center/cover;
+			}
+			
+			.ht {
+				margin-top: 0.3rem;
+				margin-left: 0.3rem;
+			}
 		}
+		
+		.score {
+			display: flex;
+			flex-direction: column;
+			margin-top: 0.2rem;
+			.current {
+				font-size: 0.8rem;
+				font-weight: 700;
+				color: #ff0044;
+			}
+			
+			.high {
+				font-size: 0.8rem;
+				font-weight: 700;
+				color: #0800ff;
+			}
+		}
+	}
+	
+	.gameBg {
+		position: relative;
+		height: calc(100vh - 2.5rem);
+		background-color: #aaffff;
+		.miyako-youl {
+			position: absolute;
+			bottom: 0;
+			width: 2.8rem;
+			height: 3rem;
+			background: url(../img/yuol-static.png) no-repeat center/cover;
+		}
+		
+		@for $i from 0 through 5 {
+			.pudding-0-#{$i} {
+				position: absolute;
+				width: 2.3rem;
+				height: 2.3rem;
+				background: url(../img/puddings/p1.png) no-repeat center/cover;
+			}
+			
+			.pudding-1-#{$i} {
+				position: absolute;
+				width: 2.3rem;
+				height: 2.3rem;
+				background: url(../img/puddings/p2.png) no-repeat center/cover;
+			}
+			
+			.pudding-2-#{$i} {
+				position: absolute;
+				width: 2.3rem;
+				height: 2.3rem;
+				background: url(../img/puddings/p3.png) no-repeat center/cover;
+			}
+			
+		}
+		
 	}
 }

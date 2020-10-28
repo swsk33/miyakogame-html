@@ -21,8 +21,8 @@
     align-items: center;
     margin-top: calc(50vh - 2.5625rem); }
     .bg .content .img {
-      width: 4.375rem;
-      height: 5.125rem;
+      width: 4rem;
+      height: 4.85rem;
       background: url(../img/youl-dynamic.gif) no-repeat center/cover; }
     .bg .content .t {
       font-size: 2rem;
