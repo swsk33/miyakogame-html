@@ -1,5 +1,6 @@
-.mvn/
-.settings/
-target/
+/.mvn/
+/.settings/
+/target/
+/.vscode/
 .classpath
 .project

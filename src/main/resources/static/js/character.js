@@ -3,7 +3,10 @@ let miyako = document.querySelector('.game .gameBg .miyako'); //获取宫子dom
 let y = 0;
 miyako.style.top = y + 'px';
 
-//宫子向上移动
+/**
+ * 宫子向上移动
+ * @param {*} i 每次移动的像素
+ */
 function up(i) {
 	if (y > i) {
 		y = y - i;
@@ -13,17 +16,22 @@ function up(i) {
 	}
 }
 
-//宫子向下移动
+/**
+ * 宫子向下移动
+ * @param {*} i 每次移动的像素
+ */
 function down(i) {
-	if ((y + miyako.offsetHeight) < bg.offsetHeight - i) {
+	if ((y + miyako.offsetHeight) < gameBackground.offsetHeight - i) {
 		y = y + i;
 		miyako.style.top = y + 'px';
 	} else {
-		miyako.style.top = (bg.offsetHeight - miyako.offsetHeight) + 'px';
+		miyako.style.top = (gameBackground.offsetHeight - miyako.offsetHeight) + 'px';
 	}
 }
 
-//宫子扣生命值
+/**
+ * 宫子扣生命值
+ */
 function healthDown() {
 	//如果生命值高于0，扣血并实现闪烁效果，然后继续游戏
 	if (health > 0) {
@@ -41,15 +49,13 @@ function healthDown() {
 			if (i <= 0) {
 				clearInterval(flashing);
 			}
-		}, 300);
-		getPuddings();
-		puddingMove();
+		}, 150);
+		initializePuddings();
 		saveData();
 		refreshDom();
 	} else {
-		failedPage.style.display = 'flex';
-		clearData();
-		document.querySelector('.failedAudio-' + genRandom(1, 3)).play();
-		isPaused = true;
+		opreateFailedPage(true);
+		resetData();
+		stopGameProcess();
 	}
 }

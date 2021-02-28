@@ -1,13 +1,14 @@
 //游戏数据的储存与读取
+//游戏数据
 let level; //关卡
 let health; //生命值
 let highScore; //最高分数
 let currentScore = 0; //当前分数
-let currentScoreDom = document.querySelector('.game .topBar .currentScore'); //当前分数dom
-let highScoreDom = document.querySelector('.game .topBar .highScore'); //最高分数dom
-let levelDom = document.querySelector('.game .topBar .level'); //关卡dom
-let healthDom = document.querySelector('.game .topBar .health .t'); //获取生命值文字部分dom
-//加分函数
+
+/**
+ * 加分函数
+ * @param {*} score 待加分值
+ */
 function addScore(score) {
 	currentScore = parseInt(currentScore) + score;
 	//当当前分高于最高分时更新最高分
@@ -17,7 +18,9 @@ function addScore(score) {
 	refreshDom();
 }
 
-//储存所有数据
+/**
+ * 储存游戏数据
+ */
 function saveData() {
 	window.localStorage.setItem('high', highScore); //最高分
 	window.localStorage.setItem('current', currentScore); //当前分数
@@ -25,7 +28,9 @@ function saveData() {
 	window.localStorage.setItem('level', level); //当前关卡
 }
 
-//读取所有数据
+/**
+ * 读取游戏数据，若读取数据为空说明是新游戏，返回true
+ */
 function readData() {
 	let isNewGame = false;
 	currentScore = window.localStorage.getItem('current'); //读取当前分数
@@ -44,15 +49,19 @@ function readData() {
 	return isNewGame;
 }
 
-//清除所有数据（不清除最高分）
-function clearData() {
+/**
+ * 重置所有数据（不清除最高分）
+ */
+function resetData() {
 	currentScore = 0;
 	health = 3;
 	level = 1;
 	refreshDom();
 }
 
-//刷新dom
+/**
+ * 刷新dom
+ */
 function refreshDom() {
 	currentScoreDom.innerHTML = '当前分数：' + currentScore;
 	highScoreDom.innerHTML = '最高分数：' + highScore;
@@ -60,7 +69,11 @@ function refreshDom() {
 	levelDom.innerHTML = '第' + level + '关';
 }
 
-//生成十以内随机整数（传入最大值和最小值整数）
+/**
+ * 生成十以内随机数
+ * @param {*} min 最小值
+ * @param {*} max 最大值
+ */
 function genRandom(min, max) {
 	let number = Math.floor(Math.random() * 10 + min);
 	if (number > max) {
