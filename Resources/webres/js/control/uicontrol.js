@@ -22,14 +22,32 @@ function operateStartPage(isVisible) {
 	if (isVisible) {
 		if (readData()) {
 			startPageBtn[0].style.color = 'gray';
-			startPageBtn[0].onclick = null;
+			startPageBtn[0].removeEventListener('click', continueGame);
 		} else {
 			startPageBtn[0].style.color = '#ff5500';
-			startPageBtn[0].onclick = 'continueGame()';
+			startPageBtn[0].addEventListener('click', continueGame);
 		}
 		startPage.style.display = 'flex';
 	} else {
 		startPage.style.display = 'none';
+	}
+}
+
+/**
+ * 操纵顶栏控件
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
+ */
+function operateTopBarContent(isVisible) {
+	if (isVisible) {
+		gameTopBar.children[0].style.display = 'flex';
+		gameTopBar.children[1].style.display = 'block';
+		gameTopBar.children[2].style.display = 'flex';
+		gameTopBar.children[3].style.display = 'flex';
+	} else {
+		gameTopBar.children[0].style.display = 'none';
+		gameTopBar.children[1].style.display = 'none';
+		gameTopBar.children[2].style.display = 'none';
+		gameTopBar.children[3].style.display = 'none';
 	}
 }
 
@@ -47,7 +65,7 @@ function operateLoadingPage(isVisible) {
 
 /**
  * 操纵不支持设备提示页
- * @param {*} isVisible 
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
  */
 function operateNotSupportPage(isVisible) {
 	if (isVisible) {

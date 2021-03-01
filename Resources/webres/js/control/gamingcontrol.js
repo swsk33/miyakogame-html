@@ -7,6 +7,17 @@ let isLoadingBullet = false; //是否正在装填子弹
 let isPaused = false; //游戏是否是暂停状态
 
 /**
+ * 主菜单继续游戏进度
+ */
+function continueGame() {
+	readData();
+	document.querySelector('.startAudio').play();
+	operateStartPage(false);
+	initializePuddings();
+	startGameProcess();
+}
+
+/**
  * 开始/继续游戏主进程
  */
 function startGameProcess() {

@@ -16,18 +16,6 @@ window.addEventListener('keydown', function (e) {
 	}
 });
 
-//开始界面监听
-/**
- * 继续游戏进度
- */
-function continueGame() {
-	readData();
-	document.querySelector('.startAudio').play();
-	operateStartPage(false);
-	initializePuddings();
-	startGameProcess();
-}
-
 //新游戏按钮
 startPageBtn[1].addEventListener('click', function () {
 	window.localStorage.clear();

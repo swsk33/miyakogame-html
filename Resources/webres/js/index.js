@@ -6,6 +6,7 @@ iconElement.setAttribute('type', 'x-icon');
 document.head.appendChild(iconElement);
 //检测UA
 let userBrowserUA = window.navigator.userAgent;
+operateTopBarContent(false);
 setTimeout(function () {
 	if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') != -1 || userBrowserUA.indexOf('iPad') != -1) {
 		operateLoadingPage(false);
@@ -13,5 +14,6 @@ setTimeout(function () {
 	} else {
 		operateLoadingPage(false);
 		operateStartPage(true);
+		operateTopBarContent(true);
 	}
 }, 1500);

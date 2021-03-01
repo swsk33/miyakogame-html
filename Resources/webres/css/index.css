@@ -1,9 +1,9 @@
-@media screen and (max-width: 678px) {
+@media screen and (max-width: 768px) {
   html {
     font-size: 16px;
   }
 }
-@media screen and (min-width: 678px) {
+@media screen and (min-width: 768px) {
   html {
     font-size: 20px;
   }
@@ -94,13 +94,13 @@
 }
 .game .topBar .scorePanel .currentScore {
   position: relative;
-  left: -10px;
+  right: 20px;
   font-size: 26px;
   color: #ff00c4;
 }
 .game .topBar .scorePanel .highScore {
   position: relative;
-  left: 25px;
+  left: 20px;
   font-size: 26px;
   color: #001ddb;
 }
