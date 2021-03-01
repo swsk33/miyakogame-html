@@ -12,7 +12,9 @@ let isPaused = false; //游戏是否是暂停状态
 function startGameProcess() {
 	isPaused = false;
 	puddingControlInterval = setInterval(puddingMove, 100);
-	fireControlInterval = setInterval(bulletFly, 16);
+	fireControlInterval = setInterval(function () {
+		bulletFly(bulletArray, puddingArray);
+	}, 16);
 }
 
 /**

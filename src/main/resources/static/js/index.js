@@ -1,10 +1,8 @@
-/**
- * 初始化主界面函数
- */
-function initialize() {
-	if (readData()) {
-		document.querySelector('.start ul').children[0].style.color = 'gray';
-		document.querySelector('.start ul').children[0].removeEventListener('click', continueGame);
-	}
-}
-initialize();
+//随机网页标签图标
+let iconElement = document.createElement('link');
+iconElement.setAttribute('rel', 'icon');
+iconElement.setAttribute('href', './img/icons/' + genRandom(1, 4) + '.ico');
+iconElement.setAttribute('type', 'x-icon');
+document.head.appendChild(iconElement);
+//初始化主界面
+operateStartPage(true);

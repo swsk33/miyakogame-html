@@ -1,6 +1,6 @@
 //火控系统
 //子弹dom数组
-let bulletsArray = [];
+let bulletArray = [];
 
 /**
  * 开火函数
@@ -29,7 +29,7 @@ function fire() {
 			bullet.style.height = '24px';
 			bullet.style.background = 'url(./img/bullet.png) no-repeat center/cover';
 		}
-		bulletsArray.push(bullet);
+		bulletArray.push(bullet);
 		gameBackground.appendChild(bullet);
 	}
 }
@@ -43,15 +43,15 @@ function bulletFly(bullets, enemies) {
 	for (let i = 0; i < bullets.length; i++) {
 		let eachBullet = bullets[i];
 		let eachBulletX = eachBullet.offsetLeft;
-		eachBulletX = eachBulletX + 12;
+		eachBulletX = eachBulletX + 8;
 		eachBullet.style.left = eachBulletX + 'px';
 		//开始碰撞检测
 		let isCollide = false;
 		for (let j = 0; j < enemies.length; j++) {
 			//条件1：子弹的右下部分在敌人贴图范围内
-			let criteria1 = bullet.offsetTop + bullet.offsetHeight >= enemies[j].dom.offsetTop && bullet.offsetLeft + bullet.offsetWidth >= enemies[j].dom.offsetLeft;
+			let criteria1 = eachBullet.offsetTop + eachBullet.offsetHeight >= enemies[j].dom.offsetTop && eachBullet.offsetLeft + eachBullet.offsetWidth >= enemies[j].dom.offsetLeft;
 			//条件2：子弹左上部分在敌人贴图范围内
-			let criteria2 = bullet.offsetTop <= enemies[j].dom.offsetTop + enemies[j].dom.offsetHeight && bullet.offsetLeft <= enemies[j].dom.offsetLeft + enemies[j].dom.offsetWidth;
+			let criteria2 = eachBullet.offsetTop <= enemies[j].dom.offsetTop + enemies[j].dom.offsetHeight && eachBullet.offsetLeft <= enemies[j].dom.offsetLeft + enemies[j].dom.offsetWidth;
 			//条件3：子弹碰到的敌人是没被击中的状态
 			let criteria3 = !enemies[j].isEaten;
 			//总条件：三个条件需要同时满足
@@ -59,6 +59,7 @@ function bulletFly(bullets, enemies) {
 			if (criteriaTotal) {
 				enemies[j].dom.style.display = 'none';
 				enemies[j].isEaten = true;
+				eachBullet.remove();
 				bullets.splice(i, 1);
 				addScore(enemies[j].score);
 				isCollide = true;
