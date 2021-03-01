@@ -3,8 +3,10 @@
 
 <head>
 	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<title>宫子恰布丁 - by守望时空33</title>
-	<link rel="stylesheet" href="./css/index.css" />
+	<link rel="stylesheet" href="/css/index.css" />
 </head>
 
 <body>
@@ -18,7 +20,7 @@
 			</div>
 			<div class="level">第1关</div>
 			<div class="health">
-				<img src="img/yuol-static.png" />
+				<img src="/img/yuol-static.png" />
 				<div class="t">x3</div>
 			</div>
 			<div class="scorePanel">
@@ -67,7 +69,7 @@
 	<!--开始界面-->
 	<div class="start">
 		<div class="title">
-			<img class="avatar" src="img/avatars/excepted.png" />
+			<img class="avatar" src="/img/avatars/excepted.png" />
 			<div class="main"></div>
 		</div>
 		<ul>
@@ -80,7 +82,7 @@
 	<div class="failed">
 		<div class="t1">failed!</div>
 		<div class="say">
-			<img class="avatar" src="img/avatars/angry.png" />
+			<img class="avatar" src="/img/avatars/angry.png" />
 			<div class="t2">不要nano!宫子现在就要吃完nano!</div>
 		</div>
 		<ul class="menu">
@@ -92,7 +94,7 @@
 	<div class="succeed">
 		<div class="t1">succeed!</div>
 		<div class="say">
-			<img class="avatar" src="img/avatars/happy.png" />
+			<img class="avatar" src="/img/avatars/happy.png" />
 			<div class="t2">臭鼬布丁nano，好吃nano！</div>
 		</div>
 		<ul class="menu">
@@ -100,33 +102,44 @@
 			<li>返回主菜单</li>
 		</ul>
 	</div>
+	<!--加载页面-->
+	<div class="loading">
+		<img class="loadingImg" src="/img/youl-dynamic.gif" />
+		<div class="loadingText">游戏加载中...</div>
+	</div>
+	<!--不支持设备提示页面-->
+	<div class="notsupport">
+		<img class="notsupportImg" src="/img/avatars/not-support.png" />
+		<div class="notsupportText">抱歉，该游戏不支持移动端，请使用电脑访问！</div>
+	</div>
 	<!--帮助蒙层-->
 	<div class="help">
 		<div class="frame">
 			<p class="introduce">&ensp;&ensp;&ensp;&ensp;宫子是一个喜欢吃布丁的幽灵。现在操控她吃掉所有布丁吧！</p>
-			<img src="./img/yuol-static.png" />
+			<img src="/img/yuol-static.png" />
 			<p class="t1">表示生命值。</p>
 			<p class="t2">按W或者↑向上移动，S或者↓向下移动，空格开火，也可以打开右上角的“自动吃布丁”按钮使其自动开火。</p>
 			<div class="ok">知道了</div>
 		</div>
 	</div>
+
 	<!--音频-->
-	<audio class="startAudio" src="./audio/start.wav"></audio>
-	<audio class="failedAudio-1" src="./audio/failed-1.wav"></audio>
-	<audio class="failedAudio-2" src="./audio/failed-2.wav"></audio>
-	<audio class="failedAudio-3" src="./audio/failed-3.wav"></audio>
-	<audio class="succeedAduio-1" src="./audio/succeed-1.wav"></audio>
-	<audio class="succeedAduio-2" src="./audio/succeed-2.wav"></audio>
+	<audio class="startAudio" src="/audio/start.wav"></audio>
+	<audio class="failedAudio-1" src="/audio/failed-1.wav"></audio>
+	<audio class="failedAudio-2" src="/audio/failed-2.wav"></audio>
+	<audio class="failedAudio-3" src="/audio/failed-3.wav"></audio>
+	<audio class="succeedAduio-1" src="/audio/succeed-1.wav"></audio>
+	<audio class="succeedAduio-2" src="/audio/succeed-2.wav"></audio>
 	<!--游戏脚本引入-->
-	<script type="text/javascript" src="./js/control/gamingcontrol.js"></script>
-	<script type="text/javascript" src="./js/control/uicontrol.js"></script>
-	<script type="text/javascript" src="./js/fire.js"></script>
-	<script type="text/javascript" src="./js/character.js"></script>
-	<script type="text/javascript" src="./js/pudding.js"></script>
-	<script type="text/javascript" src="./js/localdata.js"></script>
-	<script type="text/javascript" src="./js/halloween.js"></script>
-	<script type="text/javascript" src="./js/listener.js"></script>
-	<script type="text/javascript" src="./js/index.js"></script>
+	<script type="text/javascript" src="/js/control/gamingcontrol.js"></script>
+	<script type="text/javascript" src="/js/control/uicontrol.js"></script>
+	<script type="text/javascript" src="/js/fire.js"></script>
+	<script type="text/javascript" src="/js/character.js"></script>
+	<script type="text/javascript" src="/js/pudding.js"></script>
+	<script type="text/javascript" src="/js/localdata.js"></script>
+	<script type="text/javascript" src="/js/halloween.js"></script>
+	<script type="text/javascript" src="/js/listener.js"></script>
+	<script type="text/javascript" src="/js/index.js"></script>
 </body>
 
 </html>

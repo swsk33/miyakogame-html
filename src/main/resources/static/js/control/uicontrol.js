@@ -9,6 +9,8 @@ let gameTopBar = document.querySelector('.game .topBar'); //获取游戏上栏
 let succeedPage = document.querySelector('.succeed'); //获取胜利界面
 let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
+let loadingPage = document.querySelector('.loading'); //获取加载页面
+let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
 let helpPage = document.querySelector('.help'); //获取帮助界面
 let startPageBtn = document.querySelector('.start ul').children; //获取开始界面的所有按钮
 
@@ -28,6 +30,30 @@ function operateStartPage(isVisible) {
 		startPage.style.display = 'flex';
 	} else {
 		startPage.style.display = 'none';
+	}
+}
+
+/**
+ * 操纵加载页面
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
+ */
+function operateLoadingPage(isVisible) {
+	if (isVisible) {
+		loadingPage.style.display = 'flex';
+	} else {
+		loadingPage.style.display = 'none';
+	}
+}
+
+/**
+ * 操纵不支持设备提示页
+ * @param {*} isVisible 
+ */
+function operateNotSupportPage(isVisible) {
+	if (isVisible) {
+		notSupportPage.style.display = 'flex';
+	} else {
+		notSupportPage.style.display = 'none';
 	}
 }
 

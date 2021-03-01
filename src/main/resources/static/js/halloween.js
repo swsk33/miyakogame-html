@@ -12,14 +12,14 @@ let dateCriteria = dateCriteria1 || dateCriteria2;
 if (dateCriteria) {
 	let style = document.createElement('style');
 	let text = document.createTextNode(
-		'.start {background: url(./img/festival/halloween/bg-menu.png) no-repeat center/cover}' +
-		'.start .title .main {background: url(./img/festival/halloween/title.png) no-repeat center/cover}' +
+		'.start {background: url(/img/festival/halloween/bg-menu.png) no-repeat center/cover}' +
+		'.start .title .main {background: url(/img/festival/halloween/title.png) no-repeat center/cover}' +
 		'.start ul li {color: #ffb739}' +
-		'.game {background: url(./img/festival/halloween/bg-game.png) no-repeat center/cover}' +
+		'.game {background: url(/img/festival/halloween/bg-game.png) no-repeat center/cover}' +
 		'.game .topBar {background-color: rgba(0, 255, 226, 0.78)}' +
 		'.game .topBar .example .pd1::after, .game .topBar .example .pd2::after, .game .topBar .example .pd3::after, .game .topBar .level, .game .health .t, .game .topBar .autoFire .t {color: rgb(255, 32, 99)}' +
 		'.game .gameBg {background-color: rgba(0, 0, 0, 0)}' +
-		'.game .gameBg .miyako {width: 120px; height: 142px; background: url(./img/festival/halloween/miyako-halloween.png) no-repeat center/cover;}'
+		'.game .gameBg .miyako {width: 120px; height: 142px; background: url(/img/festival/halloween/miyako-halloween.png) no-repeat center/cover;}'
 	);
 	style.appendChild(text);
 	document.head.appendChild(style);
