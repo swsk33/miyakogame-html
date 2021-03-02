@@ -104,8 +104,14 @@
 	</div>
 	<!--加载页面-->
 	<div class="loading">
-		<img class="loadingImg" src="/img/youl-dynamic.gif" />
-		<div class="loadingText">游戏加载中...</div>
+		<div class="loadingComponent">
+			<img class="loadingImg" src="/img/youl-dynamic.gif" />
+			<div class="loadingText">游戏加载中...</div>
+		</div>
+		<div class="processBar">
+			<div class="processValue"></div>
+		</div>
+		<div class="processNum">process 0%</div>
 	</div>
 	<!--不支持设备提示页面-->
 	<div class="notsupport">
@@ -131,6 +137,7 @@
 	<audio class="succeedAduio-1" src="/audio/succeed-1.wav"></audio>
 	<audio class="succeedAduio-2" src="/audio/succeed-2.wav"></audio>
 	<!--游戏脚本引入-->
+	<script type="text/javascript" src="/js/util/mouseeffects.js"></script>
 	<script type="text/javascript" src="/js/control/gamingcontrol.js"></script>
 	<script type="text/javascript" src="/js/control/uicontrol.js"></script>
 	<script type="text/javascript" src="/js/fire.js"></script>

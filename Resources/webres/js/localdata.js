@@ -70,14 +70,10 @@ function refreshDom() {
 }
 
 /**
- * 生成十以内随机数
- * @param {*} min 最小值
- * @param {*} max 最大值
+ * 生成范围是[min,max]的随机整数
+ * @param {*} min 期望最小值
+ * @param {*} max 期望最大值
  */
 function genRandom(min, max) {
-	let number = Math.floor(Math.random() * 10 + min);
-	if (number > max) {
-		number = max;
-	}
-	return number;
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }

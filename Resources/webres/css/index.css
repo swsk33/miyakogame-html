@@ -318,15 +318,41 @@
   background-color: #c2ffff;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
-.loading .loadingImg {
+.loading .loadingComponent {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.loading .loadingComponent .loadingImg {
   position: relative;
   right: 0.5rem;
 }
-.loading .loadingText {
+.loading .loadingComponent .loadingText {
   position: relative;
   left: 0.5rem;
   font-size: 2rem;
+}
+.loading .processBar {
+  position: relative;
+  width: 350px;
+  height: 18px;
+  margin-top: 16px;
+  border-color: blue;
+  border-width: 3px;
+  border-style: solid;
+}
+.loading .processBar .processValue {
+  position: absolute;
+  top: -0.5px;
+  width: 0;
+  height: 19px;
+  background-color: greenyellow;
+}
+.loading .processNum {
+  position: relative;
+  margin-top: 5px;
 }
 
 .notsupport {
@@ -340,7 +366,8 @@
 }
 .notsupport .notsupportImg {
   position: relative;
-  width: 5rem;
+  width: 3.5rem;
+  margin-left: 0.5rem;
   border-radius: 50%;
   border-style: solid;
   border-width: 0.3rem;
@@ -348,7 +375,8 @@
 }
 .notsupport .notsupportText {
   position: relative;
-  left: 0.7rem;
+  display: flex;
+  margin-left: 1.5rem;
   font-size: 1.5rem;
 }
 
