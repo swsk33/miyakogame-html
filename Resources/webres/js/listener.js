@@ -74,6 +74,6 @@ failedPageBtn[1].addEventListener('click', function () {
 
 //帮助界面按钮
 let helpPageBtn = helpPage.children[0];
-helpPageBtn.children[4].addEventListener('click', function () {
+helpPageBtn.children[5].addEventListener('click', function () {
 	opreateHelpPage(false);
 });
