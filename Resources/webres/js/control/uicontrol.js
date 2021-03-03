@@ -71,21 +71,21 @@ function operateLoadingPage(isVisible) {
  */
 function setLoadingBar(value) {
 	let originValue = processNum.innerHTML.substring(8, processNum.innerHTML.indexOf('%'));
-
 	let distance = value - parseFloat(originValue);
-	let section = 169;
-	let sectionValue = distance / section;
-	let eachLoadSection = 25;
-	let loadInterval = setInterval(function () {
-		originValue = parseFloat(originValue) + eachLoadSection * sectionValue;
-		console.log(originValue);
-		processBar.style.width = originValue + '%';
-		processNum.innerHTML = 'process ' + originValue.toFixed(2) + '%';
-		eachLoadSection = eachLoadSection - 2;
-		if (eachLoadSection < 0) {
-			clearInterval(loadInterval);
-		}
-	}, 16);
+	if (distance > 0) {
+		let section = 169;
+		let sectionValue = distance / section;
+		let eachLoadSection = 25;
+		let loadInterval = setInterval(function () {
+			originValue = parseFloat(originValue) + eachLoadSection * sectionValue;
+			processBar.style.width = originValue + '%';
+			processNum.innerHTML = 'process ' + originValue.toFixed(2) + '%';
+			eachLoadSection = eachLoadSection - 2;
+			if (eachLoadSection < 0) {
+				clearInterval(loadInterval);
+			}
+		}, 16);
+	}
 }
 
 /**

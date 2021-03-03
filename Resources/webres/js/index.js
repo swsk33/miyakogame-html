@@ -11,16 +11,62 @@ if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') !=
 	operateLoadingPage(false);
 	operateNotSupportPage(true);
 } else {
-	//加载组件（待完善）
 	let loadValue = 0;
+	let isAudioAllLoaded = false;
+	let isStartPageLoaded = false;
+	let isBulletLoaded = false;
+	//加载音频
 	let audios = document.querySelectorAll('audio');
-	let audioLoadValue = 100;
-	let eachAudioLoad = audioLoadValue / audios.length;
-	window.onload = function () {
-		//operateLoadingPage(false);
-		operateStartPage(true);
-		//operateTopBarContent(true);
-	};
+	let audioLoadCompleteValue = 60;
+	let eachAudioLoad = audioLoadCompleteValue / audios.length;
+	let currentLoad = 0;
+	let audioLoadControl = setInterval(() => {
+		let oldLoadValue = loadValue;
+		//每次获取已加载音频数
+		currentLoad = 0;
+		for (let i = 0; i < audios.length; i++) {
+			if (isAudioOrVedioLoaded(audios[i])) {
+				currentLoad++;
+			}
+		}
+		loadValue = oldLoadValue + currentLoad * eachAudioLoad;
+		setLoadingBar(loadValue);
+		if (currentLoad >= audios.length) {
+			isAudioAllLoaded = true;
+			clearInterval(audioLoadControl);
+		}
+	}, 100);
+	//预加载主页
+	let titleImg = new Image();
+	titleImg.src = "/img/textImg/title.png";
+	let startPageLoadControl = setInterval(() => {
+		if (titleImg.complete) {
+			isStartPageLoaded = true;
+			loadValue = loadValue + 15;
+			setLoadingBar(loadValue);
+			clearInterval(startPageLoadControl);
+		}
+	}, 100);
+	//预加载子弹贴图
+	let bulletImage = new Image();
+	bulletImage.src = '/img/bullet.png';
+	let bulletLoadControl = setInterval(() => {
+		if (bulletImage.complete) {
+			isBulletLoaded = true;
+			loadValue = 100;
+			setLoadingBar(loadValue);
+			clearInterval(bulletLoadControl);
+		}
+	}, 100);
+	let totalLoadControl = setInterval(() => {
+		let allLoaded = isAudioAllLoaded && isStartPageLoaded && isBulletLoaded;
+		if (allLoaded) {
+			operateLoadingPage(false);
+			operateStartPage(true);
+			operateTopBarContent(true);
+			clearInterval(totalLoadControl);
+		}
+	}, 100);
 }
 //开启鼠标效果
 mouseMoveDropDotControl(true);

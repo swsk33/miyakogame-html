@@ -1,5 +1,5 @@
 //鼠标点击和移动效果
-let dotColors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
+const dotColors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 let isDropDotExists = false;
 
 /**

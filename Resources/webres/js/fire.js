@@ -23,11 +23,11 @@ function fire() {
 		if (dateCriteria) {
 			bullet.style.width = '15px';
 			bullet.style.height = '25px';
-			bullet.style.background = 'url(./img/festival/halloween/bullet.png) no-repeat center/cover';
+			bullet.style.background = 'url(/img/festival/halloween/bullet.png) no-repeat center/cover';
 		} else {
 			bullet.style.width = '15px';
 			bullet.style.height = '24px';
-			bullet.style.background = 'url(./img/bullet.png) no-repeat center/cover';
+			bullet.style.background = 'url(/img/bullet.png) no-repeat center/cover';
 		}
 		bulletArray.push(bullet);
 		gameBackground.appendChild(bullet);
