@@ -9,6 +9,7 @@ let gameTopBar = document.querySelector('.game .topBar'); //获取游戏上栏
 let succeedPage = document.querySelector('.succeed'); //获取胜利界面
 let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
+let pausePage = document.querySelector('.pause'); //获取暂停界面
 let loadingPage = document.querySelector('.loading'); //获取加载页面
 let processBar = document.querySelector('.loading .processBar .processValue'); //获取进度条
 let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
@@ -22,7 +23,7 @@ let startPageBtn = document.querySelector('.start ul').children; //获取开始�
  */
 function operateStartPage(isVisible) {
 	if (isVisible) {
-		if (readData()) {
+		if (readData() || health < 0) {
 			startPageBtn[0].style.color = 'gray';
 			startPageBtn[0].removeEventListener('click', continueGame);
 		} else {
@@ -123,6 +124,18 @@ function operateSuccessPage(isVisible) {
 		document.querySelector('.succeedAduio-' + genRandom(1, 2)).play();
 	} else {
 		succeedPage.style.display = 'none';
+	}
+}
+
+/**
+ * 暂停蒙层控制
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
+ */
+function operatePausePage(isVisible) {
+	if (isVisible) {
+		pausePage.style.display = 'flex';
+	} else {
+		pausePage.style.display = 'none';
 	}
 }
 

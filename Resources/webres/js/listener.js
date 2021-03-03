@@ -14,12 +14,24 @@ window.addEventListener('keydown', function (e) {
 	if (e.keyCode == 32 && !isPaused) {
 		fire();
 	}
+
+	//暂停游戏
+	if (e.keyCode == 80) {
+		if (!isPaused) {
+			stopGameProcess();
+			isPaused = true;
+			operatePausePage(true);
+		} else {
+			startGameProcess();
+			isPaused = false;
+			operatePausePage(false);
+		}
+	}
 });
 
 //新游戏按钮
 startPageBtn[1].addEventListener('click', function () {
-	window.localStorage.clear();
-	readData();
+	resetData();
 	document.querySelector('.startAudio').play();
 	operateStartPage(false);
 	initializePuddings();

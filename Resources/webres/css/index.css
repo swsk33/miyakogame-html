@@ -531,6 +531,25 @@
   background-color: #dfdeff;
 }
 
+.pause {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+.pause img {
+  position: relative;
+  height: 100px;
+}
+.pause .text {
+  position: relative;
+  font-size: 36px;
+  margin-left: 18px;
+}
+
 .help {
   position: absolute;
   display: none;

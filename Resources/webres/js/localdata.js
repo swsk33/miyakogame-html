@@ -37,7 +37,7 @@ function readData() {
 	highScore = window.localStorage.getItem('high'); //读取最高分
 	health = window.localStorage.getItem('health'); //读取生命值
 	level = window.localStorage.getItem('level'); //读取关卡
-	if ((currentScore == null || highScore == null || health == null || level == null) || highScore == 0) {
+	if (currentScore == null || highScore == null || health == null || level == null || highScore == 0) {
 		currentScore = 0;
 		highScore = 0;
 		health = 3;
