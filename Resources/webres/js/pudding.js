@@ -25,6 +25,7 @@ function initializePuddings() {
 			puddingDom.push(eachPuddingDom);
 			eachPuddingDom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 			eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
+			eachPuddingDom.style.transform = 'scale(1) rotate(0deg)';
 		}
 	}
 	//清空数组
