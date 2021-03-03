@@ -12,59 +12,34 @@ if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') !=
 	operateNotSupportPage(true);
 } else {
 	let loadValue = 0;
-	let isAudioAllLoaded = false;
-	let isStartPageLoaded = false;
-	let isBulletLoaded = false;
-	//加载音频
-	let audios = document.querySelectorAll('audio');
-	let audioLoadCompleteValue = 60;
-	let eachAudioLoad = audioLoadCompleteValue / audios.length;
-	let currentLoad = 0;
-	let audioLoadControl = setInterval(() => {
-		let oldLoadValue = loadValue;
-		//每次获取已加载音频数
-		currentLoad = 0;
-		for (let i = 0; i < audios.length; i++) {
-			if (isAudioOrVedioLoaded(audios[i])) {
-				currentLoad++;
-			}
-		}
-		loadValue = oldLoadValue + currentLoad * eachAudioLoad;
+	let audioDataProportion = 70;
+	let imgDataProportion = 30;
+	//开始预加载图片和音频并检查加载进度、设定进度条
+	loadAllImg();
+	checkAllAudioLoad();
+	let loadingBarControl = setInterval(() => {
+		let imgLoadRatio = (imgLoaded / imgTotalCount) * imgDataProportion;
+		let audioLoadRatio = (audioLoaded / audioTotalCount) * audioDataProportion;
+		loadValue = imgLoadRatio + audioLoadRatio;
 		setLoadingBar(loadValue);
-		if (currentLoad >= audios.length) {
-			isAudioAllLoaded = true;
-			clearInterval(audioLoadControl);
-		}
-	}, 100);
-	//预加载主页
-	let titleImg = new Image();
-	titleImg.src = "/img/textImg/title.png";
-	let startPageLoadControl = setInterval(() => {
-		if (titleImg.complete) {
-			isStartPageLoaded = true;
-			loadValue = loadValue + 15;
-			setLoadingBar(loadValue);
-			clearInterval(startPageLoadControl);
-		}
-	}, 100);
-	//预加载子弹贴图
-	let bulletImage = new Image();
-	bulletImage.src = '/img/bullet.png';
-	let bulletLoadControl = setInterval(() => {
-		if (bulletImage.complete) {
-			isBulletLoaded = true;
-			loadValue = 100;
-			setLoadingBar(loadValue);
-			clearInterval(bulletLoadControl);
-		}
-	}, 100);
-	let totalLoadControl = setInterval(() => {
-		let allLoaded = isAudioAllLoaded && isStartPageLoaded && isBulletLoaded;
-		if (allLoaded) {
+		if (isImgAllLoaded && isAudioAllLoaded) {
 			operateLoadingPage(false);
 			operateStartPage(true);
 			operateTopBarContent(true);
-			clearInterval(totalLoadControl);
+			//释放内存
+			loadValue = null;
+			audioDataProportion = null;
+			imgDataProportion = null;
+			allImg = null;
+			allImgObjects = null;
+			imgTotalCount = null;
+			imgLoaded = null;
+			isImgAllLoaded = null;
+			audios = null;
+			audioTotalCount = null;
+			audioLoaded = null;
+			isAudioAllLoaded = null;
+			clearInterval(loadingBarControl);
 		}
 	}, 100);
 }
