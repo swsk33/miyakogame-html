@@ -150,3 +150,25 @@ function opreateHelpPage(isVisible) {
 		helpPage.style.display = 'none';
 	}
 }
+
+/**
+ * 敌人消失动画
+ * @param {*} enemyObject 构造敌人对象
+ */
+function enemyFadeEffect(enemyObject) {
+	let currentKeyFrame = 20;
+	let totalKeyFrame = currentKeyFrame;
+	let sizeRatio = 1;
+	let deg = 0;
+	let effectControl = setInterval(() => {
+		enemyObject.dom.style.transform = 'scale(' + sizeRatio.toFixed(2) + ') rotate(' + deg + 'deg)';
+		sizeRatio = sizeRatio - 1 / totalKeyFrame;
+		deg = deg + 90 / totalKeyFrame;
+		currentKeyFrame--;
+		if (currentKeyFrame <= 0) {
+			enemyObject.dom.style.display = 'none';
+			enemyObject.isEaten = true;
+			clearInterval(effectControl);
+		}
+	}, 16);
+}

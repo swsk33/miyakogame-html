@@ -57,8 +57,7 @@ function bulletFly(bullets, enemies) {
 			//总条件：三个条件需要同时满足
 			let criteriaTotal = criteria1 && criteria2 && criteria3;
 			if (criteriaTotal) {
-				enemies[j].dom.style.display = 'none';
-				enemies[j].isEaten = true;
+				enemyFadeEffect(enemies[j]);
 				eachBullet.remove();
 				bullets.splice(i, 1);
 				addScore(enemies[j].score);
