@@ -30,6 +30,7 @@ function fire() {
 			bullet.style.background = 'url(/img/bullet.png) no-repeat center/cover';
 		}
 		bulletArray.push(bullet);
+		document.querySelector('.fireAudio').play();
 		gameBackground.appendChild(bullet);
 	}
 }

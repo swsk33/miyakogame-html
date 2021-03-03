@@ -11,6 +11,7 @@ let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
 let pausePage = document.querySelector('.pause'); //获取暂停界面
 let loadingPage = document.querySelector('.loading'); //获取加载页面
+let transitionPage = document.querySelector('.transition'); //获取过渡界面
 let processBar = document.querySelector('.loading .processBar .processValue'); //获取进度条
 let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
 let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
@@ -64,6 +65,34 @@ function operateLoadingPage(isVisible) {
 	} else {
 		loadingPage.style.display = 'none';
 	}
+}
+
+/**
+ * 操纵过渡页面（待完善）
+ */
+function operateTransitionPage() {
+	let frameLeft = -transitionPage.offsetWidth;
+	transitionPage.style.left = frameLeft + 'px';
+	transitionPage.style.display = 'flex';
+	let totalMagnification = 900;
+	let eachFrameMove = transitionPage.offsetWidth / totalMagnification;
+	let MoveRate = 30;
+	let currentkeyFrame = 120;
+	let moveControl = setInterval(() => {
+		frameLeft = frameLeft + MoveRate * eachFrameMove;
+		transitionPage.style.left = frameLeft + 'px';
+		if (currentkeyFrame > 90) {
+			MoveRate = MoveRate - 2;
+		} else if (currentkeyFrame < 30) {
+			MoveRate = MoveRate + 2;
+		}
+		currentkeyFrame--;
+		if (currentkeyFrame < 0) {
+			transitionPage.style.display = 'none';
+			clearInterval(moveControl);
+		}
+	}, 16);
+
 }
 
 /**
@@ -156,6 +185,7 @@ function opreateHelpPage(isVisible) {
  * @param {*} enemyObject 构造敌人对象
  */
 function enemyFadeEffect(enemyObject) {
+	document.querySelector('.scoreAduio').play();
 	let currentKeyFrame = 20;
 	let totalKeyFrame = currentKeyFrame;
 	let sizeRatio = 1;
