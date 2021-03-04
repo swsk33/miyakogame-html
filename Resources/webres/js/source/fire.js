@@ -14,20 +14,16 @@ function fire() {
 			isLoadingBullet = false;
 		}, loadingInterval);
 		//生成子弹
-		let bullet = document.createElement('div');
+		let bullet = document.createElement('img');
 		bullet.className = 'bullet';
 		bullet.style.position = 'absolute';
 		bullet.style.left = miyako.offsetLeft + miyako.offsetWidth + 'px';
 		bullet.style.top = miyako.offsetTop + (0.3 * miyako.offsetHeight) + 'px';
 		//万圣节和平常子弹贴图不同
 		if (dateCriteria) {
-			bullet.style.width = '15px';
-			bullet.style.height = '25px';
-			bullet.style.background = 'url(/img/festival/halloween/bullet.png) no-repeat center/cover';
+			bullet.src = '/img/festival/halloween/bullet.png';
 		} else {
-			bullet.style.width = '15px';
-			bullet.style.height = '24px';
-			bullet.style.background = 'url(/img/bullet.png) no-repeat center/cover';
+			bullet.src = '/img/bullets/bullet.png';
 		}
 		bulletArray.push(bullet);
 		document.querySelector('.fireAudio').play();

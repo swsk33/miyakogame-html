@@ -3,14 +3,28 @@ let puddingArray = []; //存放布丁对象的数组
 let moveUp; //布丁移动方向，false为下true为上
 const puddingRol = 8; //布丁总行数
 const puddingCol = 4; //布丁总列数
+//每个布丁单位的尺寸
 const puddingSize = {
 	puddingWidth: 60,
 	puddingHeight: 60
-}; //每个布丁单位的尺寸
+};
+//布丁矩阵的尺寸
 const puddingMatrixSize = {
 	matrixWidth: puddingCol * (puddingSize.puddingWidth + 10) - 10,
 	matrixHeight: puddingRol * (puddingSize.puddingHeight + 5) - 5
-}; //布丁矩阵的尺寸
+};
+
+/**
+ * 布丁对象构造函数
+ * @param {*} dom 布丁dom节点
+ * @param {*} isEaten 布丁是否被吃了
+ * @param {*} score 该布丁的分值
+ */
+function Pudding(dom, isEaten, score) {
+	this.dom = dom;
+	this.isEaten = isEaten;
+	this.score = score;
+}
 
 /**
  * 获取布丁并重置位置，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
@@ -18,10 +32,9 @@ const puddingMatrixSize = {
 function initializePuddings() {
 	//获取全部布丁dom并设置每个布丁相对容器的位置,使得每一列之间相隔10px，每一行之间相隔5px
 	let puddingDom = [];
-	let eachPuddingDom;
 	for (let i = 0; i < puddingCol; i++) {
 		for (let j = 0; j < puddingRol; j++) {
-			eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
+			let eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
 			puddingDom.push(eachPuddingDom);
 			eachPuddingDom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 			eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
@@ -41,11 +54,8 @@ function initializePuddings() {
 			scoreEachPudding = 3;
 		}
 		//构建每个布丁的模型对象并存入全局数组
-		let eachPudding = {
-			dom: puddingDom[i], //布丁dom节点
-			isEaten: false, //布丁是否被吃掉（击中）
-			score: scoreEachPudding //这个布丁的分值
-		};
+
+		let eachPudding = new Pudding(puddingDom[i], false, scoreEachPudding);
 		eachPudding.dom.style.display = 'block';
 		puddingArray.push(eachPudding);
 	}

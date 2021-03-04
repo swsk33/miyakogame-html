@@ -1,6 +1,6 @@
 //检测各种元素加载情况
 //所有的图片资源的地址
-let allImg = ['/img/avatars/angry.png', '/img/avatars/excepted.png', '/img/avatars/happy.png', '/img/avatars/not-support.png', '/img/puddings/p1.png', '/img/puddings/p2.png', '/img/puddings/p3.png', '/img/textImg/title.png', '/img/bullet.png', '/img/miyako-normal.png', '/img/youl-dynamic.gif', '/img/youl-static.png'];
+let allImg = ['/img/avatars/angry.png', '/img/avatars/excepted.png', '/img/avatars/happy.png', '/img/avatars/not-support.png', '/img/puddings/p1.png', '/img/puddings/p2.png', '/img/puddings/p3.png', '/img/textImg/title.png', '/img/bullets/bullet.png', '/img/miyako-normal.png', '/img/youl-dynamic.gif', '/img/youl-static.png'];
 //所有图片资源对象
 let allImgObjects = [];
 //加载图片资源总数

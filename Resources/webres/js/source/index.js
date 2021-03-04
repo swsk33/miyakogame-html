@@ -9,7 +9,10 @@ let userBrowserUA = window.navigator.userAgent;
 operateTopBarContent(false);
 if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') != -1 || userBrowserUA.indexOf('iPad') != -1) {
 	operateLoadingPage(false);
-	operateNotSupportPage(true);
+	operateNotSupportPage(true, '抱歉，该游戏不支持移动端，请使用电脑访问！');
+} else if (userBrowserUA.toLowerCase().indexOf('trident') != -1) {
+	operateLoadingPage(false);
+	operateNotSupportPage(true, '抱歉，该游戏不支持IE内核浏览器，请使用Chrome或者Firefox内核浏览器访问！');
 } else {
 	let loadValue = 0;
 	let audioDataProportion = 70;

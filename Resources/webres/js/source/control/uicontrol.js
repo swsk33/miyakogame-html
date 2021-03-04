@@ -114,12 +114,14 @@ function setLoadingBar(value) {
 }
 
 /**
- * 操纵不支持设备提示页
+ * 操纵不支持提示页
  * @param {*} isVisible 值为true时显示界面，否则隐藏界面
+ * @param {*} msg 提示信息
  */
-function operateNotSupportPage(isVisible) {
+function operateNotSupportPage(isVisible, msg) {
 	if (isVisible) {
 		notSupportPage.style.display = 'flex';
+		notSupportPage.children[1].innerHTML = msg;
 	} else {
 		notSupportPage.style.display = 'none';
 	}
