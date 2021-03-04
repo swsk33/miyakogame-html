@@ -11,6 +11,7 @@ let isPaused = false; //游戏是否是暂停状态
  */
 function continueGame() {
 	readData();
+	clearBullets();
 	document.querySelector('.startAudio').play();
 	operateStartPage(false);
 	initializePuddings();

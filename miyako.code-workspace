@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"es6-css-minify.jsMinPath": "/Resources/webres/js/minout"
+	}
+}

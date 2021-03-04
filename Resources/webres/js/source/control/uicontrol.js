@@ -24,6 +24,10 @@ let startPageBtn = document.querySelector('.start ul').children; //获取开始�
  */
 function operateStartPage(isVisible) {
 	if (isVisible) {
+		startPage.children[0].style.display = 'flex';
+		startPage.children[1].style.display = 'inline';
+		startPage.style.borderRight = 'none';
+		startPage.style.width = '100%';
 		if (readData() || health < 0) {
 			startPageBtn[0].style.color = 'gray';
 			startPageBtn[0].removeEventListener('click', continueGame);
@@ -33,7 +37,26 @@ function operateStartPage(isVisible) {
 		}
 		startPage.style.display = 'flex';
 	} else {
-		startPage.style.display = 'none';
+		let totalMagnification = 3570;
+		let pageWidth = startPage.offsetWidth;
+		let eachMove = pageWidth / totalMagnification;
+		let startRate = 119;
+		let keyFrame = 60;
+		startPage.style.borderRight = '5px solid #014dff';
+		let fadeControl = setInterval(() => {
+			pageWidth = pageWidth - startRate * eachMove;
+			startPage.style.width = pageWidth + 'px';
+			startRate = startRate - 2;
+			keyFrame--;
+			if (keyFrame == 40) {
+				startPage.children[0].style.display = 'none';
+				startPage.children[1].style.display = 'none';
+			}
+			if (keyFrame <= 0) {
+				startPage.style.display = 'none';
+				clearInterval(fadeControl);
+			}
+		}, 16);
 	}
 }
 
@@ -65,34 +88,6 @@ function operateLoadingPage(isVisible) {
 	} else {
 		loadingPage.style.display = 'none';
 	}
-}
-
-/**
- * 操纵过渡页面（待完善）
- */
-function operateTransitionPage() {
-	let frameLeft = -transitionPage.offsetWidth;
-	transitionPage.style.left = frameLeft + 'px';
-	transitionPage.style.display = 'flex';
-	let totalMagnification = 900;
-	let eachFrameMove = transitionPage.offsetWidth / totalMagnification;
-	let MoveRate = 30;
-	let currentkeyFrame = 120;
-	let moveControl = setInterval(() => {
-		frameLeft = frameLeft + MoveRate * eachFrameMove;
-		transitionPage.style.left = frameLeft + 'px';
-		if (currentkeyFrame > 90) {
-			MoveRate = MoveRate - 2;
-		} else if (currentkeyFrame < 30) {
-			MoveRate = MoveRate + 2;
-		}
-		currentkeyFrame--;
-		if (currentkeyFrame < 0) {
-			transitionPage.style.display = 'none';
-			clearInterval(moveControl);
-		}
-	}, 16);
-
 }
 
 /**

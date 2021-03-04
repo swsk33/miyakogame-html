@@ -75,3 +75,13 @@ function bulletFly(bullets, enemies) {
 		}
 	}
 }
+
+/**
+ * 清空所有子弹
+ */
+function clearBullets() {
+	for (let i = 0; i < bulletArray.length; i++) {
+		bulletArray[i].remove();
+	}
+	bulletArray = [];
+}

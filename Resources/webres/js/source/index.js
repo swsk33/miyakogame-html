@@ -26,7 +26,6 @@ if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') !=
 			operateLoadingPage(false);
 			operateStartPage(true);
 			operateTopBarContent(true);
-			//operateTransitionPage();
 			//释放内存
 			loadValue = null;
 			audioDataProportion = null;

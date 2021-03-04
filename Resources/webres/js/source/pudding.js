@@ -135,7 +135,7 @@ function isEatUp() {
  * 该方法需要另用循环计时器调用
  */
 function puddingMove() {
-	let velocity = 2 + level * 3; //布丁移动的速度，和关卡数成正比
+	let velocity = 1 + level * 2; //布丁移动的速度，和关卡数成正比
 	//如果移动过程中出界或者碰到宫子
 	if (isPuddingOutOfBound()) {
 		healthDown();
