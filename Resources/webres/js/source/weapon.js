@@ -44,7 +44,7 @@ let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600
 });
 
 //穿透鬼火模板
-let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-penetrate.png', 800, '.fireAudio', (x, y) => {
+let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = penetrateWildfire.texture;
 	dom.style.position = 'absolute';
@@ -60,9 +60,75 @@ let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-pene
 	document.querySelector('.scoreAduio').play();
 	enemyFadeEffect(enemy);
 });
-//爆炸鬼火
+
+//爆裂之火
+let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
+	let dom = document.createElement('img');
+	dom.src = boomWildfire.texture;
+	dom.style.position = 'absolute';
+	dom.style.left = x + 'px';
+	dom.style.top = y + 'px';
+	gameBackground.appendChild(dom);
+	return dom;
+}, (bulletDOM) => {
+	let x = bulletDOM.offsetLeft;
+	x = x + 7;
+	bulletDOM.style.left = x + 'px';
+}, (bulletDOM, enemy, enemies) => {
+	document.querySelector('.score-boomAudio').play();
+	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
+	let bulletAtX = bulletDOM.offsetLeft - bulletDOM.offsetWidth / 2;
+	let bulletAtY = bulletDOM.offsetTop - bulletDOM.offsetHeight / 2;
+	let radius = 1;
+	let radiusGrowth = 5;
+	let color = colors[genRandom(0, colors.length - 1)];
+	let shockWave = document.createElement('div');
+	shockWave.style.position = 'absolute';
+	shockWave.style.left = bulletAtX + 'px';
+	shockWave.style.top = bulletAtY + 'px';
+	shockWave.style.borderColor = color;
+	shockWave.style.borderRadius = '50%';
+	shockWave.style.borderStyle = 'solid';
+	shockWave.style.borderWidth = '5px';
+	bulletDOM.remove();
+	gameBackground.appendChild(shockWave);
+	let keyFrame = 42;
+	let waveControl = setInterval(() => {
+		shockWave.style.width = radius + 'px';
+		shockWave.style.height = radius + 'px';
+		shockWave.style.left = (bulletAtX - radius / 2) + 'px';
+		shockWave.style.top = (bulletAtY - radius / 2) + 'px';
+		if (shockWave.offsetLeft + radius + radiusGrowth / 2 < gameBackground.offsetWidth && shockWave.offsetTop + radius + radiusGrowth / 2 < gameBackground.offsetHeight) {
+			radius = radius + radiusGrowth;
+		}
+		for (let i = 0; i < enemies.length; i++) {
+			if (!enemies[i].isEaten) {
+				//条件1：冲击波的右下部分在敌人贴图范围内
+				let criteria1 = shockWave.offsetTop + shockWave.offsetHeight >= enemies[i].dom.offsetTop && shockWave.offsetLeft + shockWave.offsetWidth >= enemies[i].dom.offsetLeft;
+				//条件2：冲击波左上部分在敌人贴图范围内
+				let criteria2 = shockWave.offsetTop <= enemies[i].dom.offsetTop + enemies[i].dom.offsetHeight && shockWave.offsetLeft <= enemies[i].dom.offsetLeft + enemies[i].dom.offsetWidth;
+				//总条件：两个条件需要同时满足
+				let criteriaTotal = criteria1 && criteria2;
+				if (criteriaTotal) {
+					enemyFadeEffect(enemies[i]);
+				}
+			}
+		}
+		keyFrame--;
+		if (keyFrame <= 12) {
+			if (radiusGrowth > 0) {
+				radiusGrowth--;
+			}
+		}
+		if (keyFrame <= 0) {
+			shockWave.remove();
+			clearInterval(waveControl);
+		}
+	}, 16);
+});
 
 //散布式魔法
 
 weaponList.push(defaultWeapon);
 weaponList.push(penetrateWildfire);
+weaponList.push(boomWildfire);

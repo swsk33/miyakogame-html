@@ -181,7 +181,8 @@ function opreateHelpPage(isVisible) {
  * @param {*} enemyObject 构造敌人对象
  */
 function enemyFadeEffect(enemyObject) {
-	document.querySelector('.scoreAduio').play();
+	enemyObject.isEaten = true;
+	addScore(enemyObject.score);
 	let currentKeyFrame = 20;
 	let totalKeyFrame = currentKeyFrame;
 	let sizeRatio = 1;
@@ -193,7 +194,6 @@ function enemyFadeEffect(enemyObject) {
 		currentKeyFrame--;
 		if (currentKeyFrame <= 0) {
 			enemyObject.dom.style.display = 'none';
-			enemyObject.isEaten = true;
 			clearInterval(effectControl);
 		}
 	}, 16);

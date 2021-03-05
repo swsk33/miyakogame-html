@@ -58,22 +58,21 @@ function bulletFlyMainControl(bullets, enemies) {
 		eachBullet.flying(eachBulletDOM);
 		//开始碰撞检测
 		for (let j = 0; j < enemies.length; j++) {
-			//条件1：子弹的右下部分在敌人贴图范围内
-			let criteria1 = eachBulletDOM.offsetTop + eachBulletDOM.offsetHeight >= enemies[j].dom.offsetTop && eachBulletDOM.offsetLeft + eachBulletDOM.offsetWidth >= enemies[j].dom.offsetLeft;
-			//条件2：子弹左上部分在敌人贴图范围内
-			let criteria2 = eachBulletDOM.offsetTop <= enemies[j].dom.offsetTop + enemies[j].dom.offsetHeight && eachBulletDOM.offsetLeft <= enemies[j].dom.offsetLeft + enemies[j].dom.offsetWidth;
-			//条件3：子弹碰到的敌人是没被击中的状态
-			let criteria3 = !enemies[j].isEaten;
-			//总条件：三个条件需要同时满足
-			let criteriaTotal = criteria1 && criteria2 && criteria3;
-			if (criteriaTotal) {
-				//执行子弹自身的击中方法
-				eachBullet.hitTrigger(eachBulletDOM, enemies[j], enemies);
-				if (eachBulletDOM.offsetParent == null) {
-					bullets.splice(i, 1);
+			if (!enemies[j].isEaten) {
+				//条件1：子弹的右下部分在敌人贴图范围内
+				let criteria1 = eachBulletDOM.offsetTop + eachBulletDOM.offsetHeight >= enemies[j].dom.offsetTop && eachBulletDOM.offsetLeft + eachBulletDOM.offsetWidth >= enemies[j].dom.offsetLeft;
+				//条件2：子弹左上部分在敌人贴图范围内
+				let criteria2 = eachBulletDOM.offsetTop <= enemies[j].dom.offsetTop + enemies[j].dom.offsetHeight && eachBulletDOM.offsetLeft <= enemies[j].dom.offsetLeft + enemies[j].dom.offsetWidth;
+				//总条件：两个条件需要同时满足
+				let criteriaTotal = criteria1 && criteria2;
+				if (criteriaTotal) {
+					//执行子弹自身的击中方法
+					eachBullet.hitTrigger(eachBulletDOM, enemies[j], enemies);
+					if (eachBulletDOM.offsetParent == null) {
+						bullets.splice(i, 1);
+					}
+					break;
 				}
-				addScore(enemies[j].score);
-				break;
 			}
 		}
 		//假设子弹没有消失，说明子弹没有击中敌人或者属于击中敌人但是不消失的武器类型，那么进一步判断子弹是否飞出边界，是的话也要销毁自身

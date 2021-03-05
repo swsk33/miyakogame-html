@@ -26,38 +26,40 @@ function Pudding(dom, isEaten, score) {
 	this.score = score;
 }
 
+//初始化所有布丁对象，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
+for (let i = 0; i < puddingCol; i++) {
+	for (let j = 0; j < puddingRol; j++) {
+		let eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
+		eachPuddingDom.style.display = 'block';
+		eachPuddingDom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
+		eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
+		eachPuddingDom.style.transform = 'scale(1) rotate(0deg)';
+		let eachPuddingScore;
+		if (i < 2) {
+			eachPuddingScore = 1;
+		} else if (i == 2) {
+			eachPuddingScore = 2;
+		} else {
+			eachPuddingScore = 3;
+		}
+		let eachPudding = new Pudding(eachPuddingDom, false, eachPuddingScore);
+		puddingArray.push(eachPudding);
+	}
+}
+
 /**
- * 获取布丁并重置位置，用于布丁容器的初始化，获取顺序为：第1列第1个，第1列第2个...第2列第1个...
+ * 重置布丁状态
  */
 function initializePuddings() {
-	//获取全部布丁dom并设置每个布丁相对容器的位置,使得每一列之间相隔10px，每一行之间相隔5px
-	let puddingDom = [];
+	//i为列j为行
 	for (let i = 0; i < puddingCol; i++) {
 		for (let j = 0; j < puddingRol; j++) {
-			let eachPuddingDom = document.querySelector('.game .gameBg .pudding-' + i + '-' + j);
-			puddingDom.push(eachPuddingDom);
-			eachPuddingDom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
-			eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
-			eachPuddingDom.style.transform = 'scale(1) rotate(0deg)';
+			puddingArray[i * 8 + j].dom.style.display = 'block';
+			puddingArray[i * 8 + j].dom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
+			puddingArray[i * 8 + j].dom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
+			puddingArray[i * 8 + j].dom.style.transform = 'scale(1) rotate(0deg)';
+			puddingArray[i * 8 + j].isEaten = false;
 		}
-	}
-	//清空数组
-	puddingArray = [];
-	//开始构造每个布丁对象
-	for (let i = 0; i < puddingDom.length; i++) {
-		let scoreEachPudding; //每个布丁的分数
-		if (i >= 0 && i <= 15) {
-			scoreEachPudding = 1;
-		} else if (i >= 16 && i <= 23) {
-			scoreEachPudding = 2;
-		} else if (i >= 24 && i <= 31) {
-			scoreEachPudding = 3;
-		}
-		//构建每个布丁的模型对象并存入全局数组
-
-		let eachPudding = new Pudding(puddingDom[i], false, scoreEachPudding);
-		eachPudding.dom.style.display = 'block';
-		puddingArray.push(eachPudding);
 	}
 	moveUp = false;
 }
@@ -67,15 +69,16 @@ function initializePuddings() {
  */
 function getPuddingAtBorder() {
 	let puddingAtBorder = {
-		borderTop: null,
-		borderBottom: null
+		borderTop: puddingArray[0].dom,
+		borderBottom: puddingArray[puddingRol - 1].dom
 	} //上下边缘的两个布丁dom
 	let rolIsExists; //表示该行是否存在
 	//上判定
 	rolIsExists = false;
 	for (let i = 0; i < 8; i++) {
 		for (let j = 0; j < 4; j++) {
-			if (!puddingArray[(j * 8) + i].isEaten) {
+			let isVisible = window.getComputedStyle(puddingArray[(j * 8) + i].dom, null).getPropertyValue('display') != 'none';
+			if (!puddingArray[(j * 8) + i].isEaten || isVisible) {
 				rolIsExists = true;
 				puddingAtBorder.borderTop = puddingArray[(j * 8) + i].dom;
 				break;
@@ -89,7 +92,8 @@ function getPuddingAtBorder() {
 	rolIsExists = false;
 	for (let i = 7; i >= 0; i--) {
 		for (let j = 0; j < 4; j++) {
-			if (!puddingArray[(j * 8) + i].isEaten) {
+			let isVisible = window.getComputedStyle(puddingArray[(j * 8) + i].dom, null).getPropertyValue('display') != 'none';
+			if (!puddingArray[(j * 8) + i].isEaten || isVisible) {
 				rolIsExists = true;
 				puddingAtBorder.borderBottom = puddingArray[(j * 8) + i].dom;
 				break;
@@ -101,6 +105,8 @@ function getPuddingAtBorder() {
 	}
 	return puddingAtBorder;
 }
+
+getPuddingAtBorder();
 
 /**
  * 判定是否有布丁碰到宫子或者跑出左边界
