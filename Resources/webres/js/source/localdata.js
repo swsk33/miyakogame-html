@@ -4,6 +4,7 @@ let level; //关卡
 let health; //生命值
 let highScore; //最高分数
 let currentScore = 0; //当前分数
+let weaponCount = []; //各个武器的弹药数量
 
 /**
  * 加分函数
@@ -22,10 +23,15 @@ function addScore(score) {
  * 储存游戏数据
  */
 function saveData() {
-	window.localStorage.setItem('high', highScore); //最高分
-	window.localStorage.setItem('current', currentScore); //当前分数
-	window.localStorage.setItem('health', health); //生命值
-	window.localStorage.setItem('level', level); //当前关卡
+	let data = {
+		level: level,
+		health: health,
+		highScore: highScore,
+		currentScore: currentScore,
+		weaponCount: weaponCount
+	}
+	let dataStr = JSON.stringify(data);
+	window.localStorage.setItem('data', dataStr);
 }
 
 /**
@@ -33,16 +39,27 @@ function saveData() {
  */
 function readData() {
 	let isNewGame = false;
-	currentScore = window.localStorage.getItem('current'); //读取当前分数
-	highScore = window.localStorage.getItem('high'); //读取最高分
-	health = window.localStorage.getItem('health'); //读取生命值
-	level = window.localStorage.getItem('level'); //读取关卡
-	if (currentScore == null || highScore == null || health == null || level == null || highScore == 0) {
+	let data = JSON.parse(window.localStorage.getItem('data'));
+	if (data == null || data.highScore == 0) {
 		currentScore = 0;
 		highScore = 0;
 		health = 3;
 		level = 1;
+		weaponCount = [];
+		for (let i = 0; i < weaponList.length; i++) {
+			if (i == 0) {
+				weaponCount.push(-1);
+			} else {
+				weaponCount.push(0);
+			}
+		}
 		isNewGame = true;
+	} else {
+		level = data.level;
+		health = data.health;
+		highScore = data.highScore;
+		currentScore = data.currentScore;
+		weaponCount = data.weaponCount;
 	}
 	//对应修改dom
 	refreshDom();
@@ -56,6 +73,14 @@ function resetData() {
 	currentScore = 0;
 	health = 3;
 	level = 1;
+	weaponCount = [];
+	for (let i = 0; i < weaponList.length; i++) {
+		if (i == 0) {
+			weaponCount.push(-1);
+		} else {
+			weaponCount.push(0);
+		}
+	}
 	refreshDom();
 }
 
@@ -67,6 +92,13 @@ function refreshDom() {
 	highScoreDom.innerHTML = '最高分数：' + highScore;
 	healthDom.innerHTML = 'x' + health;
 	levelDom.innerHTML = '第' + level + '关';
+	weaponDom.children[0].innerHTML = weaponList[currentWeaponIndex].name;
+	weaponDom.children[1].src = weaponList[currentWeaponIndex].texture;
+	if (currentWeaponIndex == 0) {
+		weaponDom.children[2].innerHTML = 'x无限';
+	} else {
+		weaponDom.children[2].innerHTML = 'x' + weaponCount[currentWeaponIndex];
+	}
 }
 
 /**

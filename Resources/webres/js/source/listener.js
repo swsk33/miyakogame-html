@@ -15,6 +15,23 @@ window.addEventListener('keydown', function (e) {
 		fire(weaponList[currentWeaponIndex]);
 	}
 
+	//切换武器
+	if (e.keyCode == 69) {
+		currentWeaponIndex++;
+		if (currentWeaponIndex >= weaponList.length) {
+			currentWeaponIndex = 0;
+		}
+		refreshDom();
+	}
+
+	if (e.keyCode == 81) {
+		currentWeaponIndex--;
+		if (currentWeaponIndex < 0) {
+			currentWeaponIndex = weaponList.length - 1;
+		}
+		refreshDom();
+	}
+
 	//暂停游戏
 	if (e.keyCode == 80) {
 		if (!isPaused) {

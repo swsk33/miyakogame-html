@@ -4,6 +4,7 @@ let currentScoreDom = document.querySelector('.game .topBar .scorePanel .current
 let highScoreDom = document.querySelector('.game .topBar .scorePanel .highScore'); //最高分数dom
 let levelDom = document.querySelector('.game .topBar .level'); //关卡dom
 let healthDom = document.querySelector('.game .topBar .health .t'); //获取生命值文字部分dom
+let weaponDom = document.querySelector('.game .topBar .weapon'); //获取武器指示部分的dom
 let gameBackground = document.querySelector('.game .gameBg'); //获取游戏背景
 let gameTopBar = document.querySelector('.game .topBar'); //获取游戏上栏
 let succeedPage = document.querySelector('.succeed'); //获取胜利界面
@@ -66,15 +67,13 @@ function operateStartPage(isVisible) {
  */
 function operateTopBarContent(isVisible) {
 	if (isVisible) {
-		gameTopBar.children[0].style.display = 'flex';
-		gameTopBar.children[1].style.display = 'block';
-		gameTopBar.children[2].style.display = 'flex';
-		gameTopBar.children[3].style.display = 'flex';
+		for (let i = 0; i < gameTopBar.children.length; i++) {
+			gameTopBar.children[i].style.display = 'flex';
+		}
 	} else {
-		gameTopBar.children[0].style.display = 'none';
-		gameTopBar.children[1].style.display = 'none';
-		gameTopBar.children[2].style.display = 'none';
-		gameTopBar.children[3].style.display = 'none';
+		for (let i = 0; i < gameTopBar.children.length; i++) {
+			gameTopBar.children[i].style.display = 'none';
+		}
 	}
 }
 

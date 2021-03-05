@@ -80,9 +80,29 @@
 			}
 		}
 
+		.weapon {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.name {
+				position: relative;
+			}
+
+			img {
+				position: relative;
+				margin-left: 7px;
+			}
+
+			.count {
+				position: relative;
+				margin-left: 3px;
+			}
+		}
+
 		.level {
 			position: relative;
-			left: 40px;
 			font-size: 24px;
 		}
 
