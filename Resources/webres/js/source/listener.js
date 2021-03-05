@@ -12,7 +12,7 @@ window.addEventListener('keydown', function (e) {
 
 	//开火
 	if (e.keyCode == 32 && !isPaused) {
-		fire();
+		fire(weaponList[currentWeaponIndex]);
 	}
 
 	//暂停游戏
