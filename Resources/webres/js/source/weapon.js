@@ -61,7 +61,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-pene
 	enemyFadeEffect(enemy);
 });
 
-//爆裂之火
+//爆裂之火模板
 let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = boomWildfire.texture;
@@ -128,6 +128,13 @@ let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif'
 });
 
 //散布式魔法
+let scatterMagic = new Weapon('散布式魔法', 35, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
+
+}, (bulletDOM) => {
+
+}, (bulletDOM, enemy, enemies) => {
+
+});
 
 weaponList.push(defaultWeapon);
 weaponList.push(penetrateWildfire);

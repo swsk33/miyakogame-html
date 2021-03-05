@@ -56,30 +56,39 @@ function bulletFlyMainControl(bullets, enemies) {
 		let eachBulletDOM = eachBullet.dom;
 		//执行子弹自身的飞行方法
 		eachBullet.flying(eachBulletDOM);
+		let eachBulletDOMArray = [];
+		if (Object.prototype.toString.call(eachBulletDOM) != '[object Array]') {
+			eachBulletDOMArray.push(eachBulletDOM);
+		} else {
+			eachBulletDOMArray = eachBulletDOM;
+		}
 		//开始碰撞检测
-		for (let j = 0; j < enemies.length; j++) {
-			if (!enemies[j].isEaten) {
-				//条件1：子弹的右下部分在敌人贴图范围内
-				let criteria1 = eachBulletDOM.offsetTop + eachBulletDOM.offsetHeight >= enemies[j].dom.offsetTop && eachBulletDOM.offsetLeft + eachBulletDOM.offsetWidth >= enemies[j].dom.offsetLeft;
-				//条件2：子弹左上部分在敌人贴图范围内
-				let criteria2 = eachBulletDOM.offsetTop <= enemies[j].dom.offsetTop + enemies[j].dom.offsetHeight && eachBulletDOM.offsetLeft <= enemies[j].dom.offsetLeft + enemies[j].dom.offsetWidth;
-				//总条件：两个条件需要同时满足
-				let criteriaTotal = criteria1 && criteria2;
-				if (criteriaTotal) {
-					//执行子弹自身的击中方法
-					eachBullet.hitTrigger(eachBulletDOM, enemies[j], enemies);
-					if (eachBulletDOM.offsetParent == null) {
-						bullets.splice(i, 1);
+		for (let j = 0; j < eachBulletDOMArray.length; j++) {
+			let getSingleBulletDOM = eachBulletDOMArray[j];
+			for (let k = 0; k < enemies.length; k++) {
+				if (!enemies[k].isEaten) {
+					//条件1：子弹的右下部分在敌人贴图范围内
+					let criteria1 = getSingleBulletDOM.offsetTop + getSingleBulletDOM.offsetHeight >= enemies[k].dom.offsetTop && getSingleBulletDOM.offsetLeft + getSingleBulletDOM.offsetWidth >= enemies[k].dom.offsetLeft;
+					//条件2：子弹左上部分在敌人贴图范围内
+					let criteria2 = getSingleBulletDOM.offsetTop <= enemies[k].dom.offsetTop + enemies[k].dom.offsetHeight && getSingleBulletDOM.offsetLeft <= enemies[k].dom.offsetLeft + enemies[k].dom.offsetWidth;
+					//总条件：两个条件需要同时满足
+					let criteriaTotal = criteria1 && criteria2;
+					if (criteriaTotal) {
+						//执行子弹自身的击中方法
+						eachBullet.hitTrigger(getSingleBulletDOM, enemies[k], enemies);
+						if (getSingleBulletDOM.offsetParent == null) {
+							eachBulletDOMArray.splice(j, 1);
+						}
+						break;
 					}
-					break;
 				}
 			}
-		}
-		//假设子弹没有消失，说明子弹没有击中敌人或者属于击中敌人但是不消失的武器类型，那么进一步判断子弹是否飞出边界，是的话也要销毁自身
-		if (eachBulletDOM.offsetParent != null) {
-			if (eachBulletDOM.offsetLeft + eachBulletDOM.offsetWidth >= gameBackground.offsetWidth) {
-				eachBulletDOM.remove();
-				bullets.splice(i, 0);
+			//假设子弹没有消失，说明子弹没有击中敌人或者属于击中敌人但是不消失的武器类型，那么进一步判断子弹是否飞出边界，是的话也要销毁自身
+			if (getSingleBulletDOM.offsetParent != null) {
+				if (getSingleBulletDOM.offsetLeft + getSingleBulletDOM.offsetWidth >= gameBackground.offsetWidth || getSingleBulletDOM.offsetTop <= 0 || getSingleBulletDOM.offsetTop + getSingleBulletDOM.offsetHeight >= gameBackground.offsetHeight) {
+					getSingleBulletDOM.remove();
+					eachBulletDOMArray.splice(i, 0);
+				}
 			}
 		}
 	}

@@ -11,6 +11,7 @@ let allImg = ['/img/avatars/angry.png',
 	'/img/bullets/bullet.png',
 	'/img/bullets/bullet-penetrate.png',
 	'/img/bullets/bullet-boom.gif',
+	'/img/bullets/scatter-icon.png',
 	'/img/miyako-normal.png',
 	'/img/youl-dynamic.gif',
 	'/img/youl-static.png'
