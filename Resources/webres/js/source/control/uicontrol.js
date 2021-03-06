@@ -4,6 +4,7 @@ let currentScoreDom = document.querySelector('.game .topBar .scorePanel .current
 let highScoreDom = document.querySelector('.game .topBar .scorePanel .highScore'); //最高分数dom
 let levelDom = document.querySelector('.game .topBar .level'); //关卡dom
 let healthDom = document.querySelector('.game .topBar .health .t'); //获取生命值文字部分dom
+let propsDom = document.querySelector('.game .topBar .props'); //获取道具指示部分的dom
 let weaponDom = document.querySelector('.game .topBar .weapon'); //获取武器指示部分的dom
 let gameBackground = document.querySelector('.game .gameBg'); //获取游戏背景
 let gameTopBar = document.querySelector('.game .topBar'); //获取游戏上栏
@@ -330,13 +331,31 @@ function enemyFadeEffect(enemyObject) {
 	let totalKeyFrame = currentKeyFrame;
 	let sizeRatio = 1;
 	let deg = 0;
+	let showScore = document.createElement('div');
+	let showScoreTransparency = 1;
+	let textMoveRatio = 5;
+	showScore.innerText = '+' + enemyObject.score;
+	showScore.style.position = 'absolute';
+	showScore.style.fontSize = '24px';
+	showScore.style.left = enemyObject.dom.offsetLeft - enemyObject.dom.offsetWidth / 2 + 'px';
+	showScore.style.top = enemyObject.dom.offsetTop + 'px';
+	document.querySelector('body').appendChild(showScore);
 	let effectControl = setInterval(() => {
 		enemyObject.dom.style.transform = 'scale(' + sizeRatio.toFixed(2) + ') rotate(' + deg + 'deg)';
+		showScore.style.color = 'rgba(0, 0, 0,' + showScoreTransparency + ')';
+		showScore.style.top = (showScore.offsetTop - textMoveRatio) + 'px';
 		sizeRatio = sizeRatio - 1 / totalKeyFrame;
 		deg = deg + 90 / totalKeyFrame;
+		showScoreTransparency = showScoreTransparency - 1 / totalKeyFrame;
+		if (currentKeyFrame <= 16) {
+			textMoveRatio = textMoveRatio - textMoveRatio / 16;
+		} else {
+			textMoveRatio = textMoveRatio - 1;
+		}
 		currentKeyFrame--;
 		if (currentKeyFrame <= 0) {
 			enemyObject.dom.style.display = 'none';
+			showScore.remove();
 			clearInterval(effectControl);
 		}
 	}, 16);

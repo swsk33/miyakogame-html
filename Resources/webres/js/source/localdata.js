@@ -4,6 +4,7 @@ let level; //关卡
 let health; //生命值
 let highScore; //最高分数
 let currentScore = 0; //当前分数
+let propsCount = []; //各个道具的数量
 let weaponCount = []; //各个武器的弹药数量
 
 /**
@@ -28,6 +29,7 @@ function saveData() {
 		health: health,
 		highScore: highScore,
 		currentScore: currentScore,
+		propsCount: propsCount,
 		weaponCount: weaponCount
 	}
 	let dataStr = JSON.stringify(data);
@@ -45,6 +47,7 @@ function readData() {
 		highScore = 0;
 		health = 3;
 		level = 1;
+		propsCount = [];
 		weaponCount = [];
 		for (let i = 0; i < weaponList.length; i++) {
 			if (i == 0) {
@@ -53,12 +56,16 @@ function readData() {
 				weaponCount.push(0);
 			}
 		}
+		for (let i = 0; i < propsList.length; i++) {
+			propsCount.push(0);
+		}
 		isNewGame = true;
 	} else {
 		level = data.level;
 		health = data.health;
 		highScore = data.highScore;
 		currentScore = data.currentScore;
+		propsCount = data.propsCount;
 		weaponCount = data.weaponCount;
 	}
 	//对应修改dom
@@ -73,6 +80,7 @@ function resetData() {
 	currentScore = 0;
 	health = 3;
 	level = 1;
+	propsCount = [];
 	weaponCount = [];
 	for (let i = 0; i < weaponList.length; i++) {
 		if (i == 0) {
@@ -81,6 +89,9 @@ function resetData() {
 			weaponCount.push(0);
 		}
 	}
+	for (let i = 0; i < propsList.length; i++) {
+		propsCount.push(0);
+	}
 	refreshDom();
 }
 
@@ -88,17 +99,20 @@ function resetData() {
  * 刷新dom
  */
 function refreshDom() {
-	currentScoreDom.innerHTML = '积分：' + currentScore;
-	highScoreDom.innerHTML = '最高分数：' + highScore;
-	healthDom.innerHTML = 'x' + health;
-	levelDom.innerHTML = '第' + level + '关';
-	weaponDom.children[0].innerHTML = weaponList[currentWeaponIndex].name;
+	currentScoreDom.innerText = '积分：' + currentScore;
+	highScoreDom.innerText = '最高分数：' + highScore;
+	healthDom.innerText = 'x' + health;
+	levelDom.innerText = '第' + level + '关';
+	weaponDom.children[0].innerText = weaponList[currentWeaponIndex].name;
 	weaponDom.children[1].src = weaponList[currentWeaponIndex].texture;
 	if (currentWeaponIndex == 0) {
-		weaponDom.children[2].innerHTML = 'x无限';
+		weaponDom.children[2].innerText = 'x无限';
 	} else {
-		weaponDom.children[2].innerHTML = 'x' + weaponCount[currentWeaponIndex];
+		weaponDom.children[2].innerText = 'x' + weaponCount[currentWeaponIndex];
 	}
+	propsDom.children[0].innerText = propsList[currentPropsIndex].name;
+	propsDom.children[1].src = propsList[currentPropsIndex].img;
+	propsDom.children[2].innerText = 'x' + propsCount[currentPropsIndex];
 }
 
 /**

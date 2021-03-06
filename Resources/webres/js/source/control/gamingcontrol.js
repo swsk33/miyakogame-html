@@ -3,6 +3,8 @@ let puddingControlInterval; //布丁移动计时器
 let fireControlInterval; //子弹飞行计时器
 //游戏控制变量
 let currentWeaponIndex = 0; //当前武器的索引号
+let currentPropsIndex = 0; //当前道具索引号
+let miyakoMoveRatio = 10; //宫子的移动速度
 let isLoadingBullet = false; //是否正在装填子弹
 let isPaused = true; //游戏是否是暂停状态
 

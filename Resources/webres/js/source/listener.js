@@ -2,12 +2,12 @@
 window.addEventListener('keydown', function (e) {
 	//宫子向上移动
 	if ((e.keyCode == 38 || e.keyCode == 87) && !isPaused) {
-		up(10);
+		up(miyakoMoveRatio);
 	}
 
 	//宫子向下移动
 	if ((e.keyCode == 40 || e.keyCode == 83) && !isPaused) {
-		down(10);
+		down(miyakoMoveRatio);
 	}
 
 	//开火
@@ -30,6 +30,31 @@ window.addEventListener('keydown', function (e) {
 			currentWeaponIndex = weaponList.length - 1;
 		}
 		refreshDom();
+	}
+
+	//切换和使用道具
+	if (e.keyCode == 90) {
+		currentPropsIndex--;
+		if (currentPropsIndex < 0) {
+			currentPropsIndex = propsList.length - 1;
+		}
+		refreshDom();
+	}
+
+	if (e.keyCode == 67) {
+		currentPropsIndex++;
+		if (currentPropsIndex >= propsList.length) {
+			currentPropsIndex = 0;
+		}
+		refreshDom();
+	}
+
+	if (e.keyCode == 86) {
+		if (propsCount[currentPropsIndex] <= 0) {
+			//道具数量不足
+		} else {
+			propsList[currentPropsIndex].effect(miyako, puddingArray);
+		}
 	}
 
 	//暂停游戏
@@ -111,5 +136,9 @@ shopBtn.children[0].addEventListener('click', () => {
 
 });
 shopBtn.children[1].addEventListener('click', () => {
+	totalPrice = 0;
+	eachPropsSelectCount = [];
+	eachWeaponSelectedCount = [];
+	totalDOM.innerText = '共消耗0积分';
 	operateShopPage(false);
 });

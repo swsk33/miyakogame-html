@@ -17,8 +17,9 @@ function Props(name, price, img, effect) {
 }
 
 //生命值+1
-let healthAdd = new Props('生命值+1', 80, '/img/youl-static.png', (character, enemies) => {
-	// none
+let healthAdd = new Props('生命值+1', 80, '/img/props/addHealth.png', (character, enemies) => {
+	health++;
+	refreshDom();
 });
 
 propsList.push(healthAdd);
