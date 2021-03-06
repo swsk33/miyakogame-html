@@ -57,8 +57,13 @@ startPageBtn[1].addEventListener('click', function () {
 	startGameProcess();
 });
 
-//帮助按钮
+//商店按钮
 startPageBtn[2].addEventListener('click', function () {
+
+});
+
+//帮助按钮
+startPageBtn[3].addEventListener('click', function () {
 	opreateHelpPage(true);
 });
 
@@ -97,6 +102,6 @@ failedPageBtn[1].addEventListener('click', function () {
 
 //帮助界面按钮
 let helpPageBtn = helpPage.children[0];
-helpPageBtn.children[5].addEventListener('click', function () {
+helpPageBtn.children[6].addEventListener('click', function () {
 	opreateHelpPage(false);
 });

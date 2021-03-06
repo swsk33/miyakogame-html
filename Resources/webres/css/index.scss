@@ -304,7 +304,7 @@
 
 	ul {
 		list-style: none;
-		margin-top: 30px;
+		user-select: none;
 
 		li {
 			margin-top: 45px;
@@ -365,6 +365,7 @@
 	ul {
 		list-style: none;
 		margin-top: 90px;
+		user-select: none;
 
 		li {
 			margin-top: 45px;
@@ -425,6 +426,7 @@
 	ul {
 		list-style: none;
 		margin-top: 45px;
+		user-select: none;
 
 		li {
 			margin-top: 45px;
@@ -510,27 +512,213 @@
 			margin-left: 20px;
 			width: 560px;
 			font-size: 21px;
-			margin-top: 28px;
+			margin-top: 16px;
 		}
 
 		.t3 {
 			margin-left: 20px;
 			width: 560px;
 			font-size: 21px;
-			margin-top: 28px;
+			margin-top: 16px;
+		}
+
+		.t4 {
+			margin-left: 20px;
+			width: 560px;
+			font-size: 21px;
+			margin-top: 16px;
 		}
 
 		.ok {
-			position: relative;
+			position: absolute;
 			width: 100%;
 			display: inline-block;
 			text-align: center;
-			margin-top: 70px;
+			bottom: 36px;
 			font-size: 24px;
+			user-select: none;
 
 			&:hover {
 				color: blue;
 				background-color: #dfdeff;
+			}
+		}
+	}
+}
+
+.shop {
+	position: absolute;
+	display: none;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.9);
+
+	.frame {
+		position: absolute;
+		display: flex;
+		width: 600px;
+		height: 450px;
+		left: calc(50vw - 300px);
+		top: calc(50vh - 225px);
+		background-color: #aaffff;
+		border-radius: 10px;
+		box-shadow: 2px 2px 2px 1px rgba(2, 2, 2, 0.3);
+		flex-direction: column;
+		align-items: center;
+
+		.text {
+			position: absolute;
+			top: 25px;
+			font-size: 24px;
+		}
+
+		.total {
+			position: absolute;
+			left: 7px;
+			top: 2px;
+			font-size: 16px;
+			color: #ff007f;
+		}
+
+		.item {
+			position: absolute;
+			top: 75px;
+			left: 6.5px;
+			width: 580px;
+			height: 135px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border-style: solid;
+			border-width: 3px;
+			border-color: #ff02bc;
+			border-radius: 5px;
+			user-select: none;
+
+			.itemtext {
+				position: absolute;
+			}
+
+			ul {
+				position: absolute;
+				width: 100%;
+				height: 90px;
+				top: 35px;
+				overflow: auto;
+
+				li {
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					margin-top: 2px;
+
+					img {
+						height: 28px;
+					}
+
+					.countButtonBox {
+						display: flex;
+						width: 175px;
+						justify-content: space-around;
+						align-items: center;
+						font-size: 16px;
+
+						* {
+							&:hover {
+								cursor: pointer;
+								color: white;
+								background-color: blue;
+								border-radius: 3px;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		.weapon {
+			position: absolute;
+			top: 225px;
+			left: 6.5px;
+			width: 580px;
+			height: 165px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border-style: solid;
+			border-width: 3px;
+			border-color: #ff5500;
+			border-radius: 5px;
+			user-select: none;
+
+			ul {
+				overflow: auto;
+				width: 100%;
+				height: 125px;
+				top: 35px;
+				overflow: auto;
+
+				li {
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					margin-top: 2px;
+
+					img {
+						height: 28px;
+					}
+
+					.countButtonBox {
+						display: flex;
+						width: 175px;
+						justify-content: space-around;
+						align-items: center;
+						font-size: 16px;
+
+						* {
+							&:hover {
+								cursor: pointer;
+								color: white;
+								background-color: blue;
+								border-radius: 3px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.buttonBox {
+			position: absolute;
+			top: 408px;
+			left: 6.5px;
+			width: 580px;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			user-select: none;
+
+			.ok {
+				position: relative;
+
+				&:hover {
+					cursor: pointer;
+					color: white;
+					background-color: #9900ff;
+					border-radius: 3px;
+				}
+			}
+
+			.cancel {
+				position: relative;
+
+				&:hover {
+					cursor: pointer;
+					color: white;
+					background-color: #ff4800;
+					border-radius: 3px;
+				}
 			}
 		}
 	}
