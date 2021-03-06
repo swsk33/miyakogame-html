@@ -9,11 +9,11 @@ function getRandomDot() {
 	let dot = document.createElement('div');
 	let color = dotColors[genRandom(0, dotColors.length - 1)];
 	dot.style.position = 'absolute';
-	dot.style.width = '3px';
-	dot.style.height = '3px';
+	dot.style.width = '2px';
+	dot.style.height = '2px';
 	dot.style.borderRadius = '50%';
 	dot.style.backgroundColor = color;
-	dot.style.boxShadow = '0px 0px 3px 3px ' + color;
+	dot.style.boxShadow = '0px 0px 4px 5px ' + color;
 	return dot;
 }
 

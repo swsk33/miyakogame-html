@@ -1,5 +1,5 @@
 //火控系统
-//子弹dom数组
+//子弹构造对象数组
 let bulletArray = [];
 
 /**
@@ -56,6 +56,8 @@ function bulletFlyMainControl(bullets, enemies) {
 		let eachBulletDOM = eachBullet.dom;
 		//执行子弹自身的飞行方法
 		eachBullet.flying(eachBulletDOM);
+		//有的武器一次可以发射多颗子弹，因此每个武器中的子弹全部视作数组。单子弹武器的dom属性就表示一颗子弹，多子弹武器中dom属性表示该武器每次发射的子弹组。
+		//因为子弹判定必须是一颗颗的，所以说无论是单子弹还是多子弹武器，每次的子弹全放进数组，单子弹武器的子弹dom就创建为单元素数组。然后下面统一做遍历操作。
 		let eachBulletDOMArray = [];
 		if (Object.prototype.toString.call(eachBulletDOM) != '[object Array]') {
 			eachBulletDOMArray.push(eachBulletDOM);
@@ -98,8 +100,15 @@ function bulletFlyMainControl(bullets, enemies) {
  * 清空所有子弹
  */
 function clearBullets() {
+
 	for (let i = 0; i < bulletArray.length; i++) {
-		bulletArray[i].dom.remove();
+		if (Object.prototype.toString.call(bulletArray[i].dom) != '[object Array]') {
+			bulletArray[i].dom.remove();
+		} else {
+			for (let j = 0; j < bulletArray[i].dom.length; j++) {
+				bulletArray[i].dom[j].remove();
+			}
+		}
 	}
 	bulletArray = [];
 }

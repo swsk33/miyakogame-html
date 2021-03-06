@@ -11,7 +11,7 @@ let weaponList = [];
  * @param {*} soundClassName 射击音效（音频dom的类名）
  * @param {*} shooting 子弹发射方法（回调函数，需要有两个形参x，y，分别表示子弹初始位置的横纵坐标，并返回子弹的dom节点或者dom节点数组）
  * @param {*} flying 子弹飞行方法（回调函数，需要有一个形参bulletDOM表示子弹对应的dom节点对象，需要计时器循环调用）
- * @param {*} hitTrigger 子弹击中时触发的函数（回调函数，需要有三个形参bulletDOM，enemy，enemies，分别表示子弹dom节点、构造敌人对象和所有敌人数组）
+ * @param {*} hitTrigger 子弹击中时触发的函数（回调函数，需要有三个形参bulletDOM，enemy，enemies，分别表示子弹dom节点（无论武器一次发射单发还是多发，这里传入的始终是单个子弹的dom）、构造敌人对象和所有敌人数组）
  */
 function Weapon(name, price, texture, interval, soundClassName, shooting, flying, hitTrigger) {
 	this.name = name;
@@ -62,7 +62,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-pene
 });
 
 //爆裂之火模板
-let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
+let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = boomWildfire.texture;
 	dom.style.position = 'absolute';
@@ -128,14 +128,51 @@ let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif'
 });
 
 //散布式魔法
-let scatterMagic = new Weapon('散布式魔法', 35, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
-
+let scatterMagic = new Weapon('散布式魔法', 25, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
+	let doms = [];
+	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
+	let count = 8;
+	let shootControl = setInterval(() => {
+		let direction = (genRandom(-20, 20) / 180) * Math.PI;
+		let startAtY = y + genRandom(-5, 5);
+		let color = colors[genRandom(0, dotColors.length - 1)];
+		let eachDot = document.createElement('div');
+		eachDot.style.position = 'absolute';
+		eachDot.style.width = '3px';
+		eachDot.style.height = '3px';
+		eachDot.style.borderRadius = '50%';
+		eachDot.style.backgroundColor = color;
+		eachDot.style.boxShadow = '0px 0px 4px 5px ' + color;
+		eachDot.style.left = x + 'px';
+		eachDot.style.top = startAtY + 'px';
+		eachDot.flydirect = direction;
+		gameBackground.appendChild(eachDot);
+		doms.push(eachDot);
+		count--;
+		if (count <= 0) {
+			clearInterval(shootControl);
+		}
+	}, 60);
+	return doms;
 }, (bulletDOM) => {
-
+	for (let i = 0; i < bulletDOM.length; i++) {
+		let direction = bulletDOM[i].flydirect;
+		let v = 8;
+		let x = bulletDOM[i].offsetLeft;
+		let y = bulletDOM[i].offsetTop;
+		x = x + Math.cos(direction) * v;
+		y = y + Math.sin(direction) * v;
+		bulletDOM[i].style.left = x + 'px';
+		bulletDOM[i].style.top = y + 'px';
+	}
 }, (bulletDOM, enemy, enemies) => {
-
+	document.querySelector('.scoreAduio').play();
+	enemyFadeEffect(enemy);
+	bulletDOM.remove();
 });
 
+//设定武器列表
 weaponList.push(defaultWeapon);
 weaponList.push(penetrateWildfire);
 weaponList.push(boomWildfire);
+weaponList.push(scatterMagic);

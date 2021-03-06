@@ -88,7 +88,7 @@ function resetData() {
  * 刷新dom
  */
 function refreshDom() {
-	currentScoreDom.innerHTML = '当前分数：' + currentScore;
+	currentScoreDom.innerHTML = '积分：' + currentScore;
 	highScoreDom.innerHTML = '最高分数：' + highScore;
 	healthDom.innerHTML = 'x' + health;
 	levelDom.innerHTML = '第' + level + '关';
