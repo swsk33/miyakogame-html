@@ -54,7 +54,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-pene
 	return dom;
 }, (bulletDOM) => {
 	let x = bulletDOM.offsetLeft;
-	x = x + 12;
+	x = x + 9;
 	bulletDOM.style.left = x + 'px';
 }, (bulletDOM, enemy, enemies) => {
 	document.querySelector('.scoreAduio').play();

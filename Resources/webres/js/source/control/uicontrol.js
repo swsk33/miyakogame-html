@@ -17,6 +17,7 @@ let processBar = document.querySelector('.loading .processBar .processValue'); /
 let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
 let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
 let helpPage = document.querySelector('.help'); //获取帮助界面
+let shopPage = document.querySelector('.shop'); //获取商店页面
 let startPageBtn = document.querySelector('.start ul').children; //获取开始界面的所有按钮
 
 /**
@@ -166,13 +167,155 @@ function operatePausePage(isVisible) {
 
 /**
  * 帮助页面控制
- * @param {*} isVisible  值为true时显示界面，否则隐藏界面
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
  */
 function opreateHelpPage(isVisible) {
 	if (isVisible) {
 		helpPage.style.display = 'block';
 	} else {
 		helpPage.style.display = 'none';
+	}
+}
+
+/**
+ * 商店页面控制
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
+ */
+function operateShopPage(isVisible) {
+	if (isVisible) {
+		//根据道具信息获取道具列表
+		for (let i = 0; i < propsList.length; i++) {
+			let eachPropsItem = document.createElement('li');
+			let img = document.createElement('img');
+			img.src = propsList[i].img;
+			let name = document.createElement('div');
+			name.innerText = propsList[i].name + ' ' + propsList[i].price;
+			let count = document.createElement('div');
+			count.style.color = 'purple';
+			count.innerText = '0';
+			let buttons = document.createElement('div');
+			buttons.className = 'countButtonBox';
+			let addOne = document.createElement('div');
+			addOne.addEventListener('click', () => {
+				eachPropsSelectCount[i]++;
+				count.innerText = eachPropsSelectCount[i];
+				totalPrice = totalPrice + propsList[i].price;
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			addOne.innerText = '+1';
+			let addTen = document.createElement('div');
+			addTen.addEventListener('click', () => {
+				eachPropsSelectCount[i] = eachPropsSelectCount[i] + 10;
+				count.innerText = eachPropsSelectCount[i];
+				totalPrice = totalPrice + 10 * propsList[i].price;
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			addTen.innerText = '+10';
+			let rmOne = document.createElement('div');
+			rmOne.addEventListener('click', () => {
+				if (eachPropsSelectCount[i] > 0) {
+					eachPropsSelectCount[i]--;
+					count.innerText = eachPropsSelectCount[i];
+					totalPrice = totalPrice - propsList[i].price;
+					totalDOM.innerText = '共消耗' + totalPrice + '积分';
+				}
+			});
+			rmOne.innerText = '-1';
+			let rmTen = document.createElement('div');
+			rmTen.addEventListener('click', () => {
+				if (eachPropsSelectCount[i] >= 10) {
+					eachPropsSelectCount[i] = eachPropsSelectCount[i] - 10;
+					count.innerText = eachPropsSelectCount[i];
+					totalPrice = totalPrice - 10 * propsList[i].price;
+				} else if (eachPropsSelectCount[i] > 0 && eachPropsSelectCount[i] < 10) {
+					let currentCount = eachPropsSelectCount[i];
+					eachPropsSelectCount[i] = 0;
+					count.innerText = eachPropsSelectCount[i];
+					totalPrice = totalPrice - currentCount * propsList[i].price;
+				}
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			rmTen.innerText = '-10';
+			buttons.appendChild(addOne);
+			buttons.appendChild(addTen);
+			buttons.appendChild(rmOne);
+			buttons.appendChild(rmTen);
+			eachPropsItem.appendChild(img);
+			eachPropsItem.appendChild(name);
+			eachPropsItem.appendChild(count);
+			eachPropsItem.appendChild(buttons);
+			propsShopList.appendChild(eachPropsItem);
+			eachPropsSelectCount.push(0);
+		}
+		//根据武器信息设定武器列表
+		for (let i = 1; i < weaponList.length; i++) {
+			let eachWeaponItem = document.createElement('li');
+			let img = document.createElement('img');
+			img.src = weaponList[i].texture;
+			let name = document.createElement('div');
+			name.innerText = weaponList[i].name + ' ' + weaponList[i].price;
+			let count = document.createElement('div');
+			count.style.color = 'purple';
+			count.innerText = '0';
+			let buttons = document.createElement('div');
+			buttons.className = 'countButtonBox';
+			let addOne = document.createElement('div');
+			addOne.addEventListener('click', () => {
+				eachWeaponSelectedCount[i - 1]++;
+				count.innerText = eachWeaponSelectedCount[i - 1];
+				totalPrice = totalPrice + weaponList[i].price;
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			addOne.innerText = '+1';
+			let addTen = document.createElement('div');
+			addTen.addEventListener('click', () => {
+				eachWeaponSelectedCount[i - 1] = eachWeaponSelectedCount[i - 1] + 10;
+				count.innerText = eachWeaponSelectedCount[i - 1];
+				totalPrice = totalPrice + 10 * weaponList[i].price;
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			addTen.innerText = '+10';
+			let rmOne = document.createElement('div');
+			rmOne.addEventListener('click', () => {
+				if (eachWeaponSelectedCount[i - 1] > 0) {
+					eachWeaponSelectedCount[i - 1]--;
+					count.innerText = eachWeaponSelectedCount[i - 1];
+					totalPrice = totalPrice - weaponList[i].price;
+					totalDOM.innerText = '共消耗' + totalPrice + '积分';
+				}
+			});
+			rmOne.innerText = '-1';
+			let rmTen = document.createElement('div');
+			rmTen.addEventListener('click', () => {
+				if (eachWeaponSelectedCount[i - 1] >= 10) {
+					eachWeaponSelectedCount[i - 1] = eachWeaponSelectedCount[i - 1] - 10;
+					count.innerText = eachWeaponSelectedCount[i - 1];
+					totalPrice = totalPrice - 10 * weaponList[i].price;
+				} else if (eachWeaponSelectedCount[i - 1] > 0 && eachWeaponSelectedCount[i - 1] < 10) {
+					let currentCount = eachWeaponSelectedCount[i - 1];
+					eachWeaponSelectedCount[i - 1] = 0;
+					count.innerText = eachWeaponSelectedCount[i - 1];
+					totalPrice = totalPrice - currentCount * weaponList[i].price;
+				}
+				totalDOM.innerText = '共消耗' + totalPrice + '积分';
+			});
+			rmTen.innerText = '-10';
+			buttons.appendChild(addOne);
+			buttons.appendChild(addTen);
+			buttons.appendChild(rmOne);
+			buttons.appendChild(rmTen);
+			eachWeaponItem.appendChild(img);
+			eachWeaponItem.appendChild(name);
+			eachWeaponItem.appendChild(count);
+			eachWeaponItem.appendChild(buttons);
+			weaponShopList.appendChild(eachWeaponItem);
+			eachWeaponSelectedCount.push(0);
+		}
+		shopPage.style.display = 'flex';
+	} else {
+		propsShopList.innerHTML = '';
+		weaponShopList.innerHTML = '';
+		shopPage.style.display = 'none';
 	}
 }
 

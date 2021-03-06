@@ -281,7 +281,7 @@
 	.title {
 		display: flex;
 		justify-content: center;
-		margin-top: 15vh;
+		margin-top: 10vh;
 
 		.main {
 			position: relative;
@@ -595,10 +595,6 @@
 			border-radius: 5px;
 			user-select: none;
 
-			.itemtext {
-				position: absolute;
-			}
-
 			ul {
 				position: absolute;
 				width: 100%;
@@ -666,7 +662,7 @@
 					margin-top: 2px;
 
 					img {
-						height: 28px;
+						height: 18px;
 					}
 
 					.countButtonBox {

@@ -59,7 +59,7 @@ startPageBtn[1].addEventListener('click', function () {
 
 //商店按钮
 startPageBtn[2].addEventListener('click', function () {
-
+	operateShopPage(true);
 });
 
 //帮助按钮
@@ -101,7 +101,15 @@ failedPageBtn[1].addEventListener('click', function () {
 });
 
 //帮助界面按钮
-let helpPageBtn = helpPage.children[0];
-helpPageBtn.children[6].addEventListener('click', function () {
+helpPage.children[0].lastElementChild.addEventListener('click', () => {
 	opreateHelpPage(false);
+});
+
+//商店页面操纵按钮
+let shopBtn = shopPage.children[0].lastElementChild;
+shopBtn.children[0].addEventListener('click', () => {
+
+});
+shopBtn.children[1].addEventListener('click', () => {
+	operateShopPage(false);
 });
