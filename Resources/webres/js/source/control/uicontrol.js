@@ -191,6 +191,9 @@ function operateShopPage(isVisible) {
 			img.src = propsList[i].img;
 			let name = document.createElement('div');
 			name.innerText = propsList[i].name + ' ' + propsList[i].price;
+			name.addEventListener('mouseenter', () => {
+
+			});
 			let count = document.createElement('div');
 			count.style.color = 'purple';
 			count.innerText = '0';
