@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>swsk33.game</groupId>
 	<artifactId>miyako</artifactId>
-	<version>2.1.0</version>
+	<version>2.3.3</version>
 	<name>宫子恰布丁</name>
 	<description>自制HTML小游戏-宫子恰布丁。</description>
 	<packaging>jar</packaging>

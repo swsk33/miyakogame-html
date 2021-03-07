@@ -16,8 +16,10 @@ let totalDOM = shopPage.children[0].children[1];
  * 购买商品
  */
 function buyItems() {
-	if (totalPrice > currentScore) {
-		//积分不足
+	if (totalPrice == 0) {
+		showTipFrame('请选择要购买的道具或者武器！', null, '.tip-false');
+	} else if (totalPrice > currentScore) {
+		showTipFrame('积分不足！', null, '.tip-false');
 	} else {
 		currentScore = currentScore - totalPrice;
 		for (let i = 0; i < eachPropsSelectCount.length; i++) {
@@ -27,5 +29,6 @@ function buyItems() {
 			weaponCount[i] = weaponCount[i] + eachWeaponSelectedCount[i];
 		}
 		saveData();
+		showTipFrame('购买物品成功！', null, '.tip-true');
 	}
 }

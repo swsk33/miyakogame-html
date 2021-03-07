@@ -22,6 +22,7 @@ window.addEventListener('keydown', function (e) {
 			currentWeaponIndex = 0;
 		}
 		refreshDom();
+		showTipFrame('已切换至武器：' + weaponList[currentWeaponIndex].name, weaponList[currentWeaponIndex].texture, '.tip-true');
 	}
 
 	if (e.keyCode == 81) {
@@ -30,6 +31,7 @@ window.addEventListener('keydown', function (e) {
 			currentWeaponIndex = weaponList.length - 1;
 		}
 		refreshDom();
+		showTipFrame('已切换至武器：' + weaponList[currentWeaponIndex].name, weaponList[currentWeaponIndex].texture, '.tip-true');
 	}
 
 	//切换和使用道具
@@ -39,6 +41,7 @@ window.addEventListener('keydown', function (e) {
 			currentPropsIndex = propsList.length - 1;
 		}
 		refreshDom();
+		showTipFrame('已切换至道具：' + propsList[currentPropsIndex].name, propsList[currentPropsIndex].img, '.tip-true');
 	}
 
 	if (e.keyCode == 67) {
@@ -47,16 +50,18 @@ window.addEventListener('keydown', function (e) {
 			currentPropsIndex = 0;
 		}
 		refreshDom();
+		showTipFrame('已切换至道具：' + propsList[currentPropsIndex].name, propsList[currentPropsIndex].img, '.tip-true');
 	}
 
 	if (e.keyCode == 86) {
 		if (propsCount[currentPropsIndex] <= 0) {
-			//道具数量不足
+			showTipFrame('该道具数量不足！', propsList[currentPropsIndex].img, '.tip-false');
 		} else {
 			document.querySelector(propsList[currentPropsIndex].soundClassName).play();
 			propsList[currentPropsIndex].effect(miyako, puddingArray);
 			propsCount[currentPropsIndex]--;
 			refreshDom();
+			showTipFrame('已使用道具：' + propsList[currentPropsIndex].name, propsList[currentPropsIndex].img, '.tip-true');
 		}
 	}
 
