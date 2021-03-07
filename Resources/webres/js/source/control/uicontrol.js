@@ -195,6 +195,9 @@ function operateShopPage(isVisible) {
 			let descriptionDialog = document.createElement('div');
 			descriptionDialog.style.position = 'absolute';
 			descriptionDialog.style.backgroundColor = 'white';
+			descriptionDialog.style.borderStyle = 'solid';
+			descriptionDialog.style.borderWidth = '1.5px';
+			descriptionDialog.style.borderRadius = '3px';
 			descriptionDialog.innerText = propsList[i].description;
 			let name = document.createElement('div');
 			name.innerText = propsList[i].name + ' ' + propsList[i].price;

@@ -44,7 +44,7 @@ let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600
 });
 
 //穿透鬼火模板
-let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penAudio', (x, y) => {
+let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penetrateAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = penetrateWildfire.texture;
 	dom.style.position = 'absolute';

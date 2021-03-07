@@ -1,16 +1,16 @@
 //宫子的行为模块
 let miyako = document.querySelector('.game .gameBg .miyako'); //获取宫子dom
-let y = 0;
-miyako.style.top = y + 'px';
+let miyakoAtY = 0; //宫子所在竖直方向位置
+miyako.style.top = miyakoAtY + 'px';
 
 /**
  * 宫子向上移动
  * @param {*} i 每次移动的像素
  */
 function up(i) {
-	if (y > i) {
-		y = y - i;
-		miyako.style.top = y + 'px';
+	if (miyakoAtY > i) {
+		miyakoAtY = miyakoAtY - i;
+		miyako.style.top = miyakoAtY + 'px';
 	} else {
 		miyako.style.top = '0px';
 	}
@@ -21,9 +21,9 @@ function up(i) {
  * @param {*} i 每次移动的像素
  */
 function down(i) {
-	if ((y + miyako.offsetHeight) < gameBackground.offsetHeight - i) {
-		y = y + i;
-		miyako.style.top = y + 'px';
+	if ((miyakoAtY + miyako.offsetHeight) < gameBackground.offsetHeight - i) {
+		miyakoAtY = miyakoAtY + i;
+		miyako.style.top = miyakoAtY + 'px';
 	} else {
 		miyako.style.top = (gameBackground.offsetHeight - miyako.offsetHeight) + 'px';
 	}

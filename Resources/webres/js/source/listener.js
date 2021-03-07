@@ -53,6 +53,7 @@ window.addEventListener('keydown', function (e) {
 		if (propsCount[currentPropsIndex] <= 0) {
 			//道具数量不足
 		} else {
+			document.querySelector(propsList[currentPropsIndex].soundClassName).play();
 			propsList[currentPropsIndex].effect(miyako, puddingArray);
 			propsCount[currentPropsIndex]--;
 			refreshDom();
