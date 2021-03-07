@@ -13,17 +13,19 @@ let eachWeaponSelectedCount = [];
 let totalDOM = shopPage.children[0].children[1];
 
 /**
- * 购买物品
- * @param {*} price 所需消耗总积分
- * @param {*} valueNames 需要改变的变量名
- * @param {*} additions 对应变量需要增加的值
+ * 购买商品
  */
-function buyItems(price, valueNames, additions) {
-	if (price > currentScore) {
+function buyItems() {
+	if (totalPrice > currentScore) {
 		//积分不足
 	} else {
-		for (let i = 0; i < valueNames.length; i++) {
-			new Function(valueNames[i] + ' = ' + valueNames[i] + ' + ' + additions[i])();
+		currentScore = currentScore - totalPrice;
+		for (let i = 0; i < eachPropsSelectCount.length; i++) {
+			propsCount[i] = propsCount[i] + eachPropsSelectCount[i];
 		}
+		for (let i = 0; i < eachWeaponSelectedCount.length; i++) {
+			weaponCount[i] = weaponCount[i] + eachWeaponSelectedCount[i];
+		}
+		saveData();
 	}
 }

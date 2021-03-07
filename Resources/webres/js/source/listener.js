@@ -54,6 +54,8 @@ window.addEventListener('keydown', function (e) {
 			//道具数量不足
 		} else {
 			propsList[currentPropsIndex].effect(miyako, puddingArray);
+			propsCount[currentPropsIndex]--;
+			refreshDom();
 		}
 	}
 
@@ -133,7 +135,7 @@ helpPage.children[0].lastElementChild.addEventListener('click', () => {
 //商店页面操纵按钮
 let shopBtn = shopPage.children[0].lastElementChild;
 shopBtn.children[0].addEventListener('click', () => {
-
+	buyItems();
 });
 shopBtn.children[1].addEventListener('click', () => {
 	totalPrice = 0;

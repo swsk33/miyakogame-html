@@ -158,8 +158,8 @@ function puddingMove() {
 	}
 	//布丁被吃完了，停止游戏进程并显示胜利界面，进入下一关（先判断布丁是否被吃完了，否则在最后判断边界的时候会出错）
 	if (isEatUp()) {
-		level++;
 		addScore(level * 10);
+		level++;
 		operateSuccessPage(true);
 		stopGameProcess();
 		saveData();

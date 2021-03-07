@@ -184,15 +184,27 @@ function opreateHelpPage(isVisible) {
  */
 function operateShopPage(isVisible) {
 	if (isVisible) {
+		//关闭鼠标效果防止造成影响
+		mouseMoveDropDotControl(false);
+		mouseClickLineControl(false);
 		//根据道具信息获取道具列表
 		for (let i = 0; i < propsList.length; i++) {
 			let eachPropsItem = document.createElement('li');
 			let img = document.createElement('img');
 			img.src = propsList[i].img;
+			let descriptionDialog = document.createElement('div');
+			descriptionDialog.style.position = 'absolute';
+			descriptionDialog.style.backgroundColor = 'white';
+			descriptionDialog.innerText = propsList[i].description;
 			let name = document.createElement('div');
 			name.innerText = propsList[i].name + ' ' + propsList[i].price;
-			name.addEventListener('mouseenter', () => {
-
+			name.addEventListener('mouseenter', (e) => {
+				descriptionDialog.style.left = (e.pageX - descriptionDialog.offsetWidth) + 'px';
+				descriptionDialog.style.top = (e.pageY - 36) + 'px';
+				document.querySelector('body').appendChild(descriptionDialog);
+			});
+			name.addEventListener('mouseleave', () => {
+				descriptionDialog.remove();
 			});
 			let count = document.createElement('div');
 			count.style.color = 'purple';
@@ -252,6 +264,8 @@ function operateShopPage(isVisible) {
 			eachPropsSelectCount.push(0);
 		}
 		//根据武器信息设定武器列表
+		//因为默认武器无法购买，所以先把每个武器选择个数数组的第一个设为默认武器的
+		eachWeaponSelectedCount.push(0);
 		for (let i = 1; i < weaponList.length; i++) {
 			let eachWeaponItem = document.createElement('li');
 			let img = document.createElement('img');
@@ -265,25 +279,25 @@ function operateShopPage(isVisible) {
 			buttons.className = 'countButtonBox';
 			let addOne = document.createElement('div');
 			addOne.addEventListener('click', () => {
-				eachWeaponSelectedCount[i - 1]++;
-				count.innerText = eachWeaponSelectedCount[i - 1];
+				eachWeaponSelectedCount[i]++;
+				count.innerText = eachWeaponSelectedCount[i];
 				totalPrice = totalPrice + weaponList[i].price;
 				totalDOM.innerText = '共消耗' + totalPrice + '积分';
 			});
 			addOne.innerText = '+1';
 			let addTen = document.createElement('div');
 			addTen.addEventListener('click', () => {
-				eachWeaponSelectedCount[i - 1] = eachWeaponSelectedCount[i - 1] + 10;
-				count.innerText = eachWeaponSelectedCount[i - 1];
+				eachWeaponSelectedCount[i] = eachWeaponSelectedCount[i] + 10;
+				count.innerText = eachWeaponSelectedCount[i];
 				totalPrice = totalPrice + 10 * weaponList[i].price;
 				totalDOM.innerText = '共消耗' + totalPrice + '积分';
 			});
 			addTen.innerText = '+10';
 			let rmOne = document.createElement('div');
 			rmOne.addEventListener('click', () => {
-				if (eachWeaponSelectedCount[i - 1] > 0) {
-					eachWeaponSelectedCount[i - 1]--;
-					count.innerText = eachWeaponSelectedCount[i - 1];
+				if (eachWeaponSelectedCount[i] > 0) {
+					eachWeaponSelectedCount[i]--;
+					count.innerText = eachWeaponSelectedCount[i];
 					totalPrice = totalPrice - weaponList[i].price;
 					totalDOM.innerText = '共消耗' + totalPrice + '积分';
 				}
@@ -291,14 +305,14 @@ function operateShopPage(isVisible) {
 			rmOne.innerText = '-1';
 			let rmTen = document.createElement('div');
 			rmTen.addEventListener('click', () => {
-				if (eachWeaponSelectedCount[i - 1] >= 10) {
-					eachWeaponSelectedCount[i - 1] = eachWeaponSelectedCount[i - 1] - 10;
-					count.innerText = eachWeaponSelectedCount[i - 1];
+				if (eachWeaponSelectedCount[i] >= 10) {
+					eachWeaponSelectedCount[i] = eachWeaponSelectedCount[i] - 10;
+					count.innerText = eachWeaponSelectedCount[i];
 					totalPrice = totalPrice - 10 * weaponList[i].price;
-				} else if (eachWeaponSelectedCount[i - 1] > 0 && eachWeaponSelectedCount[i - 1] < 10) {
-					let currentCount = eachWeaponSelectedCount[i - 1];
-					eachWeaponSelectedCount[i - 1] = 0;
-					count.innerText = eachWeaponSelectedCount[i - 1];
+				} else if (eachWeaponSelectedCount[i] > 0 && eachWeaponSelectedCount[i] < 10) {
+					let currentCount = eachWeaponSelectedCount[i];
+					eachWeaponSelectedCount[i] = 0;
+					count.innerText = eachWeaponSelectedCount[i];
 					totalPrice = totalPrice - currentCount * weaponList[i].price;
 				}
 				totalDOM.innerText = '共消耗' + totalPrice + '积分';
@@ -317,6 +331,9 @@ function operateShopPage(isVisible) {
 		}
 		shopPage.style.display = 'flex';
 	} else {
+		//重新打开鼠标效果
+		mouseMoveDropDotControl(true);
+		mouseClickLineControl(true);
 		propsShopList.innerHTML = '';
 		weaponShopList.innerHTML = '';
 		shopPage.style.display = 'none';

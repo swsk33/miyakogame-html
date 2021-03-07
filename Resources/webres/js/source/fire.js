@@ -30,8 +30,8 @@ function genBulletByWeaponTemplate(weapon) {
  * @param {*} weapon 武器模板
  */
 function fire(weapon) {
-	//在装填完毕的时候可以开火
-	if (!isLoadingBullet) {
+	//在装填完毕且有子弹的时候可以开火
+	if (!isLoadingBullet && (currentWeaponIndex == 0 || weaponCount[currentWeaponIndex] > 0)) {
 		//射击后装载
 		isLoadingBullet = true;
 		setTimeout(function () {
@@ -42,6 +42,15 @@ function fire(weapon) {
 		document.querySelector(bullet.soundClassName).play();
 		bullet.dom = bullet.shooting(miyako.offsetLeft + miyako.offsetWidth, miyako.offsetTop + (0.3 * miyako.offsetHeight));
 		bulletArray.push(bullet);
+		//子弹数-1
+		if (currentWeaponIndex != 0) {
+			weaponCount[currentWeaponIndex]--;
+			refreshDom();
+		}
+	}
+	//当前武器没子弹时发出提示
+	if (weaponCount[currentWeaponIndex] == 0) {
+		//tip
 	}
 }
 
