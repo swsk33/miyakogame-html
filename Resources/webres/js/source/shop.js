@@ -11,6 +11,8 @@ let eachPropsSelectCount = [];
 let eachWeaponSelectedCount = [];
 //获取商店总价格指示文字
 let totalDOM = shopPage.children[0].children[1];
+//获取商店当前所有分数指示文字
+let currentDOM = shopPage.children[0].children[2];
 
 /**
  * 购买商品
@@ -29,6 +31,7 @@ function buyItems() {
 			weaponCount[i] = weaponCount[i] + eachWeaponSelectedCount[i];
 		}
 		saveData();
+		currentDOM.innerText = '当前有' + currentScore + '分';
 		showTipFrame('购买物品成功！', null, '.tip-true');
 	}
 }

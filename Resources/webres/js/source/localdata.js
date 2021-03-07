@@ -53,11 +53,11 @@ function readData() {
 			if (i == 0) {
 				weaponCount.push(-1);
 			} else {
-				weaponCount.push(0);
+				weaponCount.push(10);
 			}
 		}
 		for (let i = 0; i < propsList.length; i++) {
-			propsCount.push(0);
+			propsCount.push(1);
 		}
 		isNewGame = true;
 	} else {
@@ -86,11 +86,11 @@ function resetData() {
 		if (i == 0) {
 			weaponCount.push(-1);
 		} else {
-			weaponCount.push(0);
+			weaponCount.push(10);
 		}
 	}
 	for (let i = 0; i < propsList.length; i++) {
-		propsCount.push(0);
+		propsCount.push(1);
 	}
 	refreshDom();
 }

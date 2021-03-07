@@ -61,7 +61,7 @@ window.addEventListener('keydown', function (e) {
 			propsList[currentPropsIndex].effect(miyako, puddingArray);
 			propsCount[currentPropsIndex]--;
 			refreshDom();
-			showTipFrame('已使用道具：' + propsList[currentPropsIndex].name, propsList[currentPropsIndex].img, '.tip-true');
+			showTipFrame('已使用道具：' + propsList[currentPropsIndex].name, propsList[currentPropsIndex].img, propsList[currentPropsIndex].soundClassName);
 		}
 	}
 
@@ -144,9 +144,5 @@ shopBtn.children[0].addEventListener('click', () => {
 	buyItems();
 });
 shopBtn.children[1].addEventListener('click', () => {
-	totalPrice = 0;
-	eachPropsSelectCount = [];
-	eachWeaponSelectedCount = [];
-	totalDOM.innerText = '共消耗0积分';
 	operateShopPage(false);
 });

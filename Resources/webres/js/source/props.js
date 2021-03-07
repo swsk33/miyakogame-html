@@ -42,12 +42,20 @@ let moveAdd = new Props('移速提升', '在60s内提高宫子移动速度，不
 });
 
 //冻结所有布丁
-let freezePuddings = new Props('冻结吧！', '冻结所有布丁25s', 60, '/img/props/freezePuddings.png', '.props-stopPuddings', (character, enemies) => {
+let freezePuddings = new Props('冻结吧！', '冻结所有布丁25s', 50, '/img/props/freezePuddings.png', '.props-stopPuddings', (character, enemies) => {
 	let time = 25;
 	clearInterval(puddingControlInterval);
 	let propsControl = setInterval(() => {
 		if (!isPaused) {
 			clearInterval(puddingControlInterval);
+			if (isEatUp()) {
+				addScore(level * 10);
+				level++;
+				operateSuccessPage(true);
+				stopGameProcess();
+				saveData();
+				refreshDom();
+			}
 			time--;
 		}
 		if (time < 0) {

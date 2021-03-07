@@ -47,9 +47,7 @@ function fire(weapon) {
 			weaponCount[currentWeaponIndex]--;
 			refreshDom();
 		}
-	}
-	//当前武器没子弹时发出提示
-	if (weaponCount[currentWeaponIndex] == 0) {
+	} else if (weaponCount[currentWeaponIndex] == 0) { //当前武器没子弹时发出提示
 		showTipFrame('当前武器没有弹药！请切换武器！', weaponList[currentWeaponIndex].texture, '.tip-false');
 	}
 }

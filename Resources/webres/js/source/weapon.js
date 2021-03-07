@@ -44,7 +44,7 @@ let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600
 });
 
 //穿透鬼火模板
-let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penetrateAudio', (x, y) => {
+let penetrateWildfire = new Weapon('穿透鬼火', 15, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penetrateAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = penetrateWildfire.texture;
 	dom.style.position = 'absolute';
@@ -62,7 +62,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 20, '/img/bullets/bullet-pene
 });
 
 //爆裂之火模板
-let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
+let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = boomWildfire.texture;
 	dom.style.position = 'absolute';
@@ -128,7 +128,7 @@ let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif'
 });
 
 //散布式魔法
-let scatterMagic = new Weapon('散布式魔法', 25, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
+let scatterMagic = new Weapon('散布式魔法', 15, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
 	let doms = [];
 	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 	let count = 8;

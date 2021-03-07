@@ -187,6 +187,8 @@ function operateShopPage(isVisible) {
 		//关闭鼠标效果防止造成影响
 		mouseMoveDropDotControl(false);
 		mouseClickLineControl(false);
+		//获取当前所有分数
+		currentDOM.innerText = '当前有' + currentScore + '分';
 		//根据道具信息获取道具列表
 		for (let i = 0; i < propsList.length; i++) {
 			let eachPropsItem = document.createElement('li');
@@ -337,6 +339,10 @@ function operateShopPage(isVisible) {
 		//重新打开鼠标效果
 		mouseMoveDropDotControl(true);
 		mouseClickLineControl(true);
+		totalPrice = 0;
+		eachPropsSelectCount = [];
+		eachWeaponSelectedCount = [];
+		totalDOM.innerText = '共消耗0积分';
 		propsShopList.innerHTML = '';
 		weaponShopList.innerHTML = '';
 		shopPage.style.display = 'none';
