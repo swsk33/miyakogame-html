@@ -70,7 +70,7 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		playerDO.setPwd(PwdUtils.encodePwd(playerDO.getPwd()));
 		playerDO.setHighScore(0);
-		playerDO.setGameData(null);
+		playerDO.setGameData("{\"level\":1,\"health\":3,\"highScore\":0,\"currentScore\":0,\"propsCount\":[1,1,1],\"weaponCount\":[-1,10,10,10]}");
 		playerDO.setGmtCreated(LocalDateTime.now());
 		playerDO.setGmtModified(LocalDateTime.now());
 		redisTemplate.opsForValue().set(playerDO.getUserName(), playerDO.toModel());
@@ -119,7 +119,7 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("请勿重复登录无效账户！");
 			return result;
 		}
-		if (!playerDO.getPwd().equals(getPlayer.getPwd())) {
+		if (!PwdUtils.encodePwd(playerDO.getPwd()).equals(getPlayer.getPwd())) {
 			result.setResultFailed("用户名或者密码错误！");
 			return result;
 		}
@@ -154,20 +154,23 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		if (StringUtils.isEmpty("" + playerDO.getHighScore())) {
 			playerDO.setHighScore(getPlayer.getHighScore());
+		} else {
+			// 重新写入Redis排名表信息
+			redisTemplate.opsForZSet().remove("totalRank", playerDO.getUserName());
+			redisTemplate.opsForZSet().add("totalRank", playerDO.getUserName(), playerDO.getHighScore());
 		}
 		if (StringUtils.isEmpty(playerDO.getPwd())) {
 			playerDO.setPwd(getPlayer.getPwd());
+		} else {
+			playerDO.setPwd(PwdUtils.encodePwd(playerDO.getPwd()));
 		}
 		if (StringUtils.isEmpty(playerDO.getGameData())) {
 			playerDO.setGameData(getPlayer.getGameData());
 		}
 		playerDO.setGmtCreated(getPlayer.getGmtCreated());
 		playerDO.setGmtModified(LocalDateTime.now());
-		redisTemplate.opsForValue().set(playerDO.getUserName(), getPlayer);
+		redisTemplate.opsForValue().set(playerDO.getUserName(), playerDO.toModel());
 		playerDAO.update(playerDO);
-		// 重新写入Redis排名表信息
-		redisTemplate.opsForZSet().remove("totalRank", playerDO.getUserName());
-		redisTemplate.opsForZSet().add("totalRank", playerDO.getUserName(), playerDO.getHighScore());
 		result.setResultSuccess("修改信息成功！", playerDO.toModel());
 		return result;
 	}
@@ -253,10 +256,11 @@ public class PlayerServiceImpl implements PlayerService {
 				return result;
 			}
 		}
+		double score = redisTemplate.opsForZSet().score("totalRank", playerDO.getUserName());
 		RankInfo rankInfo = new RankInfo();
 		rankInfo.setUserName(playerDO.getUserName());
 		rankInfo.setNickname(playerDO.getNickname());
-		rankInfo.setHighScore(playerDO.getHighScore());
+		rankInfo.setHighScore((int) score);
 		rankInfo.setAvatar(playerDO.getAvatar());
 		rankInfo.setSequence(rank);
 		result.setResultSuccess("查询成功！", rankInfo);
