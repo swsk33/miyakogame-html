@@ -32,12 +32,11 @@ public class PlayerAPI {
 	}
 
 	@PostMapping("/miyakogame/api/login")
-	public Result<Player> login(@RequestBody PlayerDO playerDO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Result<Player> login(@RequestBody PlayerDO playerDO, HttpServletRequest request) throws Exception {
 		Result<Player> result = playerService.login(playerDO);
 		if (result.isSuccess()) {
 			HttpSession session = request.getSession();
 			session.setAttribute("session", result.getData());
-			response.sendRedirect("/miyakogame");
 		}
 		return result;
 	}

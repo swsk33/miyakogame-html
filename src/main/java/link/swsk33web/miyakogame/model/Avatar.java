@@ -13,15 +13,15 @@ public class Avatar implements Serializable {
 	private String id;
 
 	/**
-	 * 图片储存路径
+	 * 图片请求路径
 	 */
-	private String filePath;
-	
+	private String requestPath;
+
 	/**
 	 * 创建时间
 	 */
 	private LocalDateTime gmtCreated;
-	
+
 	/**
 	 * 修改时间
 	 */
@@ -44,15 +44,15 @@ public class Avatar implements Serializable {
 	/**
 	 * @return the filePath
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getRequestPath() {
+		return requestPath;
 	}
 
 	/**
-	 * @param filePath the filePath to set
+	 * @param requestPath the filePath to set
 	 */
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setRequestPath(String requestPath) {
+		this.requestPath = requestPath;
 	}
 
 	/**

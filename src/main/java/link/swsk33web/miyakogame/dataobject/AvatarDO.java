@@ -1,7 +1,6 @@
 package link.swsk33web.miyakogame.dataobject;
 
 import java.time.LocalDateTime;
-
 import link.swsk33web.miyakogame.model.Avatar;
 
 public class AvatarDO {
@@ -12,15 +11,15 @@ public class AvatarDO {
 	private String id;
 
 	/**
-	 * 图片储存路径
+	 * 图片请求路径
 	 */
-	private String filePath;
-	
+	private String requestPath;
+
 	/**
 	 * 创建时间
 	 */
 	private LocalDateTime gmtCreated;
-	
+
 	/**
 	 * 修改时间
 	 */
@@ -43,15 +42,15 @@ public class AvatarDO {
 	/**
 	 * @return the filePath
 	 */
-	public String getFilePath() {
-		return filePath;
+	public String getRequestPath() {
+		return requestPath;
 	}
 
 	/**
-	 * @param filePath the filePath to set
+	 * @param requestPath the filePath to set
 	 */
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setRequestPath(String requestPath) {
+		this.requestPath = requestPath;
 	}
 
 	/**
@@ -81,11 +80,11 @@ public class AvatarDO {
 	public void setGmtModified(LocalDateTime gmtModified) {
 		this.gmtModified = gmtModified;
 	}
-	
+
 	public Avatar toModel() {
 		Avatar avatar = new Avatar();
 		avatar.setId(id);
-		avatar.setFilePath(filePath);
+		avatar.setRequestPath(requestPath);
 		avatar.setGmtCreated(gmtCreated);
 		avatar.setGmtModified(gmtModified);
 		return avatar;

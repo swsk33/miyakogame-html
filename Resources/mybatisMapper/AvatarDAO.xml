@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.swsk33web.miyakogame.dao.AvatarDAO">
+	<resultMap id="avatarResultMap"
+		type="link.swsk33web.miyakogame.dataobject.AvatarDO">
+		<id column="id" property="id" />
+		<result column="file_path" property="requestPath" />
+		<result column="gmt_created" property="gmtCreated" />
+		<result column="gmt_modified" property="gmtModified" />
+	</resultMap>
+
+	<insert id="add"
+		parameterType="link.swsk33web.miyakogame.dataobject.AvatarDO">
+		insert into `miyakogame_avatar` (id, file_path,
+		gmt_created, gmt_modified)
+		values
+		(#{id}, #{requestPath}, now(), now())
+	</insert>
+
+	<select id="find" resultMap="avatarResultMap">
+		select file_path from
+		`miyakogame_avatar` where id=#{id}
+	</select>
+</mapper>

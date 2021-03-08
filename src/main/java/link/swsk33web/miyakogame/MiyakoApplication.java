@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource(value={"file:Resources/config/config.properties"})
+@PropertySource(value = { "file:Resources/config/config.properties" })
 public class MiyakoApplication {
 
 	public static void main(String[] args) {
