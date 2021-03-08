@@ -1,11 +1,10 @@
-package swsk33.game.miyakoeatpuddings.model;
+package link.swsk33web.miyakogame.dataobject;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Player implements Serializable {
+import link.swsk33web.miyakogame.model.Player;
 
-	private static final long serialVersionUID = 1L;
+public class PlayerDO {
 
 	/**
 	 * 用户名
@@ -128,5 +127,18 @@ public class Player implements Serializable {
 	public void setGmtModified(LocalDateTime gmtModified) {
 		this.gmtModified = gmtModified;
 	}
-
+	
+	public Player toModel() {
+		Player player = new Player();
+		player.setUserName(userName);
+		player.setNickname(nickname);
+		player.setAvatar(avatar);
+		player.setHighScore(highScore);
+		player.setPwd(pwd);
+		player.setGameData(gameData);
+		player.setGmtCreated(gmtCreated);
+		player.setGmtModified(gmtModified);
+		return player;
+	}
+	
 }

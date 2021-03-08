@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="swsk33.game.miyakoeatpuddings.dao">
 	<resultMap id="playerResultMap"
-		type="swsk33.game.miyakoeatpuddings.dataobject.PlayerDO">
+		type="link.swsk33web.miyakogame.dataobject.PlayerDO">
 		<id column="user_name" property="userName" />
 		<result column="nickname" property="nickname" />
 		<result column="avatar" property="avatar" />
@@ -14,8 +14,16 @@
 		<result column="gmt_modified" property="gmtModified" />
 	</resultMap>
 
+	<resultMap id="rankResultMap"
+		type="link.swsk33web.miyakogame.dataobject.RankInfoDO">
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avatar" />
+		<result column="high_score" property="highScore" />
+		<result column="sequence" property="sequence" />
+	</resultMap>
+
 	<insert id="add"
-		parameterType="swsk33.game.miyakoeatpuddings.dataobject.PlayerDO">
+		parameterType="link.swsk33web.miyakogame.dataobject.PlayerDO">
 		insert into `miyakogame_user`
 		(user_name, nickname,
 		avatar, high_score, pwd, game_data, gmt_created, gmt_modified)
@@ -24,13 +32,8 @@
 		#{gameData}, now(), now())
 	</insert>
 
-	<delete id="delete">
-		delete from `miyakogame_user` where
-		user_name=#{userName}
-	</delete>
-
 	<update id="update"
-		parameterType="swsk33.game.miyakoeatpuddings.dataobject.PlayerDO">
+		parameterType="link.swsk33web.miyakogame.dataobject.PlayerDO">
 		update `miyakogame_user` set nickname=#{nickname},
 		avatar=#{avatar}, high_score=#{highScore}, pwd=#{pwd},
 		game_data=#{gameData}, gmt_modified=now() where user_name=#{userName}
@@ -41,9 +44,18 @@
 		`miyakogame_user` where user_name=#{userName}
 	</select>
 
-	<select id="findByHighScoreInTen" resultMap="playerResultMap">
-		select * from
-		`miyakogame_user` order by high_score desc limit 10
+	<select id="findByHighScoreInTen" resultMap="rankResultMap">
+		select nickname,
+		avatar, high_score, @row := @row + 1 as sequence from (select @row :=
+		0) as rowtemptable, (select * from `miyakogame_user` order by
+		high_score desc limit 10) as playerinfo;
+	</select>
+
+	<select id="findUserRankByUsername" resultMap="rankResultMap">
+		select nickname,
+		avatar, high_score, @row := @row + 1 as sequence from (select @row :=
+		0) as temp, (select * from `miyakogame_user` order by high_score desc)
+		as playertable where user_name=#{userName}
 	</select>
 
 </mapper>

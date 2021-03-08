@@ -1,7 +1,8 @@
-package swsk33.game.miyakoeatpuddings.dataobject;
+package link.swsk33web.miyakogame.dataobject;
 
 import java.time.LocalDateTime;
-import swsk33.game.miyakoeatpuddings.model.Avatar;
+
+import link.swsk33web.miyakogame.model.Avatar;
 
 public class AvatarDO {
 

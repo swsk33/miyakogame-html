@@ -1,4 +1,4 @@
-package swsk33.game.miyakoeatpuddings.model;
+package link.swsk33web.miyakogame.model;
 
 import java.io.Serializable;
 
@@ -44,6 +44,19 @@ public class Result<T> implements Serializable {
 
 	public void setData(T data) {
 		this.data = data;
+	}
+
+	public void setResultSuccess(String msg, T data) {
+		this.success = true;
+		this.code = 600;
+		this.message = msg;
+		this.data = data;
+	}
+
+	public void setResultFailed(String msg) {
+		this.success = false;
+		this.code = 601;
+		this.message = msg;
 	}
 
 }

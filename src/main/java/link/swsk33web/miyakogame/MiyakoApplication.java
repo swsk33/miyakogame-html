@@ -1,4 +1,4 @@
-package swsk33.game.miyakoeatpuddings;
+package link.swsk33web.miyakogame;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

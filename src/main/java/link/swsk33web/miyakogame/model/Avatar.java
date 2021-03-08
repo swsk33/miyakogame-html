@@ -1,4 +1,4 @@
-package swsk33.game.miyakoeatpuddings.model;
+package link.swsk33web.miyakogame.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
