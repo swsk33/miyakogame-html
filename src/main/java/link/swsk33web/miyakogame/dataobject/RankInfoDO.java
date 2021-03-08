@@ -5,6 +5,11 @@ import link.swsk33web.miyakogame.model.RankInfo;
 public class RankInfoDO {
 
 	/**
+	 * 用户名
+	 */
+	private String userName;
+
+	/**
 	 * 昵称
 	 */
 	private String nickname;
@@ -22,7 +27,21 @@ public class RankInfoDO {
 	/**
 	 * 排名
 	 */
-	private int sequence;
+	private Long sequence;
+
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	/**
 	 * @return the nickname
@@ -69,14 +88,14 @@ public class RankInfoDO {
 	/**
 	 * @return the sequence
 	 */
-	public int getSequence() {
+	public Long getSequence() {
 		return sequence;
 	}
 
 	/**
 	 * @param sequence the sequence to set
 	 */
-	public void setSequence(int sequence) {
+	public void setSequence(Long sequence) {
 		this.sequence = sequence;
 	}
 

@@ -16,6 +16,7 @@
 
 	<resultMap id="rankResultMap"
 		type="link.swsk33web.miyakogame.dataobject.RankInfoDO">
+		<id column="user_name" property="userName" />
 		<result column="nickname" property="nickname" />
 		<result column="avatar" property="avatar" />
 		<result column="high_score" property="highScore" />
@@ -45,16 +46,21 @@
 	</select>
 
 	<select id="findByHighScoreInTen" resultMap="rankResultMap">
-		select nickname,
-		avatar, high_score, @row := @row + 1 as sequence from (select @row :=
+		select user_name,
+		nickname,
+		avatar, high_score, @row := @row + 1 as sequence from (select
+		@row :=
 		0) as rowtemptable, (select * from `miyakogame_user` order by
 		high_score desc limit 10) as playerinfo;
 	</select>
 
 	<select id="findUserRankByUsername" resultMap="rankResultMap">
-		select nickname,
-		avatar, high_score, @row := @row + 1 as sequence from (select @row :=
-		0) as temp, (select * from `miyakogame_user` order by high_score desc)
+		select user_name,
+		nickname,
+		avatar, high_score, @row := @row + 1 as sequence from (select
+		@row :=
+		0) as temp, (select * from `miyakogame_user` order by
+		high_score desc)
 		as playertable where user_name=#{userName}
 	</select>
 

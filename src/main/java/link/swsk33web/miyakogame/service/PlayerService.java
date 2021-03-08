@@ -33,6 +33,6 @@ public interface PlayerService {
 	/**
 	 * 查询某用户排名信息
 	 */
-	public Result<RankInfo> getPlayerRank(String userName);
+	public Result<RankInfo> getPlayerRank(PlayerDO playerDO);
 
 }

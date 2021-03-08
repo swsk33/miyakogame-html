@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class PlayerServiceImpl implements PlayerService {
 		redisTemplate.opsForValue().set(playerDO.getUserName(), playerDO.toModel());
 		playerDAO.add(playerDO);
 		// 加入Redis排名表
-		redisTemplate.opsForZSet().add("totalRank", playerDO.toModel(), playerDO.getHighScore());
+		redisTemplate.opsForZSet().add("totalRank", playerDO.getUserName(), playerDO.getHighScore());
 		result.setResultSuccess("注册用户成功！", playerDO.toModel());
 		return result;
 	}
@@ -165,8 +166,8 @@ public class PlayerServiceImpl implements PlayerService {
 		redisTemplate.opsForValue().set(playerDO.getUserName(), getPlayer);
 		playerDAO.update(playerDO);
 		// 重新写入Redis排名表信息
-		redisTemplate.opsForZSet().remove("totalRank", getPlayer);
-		redisTemplate.opsForZSet().add("totalRank", playerDO.toModel(), playerDO.getHighScore());
+		redisTemplate.opsForZSet().remove("totalRank", playerDO.getUserName());
+		redisTemplate.opsForZSet().add("totalRank", playerDO.getUserName(), playerDO.getHighScore());
 		result.setResultSuccess("修改信息成功！", playerDO.toModel());
 		return result;
 	}
@@ -174,36 +175,92 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public Result<List<RankInfo>> getTotalRank() {
 		Result<List<RankInfo>> result = new Result<List<RankInfo>>();
-		List<RankInfo> ranks = new ArrayList<RankInfo>();
-		// 先去Redis中查询排名信息
-		List<Player> getRank = (List<Player>) redisTemplate.opsForZSet().reverseRangeWithScores("totalRank", 0, 9);
-		if (getRank == null) {
+		List<RankInfo> rankResult = new ArrayList<RankInfo>();
+		Set<String> userNames = redisTemplate.opsForZSet().reverseRange("totalRank", 0, 9);
+		if (userNames == null) {
 			List<RankInfoDO> getRankDO = null;
 			try {
 				getRankDO = playerDAO.findByHighScoreInTen();
 			} catch (Exception e) {
 				// none
 			}
-			if (getRankDO != null) {
-				for (RankInfoDO rank : getRankDO) {
-					ranks.add(rank.toModel());
-					
-				}
-			} else {
+			if (getRankDO == null) {
 				result.setResultFailed("查询失败！");
 				return result;
+			} else {
+				for (RankInfoDO rank : getRankDO) {
+					rankResult.add(rank.toModel());
+					redisTemplate.opsForZSet().add("totalRank", rank.getUserName(), rank.getHighScore());
+				}
 			}
 		} else {
-			
+			long order = 1;
+			for (String eachUserName : userNames) {
+				Player getPlayer = (Player) redisTemplate.opsForValue().get(eachUserName);
+				if (getPlayer == null) {
+					try {
+						getPlayer = playerDAO.findByUserName(eachUserName).toModel();
+					} catch (Exception e) {
+						// none
+					}
+					if (getPlayer != null) {
+						redisTemplate.opsForValue().set(eachUserName, getPlayer);
+						RankInfo info = new RankInfo();
+						info.setUserName(getPlayer.getUserName());
+						info.setNickname(getPlayer.getNickname());
+						info.setAvatar(getPlayer.getAvatar());
+						info.setHighScore(getPlayer.getHighScore());
+						info.setSequence(order);
+						rankResult.add(info);
+					}
+				} else {
+					RankInfo info = new RankInfo();
+					info.setUserName(getPlayer.getUserName());
+					info.setNickname(getPlayer.getNickname());
+					info.setAvatar(getPlayer.getAvatar());
+					info.setHighScore(getPlayer.getHighScore());
+					info.setSequence(order);
+					rankResult.add(info);
+				}
+				order++;
+			}
 		}
-
+		result.setResultSuccess("获取排名成功！", rankResult);
 		return result;
 	}
 
 	@Override
-	public Result<RankInfo> getPlayerRank(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result<RankInfo> getPlayerRank(PlayerDO playerDO) {
+		Result<RankInfo> result = new Result<RankInfo>();
+		if (playerDO == null) {
+			result.setResultFailed("数据体不能为空！");
+			return result;
+		}
+		Long rank = redisTemplate.opsForZSet().reverseRank("totalRank", playerDO.getUserName());
+		if (rank == null) {
+			RankInfo info = null;
+			try {
+				info = playerDAO.findUserRankByUsername(playerDO.getUserName()).toModel();
+			} catch (Exception e) {
+				// none
+			}
+			if (info == null) {
+				result.setResultFailed("查询失败！");
+				return result;
+			} else {
+				redisTemplate.opsForZSet().add("totalRank", info.getUserName(), info.getHighScore());
+				result.setResultSuccess("查询成功！", info);
+				return result;
+			}
+		}
+		RankInfo rankInfo = new RankInfo();
+		rankInfo.setUserName(playerDO.getUserName());
+		rankInfo.setNickname(playerDO.getNickname());
+		rankInfo.setHighScore(playerDO.getHighScore());
+		rankInfo.setAvatar(playerDO.getAvatar());
+		rankInfo.setSequence(rank);
+		result.setResultSuccess("查询成功！", rankInfo);
+		return result;
 	}
 
 }
