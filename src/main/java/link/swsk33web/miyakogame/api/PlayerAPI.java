@@ -39,6 +39,12 @@ public class PlayerAPI {
 		}
 		return result;
 	}
+	
+	@GetMapping("/miyakogame/api/logout")
+	public void logout(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		session.setAttribute("session", null);
+	}
 
 	@PostMapping("/miyakogame/api/update")
 	public Result<Player> update(@RequestBody PlayerDO playerDO) {

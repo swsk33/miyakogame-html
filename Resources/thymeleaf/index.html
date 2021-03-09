@@ -77,7 +77,7 @@
 			<img class="avatar" src="/img/avatars/excepted.png" />
 			<div class="main"></div>
 		</div>
-		<ul>
+		<ul class="menu">
 			<li>继续游戏</li>
 			<li>新游戏</li>
 			<li>魔法商店</li>
@@ -89,6 +89,13 @@
 			<div class="player" th:if="${islogin}">
 				<img th:src=${player.avatar} />
 				<div class="nickname">[[${player.nickname}]]</div>
+				<div class="pointer">△</div>
+			</div>
+			<div class="userPanel">
+				<ul class="userPanelList">
+					<li class="updateButton">修改信息</li>
+					<li class="logoutButton">退出登录</li>
+				</ul>
 			</div>
 		</div>
 	</div>

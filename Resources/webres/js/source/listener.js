@@ -148,9 +148,40 @@ shopBtn.children[1].addEventListener('click', () => {
 });
 
 //登录和注册按钮
-document.querySelector('.start .userInfo .login').addEventListener('click', () => {
-	window.location.pathname = '/miyakogame/player/login';
-});
-document.querySelector('.start .userInfo .register').addEventListener('click', () => {
-	window.location.pathname = '/miyakogame/player/register';
-});
+let loginBtn = document.querySelector('.start .userInfo .login');
+let regBtn = document.querySelector('.start .userInfo .register');
+let userBtn = document.querySelector('.start .userInfo .player');
+if (loginBtn != null && regBtn != null) {
+	loginBtn.addEventListener('click', () => {
+		window.location.pathname = '/miyakogame/player/login';
+	});
+	regBtn.addEventListener('click', () => {
+		window.location.pathname = '/miyakogame/player/register';
+	});
+}
+if (userBtn != null) {
+	let userPanelDOM = document.querySelector('.start .userInfo .userPanel');
+	let pointerDOM = document.querySelector('.start .userInfo .player .pointer');
+	let eachListBtn = document.querySelector('.start .userInfo .userPanel .userPanelList').children;
+	userBtn.addEventListener('mouseenter', () => {
+		//暂时关闭鼠标效果
+		mouseMoveDropDotControl(false);
+		mouseClickLineControl(false);
+		pointerDOM.style.transform = 'rotate(180deg)';
+		userPanelDOM.style.display = 'flex';
+	});
+	userPanelDOM.addEventListener('mouseleave', () => {
+		//重新打开鼠标效果
+		mouseMoveDropDotControl(true);
+		mouseClickLineControl(true);
+		pointerDOM.style.transform = 'rotate(0deg)';
+		userPanelDOM.style.display = 'none';
+	});
+	eachListBtn[1].addEventListener('click', () => {
+		fetch('/miyakogame/api/logout');
+		showTipFrame('已登出！3s后刷新页面...', null, '.tip-true');
+		setTimeout(() => {
+			window.location.pathname = '/miyakogame';
+		}, 3000);
+	});
+}
