@@ -52,5 +52,10 @@ public class MainPageControl {
 	public String register() {
 		return "register";
 	}
+	
+	@GetMapping("/miyakogame/player/login")
+	public String login() {
+		return "login";
+	}
 
 }

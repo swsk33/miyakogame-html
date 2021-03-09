@@ -146,3 +146,11 @@ shopBtn.children[0].addEventListener('click', () => {
 shopBtn.children[1].addEventListener('click', () => {
 	operateShopPage(false);
 });
+
+//登录和注册按钮
+document.querySelector('.start .userInfo .login').addEventListener('click', () => {
+	window.location.pathname = '/miyakogame/player/login';
+});
+document.querySelector('.start .userInfo .register').addEventListener('click', () => {
+	window.location.pathname = '/miyakogame/player/register';
+});

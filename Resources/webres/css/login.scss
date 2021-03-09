@@ -10,7 +10,7 @@ body {
 .formbody {
 	display: flex;
 	position: relative;
-	top: 12vh;
+	top: 15vh;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -61,17 +61,13 @@ body {
 			}
 		}
 
-		.content {
+		.userName,
+		.pwd {
+			position: relative;
+			margin-top: 64px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-		}
-
-		.userName,
-		.nickname,
-		.pwd {
-			position: relative;
-			margin-top: 48px;
 
 			.description {
 				font-size: 12px;
@@ -84,12 +80,6 @@ body {
 		.userName {
 			left: -11px;
 		}
-
-		.nickname {
-			.description {
-				left: 88px;
-			}
-		}
 	}
 
 	.ok {
@@ -97,9 +87,9 @@ body {
 		width: 156px;
 		height: 36px;
 		line-height: 36px;
-		left: 28px;
+		left: 16px;
 		text-align: center;
-		top: 64px;
+		top: 80px;
 		font-size: 24px;
 
 		&:hover {
