@@ -785,3 +785,178 @@
 		}
 	}
 }
+
+.userInfoUpdate {
+	position: absolute;
+	display: none;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.9);
+
+	.requesting {
+		position: absolute;
+		top: 56px;
+		left: calc(50vw - 100px);
+		display: none;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			height: 64px;
+		}
+
+		.tip {
+			margin-left: 10px;
+			font-size: 24px;
+		}
+	}
+
+	.frame {
+		position: absolute;
+		display: flex;
+		width: 600px;
+		height: 450px;
+		left: calc(50vw - 300px);
+		top: calc(50vh - 225px);
+		background-color: #aaffff;
+		border-radius: 10px;
+		box-shadow: 2px 2px 2px 1px rgba(2, 2, 2, 0.3);
+		flex-direction: column;
+		align-items: center;
+		user-select: none;
+
+		.title {
+			position: relative;
+			font-size: 28px;
+			top: 32px;
+		}
+
+		.formBody {
+			position: relative;
+			top: 46px;
+			width: 560px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+
+			.avatar {
+				position: relative;
+				width: 450px;
+				top: 12px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.file {
+					position: relative;
+					width: 100px;
+					height: 26px;
+
+					.button {
+						position: absolute;
+						font-size: 20px;
+						width: 100px;
+						height: 26px;
+						background-color: #ff5e00;
+						color: white;
+						text-align: center;
+						border-radius: 4px;
+					}
+
+					input {
+						position: absolute;
+						width: 100px;
+						height: 26px;
+						opacity: 0;
+					}
+				}
+
+				.preTip {
+					position: relative;
+					margin-left: 25px;
+				}
+
+				.preview {
+					position: relative;
+					height: 64px;
+					width: 64px;
+					border-radius: 50%;
+					border-width: 2.5px;
+					border-color: blue;
+					border-style: solid;
+				}
+
+				.avatarTip {
+					position: absolute;
+					font-size: 14px;
+					top: 55px;
+					left: 47px;
+					color: red;
+				}
+			}
+
+			.nickname,
+			.pwd {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-top: 45px;
+
+				input {
+					width: 280px;
+					height: 32px;
+					outline: none;
+					border-style: solid;
+					border-color: blue;
+					border-width: 2px;
+					border-radius: 5px;
+
+					&:focus {
+						border-color: rgb(255, 0, 157);
+						border-width: 3px;
+						box-shadow: 0 0 5px rgb(255, 0, 157);
+					}
+				}
+			}
+
+			.pwd {
+				left: -21px;
+			}
+		}
+
+		.buttons {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			bottom: 45px;
+			font-size: 28px;
+			line-height: 36px;
+			text-align: center;
+
+			.ok,
+			.close {
+				position: relative;
+				height: 36px;
+				width: 150px;
+
+				&:hover {
+					cursor: pointer;
+					background-color: #ff4800;
+					color: #ffffff;
+					border-radius: 5px;
+				}
+			}
+
+			.close {
+				margin-left: 36px;
+			}
+		}
+	}
+}
+
+.userLoginData {
+	display: none;
+}

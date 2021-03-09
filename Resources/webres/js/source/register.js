@@ -2,6 +2,8 @@
 let userNameInput = document.querySelector('form .userName .content input');
 let nickNameInput = document.querySelector('form .nickname .content input');
 let pwdInput = document.querySelector('form .pwd .content input');
+//请求动画
+let regRequestTip = document.querySelector('.requesting');
 
 document.querySelector('.formbody .ok').addEventListener('click', () => {
 	let data = {
@@ -10,6 +12,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		pwd: pwdInput.value
 	}
 	let dataString = JSON.stringify(data);
+	regRequestTip.style.display = 'flex';
 	fetch('/miyakogame/api/reg', {
 		method: 'POST',
 		body: dataString,
@@ -27,5 +30,6 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		} else {
 			showTipFrame('注册失败！原因：' + result.message, null, '.tip-false');
 		}
+		regRequestTip.style.display = 'none';
 	});
 });

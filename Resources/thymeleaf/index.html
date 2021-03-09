@@ -179,6 +179,49 @@
 			</div>
 		</div>
 	</div>
+	<!--用户信息修改蒙层-->
+	<div class="userInfoUpdate">
+		<div class="requesting">
+			<img src="/img/youl-dynamic.gif" />
+			<div class="tip">请求中...</div>
+		</div>
+		<div class="frame">
+			<div class="title">修改信息</div>
+			<form class="formBody">
+				<div class="avatar">
+					<div class="text">修改头像：</div>
+					<div class="file">
+						<div class="button">上传图片</div>
+						<input type="file" />
+					</div>
+					<div class="preTip">预览：</div>
+					<img class="preview" />
+					<div class="avatarTip">请先将图片裁成正方形以获得最佳效果</div>
+				</div>
+				<div class="nickname">
+					<div class="text">昵称：</div>
+					<input type="text" />
+				</div>
+				<div class="pwd">
+					<div class="text">修改密码：</div>
+					<input type="password" placeholder="不修改则留空" />
+				</div>
+			</form>
+			<div class="buttons">
+				<div class="ok">确定修改</div>
+				<div class="close">关闭</div>
+			</div>
+		</div>
+	</div>
+	<!--隐藏标签，用于储存用户登录信息，仅初始化网页时写入数据至下列标签-->
+	<div class="userLoginData">
+		<div class="isLogin">[[${islogin}]]</div>
+		<div class="userName" th:if="${islogin}">[[${player.userName}]]</div>
+		<div class="nickname" th:if="${islogin}">[[${player.nickname}]]</div>
+		<div class="avatar" th:if="${islogin}">[[${player.avatar}]]</div>
+		<div class="highScore" th:if="${islogin}">[[${player.highScore}]]</div>
+		<div class="gameData" th:if="${islogin}">[[${player.gameData}]]</div>
+	</div>
 
 	<!--音频-->
 	<audio class="tip-true" src="/audio/tip/true.wav" preload="auto"></audio>
@@ -211,6 +254,7 @@
 	<script type="text/javascript" src="/js/minout/character.min.js"></script>
 	<script type="text/javascript" src="/js/minout/pudding.min.js"></script>
 	<script type="text/javascript" src="/js/minout/localdata.min.js"></script>
+	<script type="text/javascript" src="/js/minout/updatepage.min.js"></script>
 	<script type="text/javascript" src="/js/minout/listener.min.js"></script>
 	<script type="text/javascript" src="/js/minout/index.min.js"></script>
 </body>

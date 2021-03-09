@@ -1,6 +1,8 @@
 //玩家登陆
 let loginUserNameInput = document.querySelector('.formbody .userName input');
 let loginPwdInput = document.querySelector('.formbody .pwd input');
+//请求动画
+let loginRequestTip = document.querySelector('.requesting');
 
 document.querySelector('.formbody .ok').addEventListener('click', () => {
 	let data = {
@@ -8,6 +10,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		pwd: loginPwdInput.value
 	}
 	let dataString = JSON.stringify(data);
+	loginRequestTip.style.display = 'flex';
 	fetch('/miyakogame/api/login', {
 		method: 'POST',
 		body: dataString,
@@ -25,5 +28,6 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		} else {
 			showTipFrame('登录失败！原因：' + result.message, null, '.tip-false');
 		}
+		loginRequestTip.style.display = 'none';
 	});
 });

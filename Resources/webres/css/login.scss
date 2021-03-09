@@ -54,10 +54,9 @@ body {
 			outline: none;
 
 			&:focus {
-				border-radius: 4px;
-				border-style: solid;
+				border-color: rgb(255, 0, 157);
 				border-width: 3px;
-				border-color: #ff0080;
+				box-shadow: 0 0 5px rgb(255, 0, 157);
 			}
 		}
 
@@ -97,6 +96,23 @@ body {
 			background-color: #ff5e00;
 			color: #ffffff;
 			border-radius: 6px;
+		}
+	}
+
+	.requesting {
+		position: relative;
+		top: 135px;
+		display: none;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			height: 64px;
+		}
+
+		.tip {
+			margin-left: 10px;
+			font-size: 24px;
 		}
 	}
 }

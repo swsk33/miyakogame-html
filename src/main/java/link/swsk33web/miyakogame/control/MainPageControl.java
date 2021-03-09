@@ -42,6 +42,8 @@ public class MainPageControl {
 			if (sessionPlayer.getPwd().equals(getPlayer.getPwd())) {
 				isLogin = true;
 				model.addAttribute("player", sessionPlayer);
+			} else {
+				session.setAttribute("session", null);
 			}
 		}
 		model.addAttribute("islogin", isLogin);

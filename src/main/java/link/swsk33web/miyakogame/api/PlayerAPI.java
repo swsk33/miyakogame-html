@@ -31,7 +31,7 @@ public class PlayerAPI {
 	}
 
 	@PostMapping("/miyakogame/api/login")
-	public Result<Player> login(@RequestBody PlayerDO playerDO, HttpServletRequest request) throws Exception {
+	public Result<Player> login(@RequestBody PlayerDO playerDO, HttpServletRequest request) {
 		Result<Player> result = playerService.login(playerDO);
 		if (result.isSuccess()) {
 			HttpSession session = request.getSession();
@@ -47,8 +47,13 @@ public class PlayerAPI {
 	}
 
 	@PostMapping("/miyakogame/api/update")
-	public Result<Player> update(@RequestBody PlayerDO playerDO) {
-		return playerService.update(playerDO);
+	public Result<Player> update(@RequestBody PlayerDO playerDO, HttpServletRequest request) {
+		Result<Player> result = playerService.update(playerDO);
+		if (result.isSuccess()) {
+			HttpSession session = request.getSession();
+			session.setAttribute("session", result.getData());
+		}
+		return result;
 	}
 
 	@GetMapping("/miyakogame/api/rankten")

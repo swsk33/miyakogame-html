@@ -40,7 +40,20 @@ public class AvatarServiceImpl implements AvatarService {
 			result.setResultFailed("请上传图片！");
 			return result;
 		}
-		String fileName = UUIDUtils.generateTimeId() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		if (file.getSize() == 0) {
+			result.setResultFailed("请勿上传空文件！");
+			return result;
+		}
+		String fileFormat = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		if (!fileFormat.equalsIgnoreCase(".png") && !fileFormat.equalsIgnoreCase(".jpg") && !fileFormat.equalsIgnoreCase(".jpeg") && !fileFormat.equalsIgnoreCase(".gif")) {
+			result.setResultFailed("上传的文件必须是png，jpg，jpeg或者gif格式！");
+			return result;
+		}
+		if (file.getSize() > 2097152) {
+			result.setResultFailed("上传文件大小不能超过2MB！");
+			return result;
+		}
+		String fileName = UUIDUtils.generateTimeId() + fileFormat;
 		try {
 			file.transferTo(new File(imgDir.getAbsolutePath() + File.separator + fileName));
 		} catch (Exception e) {
