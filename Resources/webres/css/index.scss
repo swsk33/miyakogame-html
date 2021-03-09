@@ -289,6 +289,49 @@
 			}
 		}
 	}
+
+	.userInfo {
+		position: absolute;
+		display: flex;
+		right: 50px;
+		top: 15px;
+		user-select: none;
+
+		.login {
+			margin-right: 10px;
+
+			&:hover {
+				cursor: pointer;
+				color: #ffffff;
+				background-color: #0400ff;
+				border-radius: 3px;
+			}
+		}
+
+		.register {
+			&:hover {
+				cursor: pointer;
+				color: #ffffff;
+				background-color: #ff00aa;
+				border-radius: 3px;
+			}
+		}
+
+		.player {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			img {
+				height: 35px;
+				border-style: solid;
+				border-width: 1px;
+				border-color: #ff5500;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+		}
+	}
 }
 
 .failed {

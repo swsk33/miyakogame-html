@@ -83,6 +83,14 @@
 			<li>魔法商店</li>
 			<li>帮助</li>
 		</ul>
+		<div class="userInfo">
+			<div class="login" th:unless="${islogin}">登录</div>
+			<div class="register" th:unless="${islogin}">注册</div>
+			<div class="player" th:if="${islogin}">
+				<img th:src=${player.avatar} />
+				<div class="nickname">[[${player.nickname}]]</div>
+			</div>
+		</div>
 	</div>
 	<!--失败界面蒙层-->
 	<div class="failed">
