@@ -67,6 +67,19 @@ function readData() {
 		currentScore = data.currentScore;
 		propsCount = data.propsCount;
 		weaponCount = data.weaponCount;
+		if (propsCount.length < propsList.length) {
+			let n = propsList.length - propsCount.length;
+			for (let i = 0; i < n; i++) {
+				propsCount.push(1);
+			}
+		}
+		if (weaponCount.length < weaponList.length) {
+			let n = weaponList.length - weaponCount.length;
+			for (let i = 0; i < n; i++) {
+				weaponCount.push(10);
+			}
+		}
+		saveData();
 	}
 	//对应修改dom
 	refreshDom();
