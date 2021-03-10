@@ -350,6 +350,20 @@ function operateShopPage(isVisible) {
 }
 
 /**
+ * 账户信息修改控制
+ * @param {*} isVisible
+ */
+function operateUserInfoUpdatePage(isVisible) {
+	if (isVisible) {
+		userInfoPageDOM.style.display = 'flex';
+		previewImg.src = onlineUserData.avatar;
+		updateNickNameInput.value = onlineUserData.nickname;
+	} else {
+		userInfoPageDOM.style.display = 'none';
+	}
+}
+
+/**
  * 敌人消失动画
  * @param {*} enemyObject 构造敌人对象
  */

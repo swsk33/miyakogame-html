@@ -154,7 +154,7 @@ public class PlayerServiceImpl implements PlayerService {
 			playerDO.setNickname(getPlayer.getNickname());
 		}
 		if (StringUtils.isEmpty(playerDO.getAvatar())) {
-			playerDO.setAvatar(playerDO.getAvatar());
+			playerDO.setAvatar(getPlayer.getAvatar());
 		}
 		if (StringUtils.isEmpty("" + playerDO.getHighScore())) {
 			playerDO.setHighScore(getPlayer.getHighScore());
@@ -165,6 +165,9 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		if (StringUtils.isEmpty(playerDO.getPwd())) {
 			playerDO.setPwd(getPlayer.getPwd());
+		} else if (playerDO.getPwd().length() < 8) {
+			result.setResultFailed("修改密码长度不能小于8！");
+			return result;
 		} else {
 			playerDO.setPwd(PwdUtils.encodePwd(playerDO.getPwd()));
 		}
