@@ -33,6 +33,23 @@ userInfoButtons[0].addEventListener('click', () => {
 	};
 	// 组装头像并获取地址
 	if (uploadInputImg.files.length > 0) {
+		if (uploadInputImg.files[0].size == 0) {
+			showTipFrame('更新信息失败，原因：不能上传空文件！', null, '.tip-false');
+			updateRequestTip.style.display = 'none';
+			return false;
+		}
+		if (uploadInputImg.files[0].size > 2097152) {
+			showTipFrame('更新信息失败，原因：头像文件大小必须小于2MB！', null, '.tip-false');
+			updateRequestTip.style.display = 'none';
+			return false;
+		}
+		let fileType = uploadInputImg.files[0].name.substring(uploadInputImg.files[0].name.lastIndexOf('.') + 1);
+		fileType = fileType.toLowerCase();
+		if (fileType != 'jpg' && fileType != 'jpeg' && fileType != 'png' && fileType != 'gif') {
+			showTipFrame('更新信息失败，原因：头像文件必须是jpg,jpeg,png或者gif格式！', null, '.tip-false');
+			updateRequestTip.style.display = 'none';
+			return false;
+		}
 		let imgData = new FormData();
 		imgData.append('img', uploadInputImg.files[0]);
 		fetch('/miyakogame/api/avatar/upload', {
@@ -54,17 +71,17 @@ userInfoButtons[0].addEventListener('click', () => {
 					return response.json();
 				}).then((result) => {
 					if (result.success) {
-						showTipFrame('更新用户信息成功！3s后刷新页面...', null, '.tip-true');
+						showTipFrame('更新信息成功！3s后刷新页面...', null, '.tip-true');
 						setTimeout(() => {
 							window.location.pathname = '/miyakogame';
 						}, 3000);
 					} else {
-						showTipFrame('更新用户信息失败，原因：' + result.message, null, '.tip-false');
+						showTipFrame('更新信息失败，原因：' + result.message, null, '.tip-false');
 					}
 					updateRequestTip.style.display = 'none';
 				});
 			} else {
-				showTipFrame('更新用户信息失败，原因：' + result.message, null, '.tip-false');
+				showTipFrame('更新信息失败，原因：' + result.message, null, '.tip-false');
 				updateRequestTip.style.display = 'none';
 			}
 		});
@@ -80,12 +97,12 @@ userInfoButtons[0].addEventListener('click', () => {
 			return response.json();
 		}).then((result) => {
 			if (result.success) {
-				showTipFrame('更新用户信息成功！3s后刷新页面...', null, '.tip-true');
+				showTipFrame('更新信息成功！3s后刷新页面...', null, '.tip-true');
 				setTimeout(() => {
 					window.location.pathname = '/miyakogame';
 				}, 3000);
 			} else {
-				showTipFrame('更新用户信息失败，原因：' + result.message, null, '.tip-false');
+				showTipFrame('更新信息失败，原因：' + result.message, null, '.tip-false');
 			}
 			updateRequestTip.style.display = 'none';
 		});

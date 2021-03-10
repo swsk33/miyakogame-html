@@ -2,17 +2,22 @@ package link.swsk33web.miyakogame.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import link.swsk33web.miyakogame.model.Player;
 
 public class MiyakoInterceptor implements HandlerInterceptor {
 
 	// Controller方法执行之前
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-		// 只有返回true才会继续向下执行，返回false取消当前请求
+		HttpSession session = request.getSession();
+		Player sessionPlayer = (Player) session.getAttribute("session");
+		if (sessionPlayer == null) {
+			response.sendRedirect("/miyakogame/player/login");
+			return false;
+		}
 		return true;
 	}
 
