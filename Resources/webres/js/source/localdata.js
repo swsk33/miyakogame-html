@@ -24,6 +24,8 @@ if (userDataDOM[0].innerText == 'true') {
 	onlineUserData.avatar = userDataDOM[3].innerText;
 	onlineUserData.highScore = parseInt(userDataDOM[4].innerText);
 	onlineUserData.gameData = userDataDOM[5].innerText;
+} else {
+	showTipFrame('登录以存储游戏进度至云端不再丢失，并加入排行榜。')
 }
 
 /**

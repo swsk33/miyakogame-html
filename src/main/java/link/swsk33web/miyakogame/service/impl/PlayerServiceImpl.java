@@ -262,6 +262,8 @@ public class PlayerServiceImpl implements PlayerService {
 				result.setResultSuccess("查询成功！", info);
 				return result;
 			}
+		} else {
+			rank++;
 		}
 		double score = redisTemplate.opsForZSet().score("totalRank", playerDO.getUserName());
 		RankInfo rankInfo = new RankInfo();

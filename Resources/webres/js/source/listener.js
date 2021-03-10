@@ -105,8 +105,13 @@ startPageBtn[2].addEventListener('click', () => {
 	operateShopPage(true);
 });
 
-//帮助按钮
+//排行榜按钮
 startPageBtn[3].addEventListener('click', () => {
+	operateRankPage(true);
+});
+
+//帮助按钮
+startPageBtn[4].addEventListener('click', () => {
 	opreateHelpPage(true);
 });
 
@@ -139,6 +144,11 @@ failedPageBtn[0].addEventListener('click', () => {
 failedPageBtn[1].addEventListener('click', () => {
 	opreateFailedPage(false);
 	operateStartPage(true);
+});
+
+//排行榜界面按钮
+rankPage.children[1].lastElementChild.addEventListener('click', () => {
+	operateRankPage(false);
 });
 
 //帮助界面按钮

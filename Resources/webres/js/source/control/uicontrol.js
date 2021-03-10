@@ -13,7 +13,7 @@ let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
 let pausePage = document.querySelector('.pause'); //获取暂停界面
 let loadingPage = document.querySelector('.loading'); //获取加载页面
-let transitionPage = document.querySelector('.transition'); //获取过渡界面
+let rankPage = document.querySelector('.leaderboard'); //获取排行榜页面
 let processBar = document.querySelector('.loading .processBar .processValue'); //获取进度条
 let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
 let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
@@ -351,7 +351,7 @@ function operateShopPage(isVisible) {
 
 /**
  * 账户信息修改控制
- * @param {*} isVisible
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面
  */
 function operateUserInfoUpdatePage(isVisible) {
 	if (isVisible) {
@@ -360,6 +360,86 @@ function operateUserInfoUpdatePage(isVisible) {
 		updateNickNameInput.value = onlineUserData.nickname;
 	} else {
 		userInfoPageDOM.style.display = 'none';
+	}
+}
+
+/**
+ * 
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面 
+ */
+function operateRankPage(isVisible) {
+	let loadingTip = document.querySelector('.leaderboard .requesting');
+	let totalRankList = document.querySelector('.leaderboard .frame .total .rank');
+	let personalRank = document.querySelector('.leaderboard .frame .me .content').children;
+	if (isVisible) {
+		rankPage.style.display = 'flex';
+		loadingTip.style.display = 'flex';
+		let rankArray;
+		fetch('/miyakogame/api/rankten').then((response) => {
+			return response.json();
+		}).then((result) => {
+			if (result.success) {
+				rankArray = result.data;
+				for (let i = 0; i < rankArray.length; i++) {
+					let getUserRank = rankArray[i];
+					let eachRankInfo = document.createElement('li');
+					let eachUserInfo = document.createElement('div');
+					eachUserInfo.className = 'nickname';
+					let userAvatar = document.createElement('img');
+					userAvatar.src = getUserRank.avatar;
+					let userNameText = document.createElement('div');
+					userNameText.className = 'text';
+					userNameText.innerText = getUserRank.nickname;
+					if (getUserRank.userName == onlineUserData.userName) {
+						userNameText.style.color = 'blue';
+					}
+					eachUserInfo.appendChild(userAvatar);
+					eachUserInfo.appendChild(userNameText);
+					let scoreText = document.createElement('div');
+					scoreText.className = 'score';
+					scoreText.innerText = getUserRank.highScore;
+					let rankText = document.createElement('div');
+					rankText.className = 'rank';
+					rankText.innerText = getUserRank.sequence;
+					eachRankInfo.appendChild(eachUserInfo);
+					eachRankInfo.appendChild(scoreText);
+					eachRankInfo.appendChild(rankText);
+					totalRankList.appendChild(eachRankInfo);
+				}
+				loadingTip.style.display = 'none';
+			} else {
+				loadingTip.style.display = 'none';
+				showTipFrame('获取全服排名失败！请检查网络！', null, '.tip-false');
+			}
+		});
+		if (isUserLogin) {
+			let userData = {
+				userName: onlineUserData.userName
+			}
+			fetch('/miyakogame/api/playerank', {
+				method: 'POST',
+				body: JSON.stringify(userData),
+				headers: {
+					'content-type': 'application/json'
+				}
+			}).then((response) => {
+				return response.json();
+			}).then((result) => {
+				if (result.success) {
+					personalRank[0].children[0].src = onlineUserData.avatar;
+					personalRank[0].children[1].innerText = onlineUserData.nickname;
+					personalRank[1].innerText = onlineUserData.highScore;
+					personalRank[2].innerText = result.data.sequence;
+					loadingTip.style.display = 'none';
+				} else {
+					loadingTip.style.display = 'none';
+					showTipFrame('获取个人排名失败！请检查网络！', null, '.tip-false');
+				}
+			});
+		}
+	} else {
+		totalRankList.innerHTML = '';
+		rankPage.style.display = 'none';
 	}
 }
 
