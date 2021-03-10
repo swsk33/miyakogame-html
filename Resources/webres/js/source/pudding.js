@@ -163,7 +163,6 @@ function puddingMove() {
 		operateSuccessPage(true);
 		stopGameProcess();
 		saveData();
-		refreshDom();
 	}
 	let topDistance = getPuddingAtBorder().borderTop.offsetTop; //上部离顶端距离
 	let bottomDistance = gameBackground.offsetHeight - getPuddingAtBorder().borderBottom.offsetTop - puddingSize.puddingHeight; //下部离底端距离

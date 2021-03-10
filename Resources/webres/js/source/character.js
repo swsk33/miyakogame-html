@@ -51,10 +51,10 @@ function healthDown() {
 			}
 		}, 150);
 		initializePuddings();
-		refreshDom();
+		saveData();
 	} else {
 		opreateFailedPage(true);
 		stopGameProcess();
+		resetData();
 	}
-	saveData();
 }

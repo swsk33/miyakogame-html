@@ -2,10 +2,10 @@ drop table if exists `miyakogame_user`;
 create table `miyakogame_user` (
 	`user_name` varchar(32) not null,
 	`nickname` varchar(32) not null,
-	`avatar` varchar(256),
+	`avatar` varchar(256) not null,
 	`high_score` int(8) not null,
 	`pwd` varchar(36) not null,
-	`game_data` varchar(512) not null,
+	`game_data` varchar(512),
 	`gmt_created` datetime,
 	`gmt_modified` datetime,
 	primary key(`user_name`)

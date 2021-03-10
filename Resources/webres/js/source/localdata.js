@@ -2,7 +2,7 @@
 //游戏数据
 let level; //关卡
 let health; //生命值
-let highScore; //最高分数
+let highScore = 0; //最高分数
 let currentScore = 0; //当前分数
 let propsCount = []; //各个道具的数量
 let weaponCount = []; //各个武器的弹药数量
@@ -19,11 +19,11 @@ let onlineUserData = {
 let userDataDOM = document.querySelector('.userLoginData').children;
 if (userDataDOM[0].innerText == 'true') {
 	isUserLogin = true;
-	onlineUserData.userName = userDataDOM[1];
-	onlineUserData.nickname = userDataDOM[2];
-	onlineUserData.avatar = userDataDOM[3];
-	onlineUserData.highScore = userDataDOM[4];
-	onlineUserData.gameData = userDataDOM[5];
+	onlineUserData.userName = userDataDOM[1].innerText;
+	onlineUserData.nickname = userDataDOM[2].innerText;
+	onlineUserData.avatar = userDataDOM[3].innerText;
+	onlineUserData.highScore = parseInt(userDataDOM[4].innerText);
+	onlineUserData.gameData = userDataDOM[5].innerText;
 }
 
 /**
@@ -41,6 +41,7 @@ function addScore(score) {
 
 /**
  * 储存游戏数据
+ * 离线时仅储存至本地，在线时同时储存至服务端
  */
 function saveData() {
 	let data = {
@@ -54,6 +55,7 @@ function saveData() {
 	let dataStr = JSON.stringify(data);
 	window.localStorage.setItem('data', dataStr);
 	if (isUserLogin) {
+		onlineUserData.highScore = highScore;
 		onlineUserData.gameData = dataStr;
 		fetch('/miyakogame/api/update', {
 			method: 'POST',
@@ -63,6 +65,7 @@ function saveData() {
 			}
 		});
 	}
+	refreshDom();
 }
 
 /**
@@ -70,57 +73,36 @@ function saveData() {
  */
 function readData() {
 	let isNewGame = false;
+	let data;
+	//离线状态下仅从本地读取
 	if (!isUserLogin) {
-		let data = JSON.parse(window.localStorage.getItem('data'));
-		if (data == null || data.highScore == 0) {
-			currentScore = 0;
-			highScore = 0;
-			health = 3;
-			level = 1;
-			propsCount = [];
-			weaponCount = [];
-			for (let i = 0; i < weaponList.length; i++) {
-				if (i == 0) {
-					weaponCount.push(-1);
-				} else {
-					weaponCount.push(10);
-				}
-			}
-			for (let i = 0; i < propsList.length; i++) {
+		data = JSON.parse(window.localStorage.getItem('data'));
+	} else { //在线状态下从在线数据读取
+		data = JSON.parse(onlineUserData.gameData);
+	}
+	if (data == null || data.highScore == 0) {
+		resetData();
+		isNewGame = true;
+	} else {
+		level = data.level;
+		health = data.health;
+		highScore = data.highScore;
+		currentScore = data.currentScore;
+		propsCount = data.propsCount;
+		weaponCount = data.weaponCount;
+		if (propsCount.length < propsList.length) {
+			let n = propsList.length - propsCount.length;
+			for (let i = 0; i < n; i++) {
 				propsCount.push(1);
 			}
-			isNewGame = true;
-		} else {
-			level = data.level;
-			health = data.health;
-			highScore = data.highScore;
-			currentScore = data.currentScore;
-			propsCount = data.propsCount;
-			weaponCount = data.weaponCount;
-			if (propsCount.length < propsList.length) {
-				let n = propsList.length - propsCount.length;
-				for (let i = 0; i < n; i++) {
-					propsCount.push(1);
-				}
-			}
-			if (weaponCount.length < weaponList.length) {
-				let n = weaponList.length - weaponCount.length;
-				for (let i = 0; i < n; i++) {
-					weaponCount.push(10);
-				}
-			}
-			saveData();
 		}
-		//对应修改dom
-		refreshDom();
-	} else {
-		onlineGameData = JSON.parse(onlineUserData.gameData);
-		level = onlineGameData.level;
-		health = onlineGameData.health;
-		highScore = onlineGameData.highScore;
-		currentScore = onlineGameData.currentScore;
-		propsCount = onlineGameData.propsCount;
-		weaponCount = onlineGameData.weaponCount;
+		if (weaponCount.length < weaponList.length) {
+			let n = weaponList.length - weaponCount.length;
+			for (let i = 0; i < n; i++) {
+				weaponCount.push(10);
+			}
+		}
+		saveData();
 	}
 	return isNewGame;
 }
@@ -144,6 +126,7 @@ function resetData() {
 	for (let i = 0; i < propsList.length; i++) {
 		propsCount.push(1);
 	}
+	saveData();
 	refreshDom();
 }
 

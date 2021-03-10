@@ -82,7 +82,6 @@ window.addEventListener('keydown', function (e) {
 //新游戏按钮
 startPageBtn[1].addEventListener('click', function () {
 	resetData();
-	saveData();
 	clearBullets();
 	document.querySelector('.startAudio').play();
 	operateStartPage(false);
@@ -119,8 +118,6 @@ succeedPageBtn[1].addEventListener('click', function () {
 let failedPageBtn = document.querySelector('.failed ul').children;
 //重新开始按钮
 failedPageBtn[0].addEventListener('click', function () {
-	resetData();
-	saveData();
 	clearBullets();
 	opreateFailedPage(false);
 	initializePuddings();

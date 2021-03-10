@@ -44,6 +44,10 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("密码不能为空！");
 			return result;
 		}
+		if (playerDO.getPwd().length() < 8) {
+			result.setResultFailed("密码长度不能小于8！");
+			return result;
+		}
 		// 先从Redis找这个用户
 		Player getPlayer = (Player) redisTemplate.opsForValue().get(playerDO.getUserName());
 		if (getPlayer == null) {
@@ -70,7 +74,7 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		playerDO.setPwd(PwdUtils.encodePwd(playerDO.getPwd()));
 		playerDO.setHighScore(0);
-		playerDO.setGameData("{\"level\":1,\"health\":3,\"highScore\":0,\"currentScore\":0,\"propsCount\":[1,1,1],\"weaponCount\":[-1,10,10,10]}");
+		playerDO.setGameData("null");
 		playerDO.setGmtCreated(LocalDateTime.now());
 		playerDO.setGmtModified(LocalDateTime.now());
 		redisTemplate.opsForValue().set(playerDO.getUserName(), playerDO.toModel());
