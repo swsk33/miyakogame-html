@@ -42,9 +42,9 @@ public class MiyakoApplication {
 	private Connector redirectConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
 		connector.setScheme("http");
-		connector.setPort(8801); // 原http端口
+		connector.setPort(80); // 原http端口
 		connector.setSecure(false);
-		connector.setRedirectPort(8443); // 跳转的https端口，也是我们配置的项目端口
+		connector.setRedirectPort(443); // 跳转的https端口，也是我们配置的项目端口
 		return connector;
 	}
 
