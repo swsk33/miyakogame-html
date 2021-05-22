@@ -4,6 +4,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -14,6 +15,12 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @PropertySource(value = { "file:Resources/config/config.properties" })
 public class MiyakoApplication {
+
+	@Value("${origin.http.port}")
+	private int httpPort;
+
+	@Value("${server.port}")
+	private int httpsPort;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MiyakoApplication.class, args);
@@ -42,9 +49,9 @@ public class MiyakoApplication {
 	private Connector redirectConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
 		connector.setScheme("http");
-		connector.setPort(8801); // 原http端口
+		connector.setPort(httpPort); // 原http端口
 		connector.setSecure(false);
-		connector.setRedirectPort(443); // 跳转的https端口，也是我们配置的项目端口
+		connector.setRedirectPort(httpsPort); // 跳转的https端口，也是我们配置的项目端口
 		return connector;
 	}
 
