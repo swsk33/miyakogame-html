@@ -31,13 +31,13 @@ public class MiyakoInterceptor implements HandlerInterceptor {
 		}
 		Player getPlayer = null;
 		try {
-			getPlayer = (Player) redisTemplate.opsForValue().get(sessionPlayer.getUserName());
+			getPlayer = (Player) redisTemplate.opsForValue().get(sessionPlayer.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if (getPlayer == null) {
 			try {
-				getPlayer = playerDAO.findByUserName(sessionPlayer.getUserName());
+				getPlayer = playerDAO.findById(sessionPlayer.getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

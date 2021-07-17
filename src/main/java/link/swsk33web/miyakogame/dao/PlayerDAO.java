@@ -17,12 +17,17 @@ public interface PlayerDAO {
 	/**
 	 * 删除用户
 	 */
-	int delete(String userName);
+	int delete(int id);
 
 	/**
 	 * 修改用户
 	 **/
 	int update(Player player);
+
+	/**
+	 * 根据id查找用户
+	 */
+	Player findById(int id);
 
 	/**
 	 * 根据用户名查找用户
@@ -35,8 +40,8 @@ public interface PlayerDAO {
 	List<RankInfo> findByHighScoreInTen();
 
 	/**
-	 * 通过用户名查询用户排名
+	 * 通过用户id查询用户排名
 	 */
-	RankInfo findUserRankByUsername(String userName);
+	RankInfo findUserRankByUserId(int userId);
 
 }

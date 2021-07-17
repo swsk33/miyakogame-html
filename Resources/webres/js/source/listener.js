@@ -67,8 +67,6 @@ window.addEventListener('keydown', (e) => {
 		}
 	}
 
-
-
 	//暂停游戏
 	if (e.keyCode == 80) {
 		let isStartPageOn = window.getComputedStyle(startPage, null).getPropertyValue('display') != 'none';

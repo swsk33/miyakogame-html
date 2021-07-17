@@ -30,15 +30,15 @@ public class MainPageControl {
 		Player sessionPlayer = (Player) session.getAttribute(CommonValue.SESSION_NAME);
 		if (sessionPlayer != null) {
 			// 根据session中信息去Redis中查找，没有就去数据库
-			Player getPlayer = (Player) redisTemplate.opsForValue().get(sessionPlayer.getUserName());
+			Player getPlayer = (Player) redisTemplate.opsForValue().get(sessionPlayer.getId());
 			if (getPlayer == null) {
 				try {
-					getPlayer = playerDAO.findByUserName(sessionPlayer.getUserName());
+					getPlayer = playerDAO.findById(sessionPlayer.getId());
 				} catch (Exception e) {
-					// none
+					e.printStackTrace();
 				}
 				if (getPlayer != null) {
-					redisTemplate.opsForValue().set(getPlayer.getUserName(), getPlayer);
+					redisTemplate.opsForValue().set(getPlayer.getId(), getPlayer);
 				}
 			}
 			if (sessionPlayer.getPwd().equals(getPlayer.getPwd())) {

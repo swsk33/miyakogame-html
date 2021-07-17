@@ -58,17 +58,19 @@ public class PlayerServiceImpl implements PlayerService {
 			return result;
 		}
 		// 先从Redis找这个用户
-		Player getPlayer = (Player) redisTemplate.opsForValue().get(player.getUserName());
-		if (getPlayer == null) {
+		Integer getId = (Integer) redisTemplate.opsForHash().get(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, player.getUserName());
+		if (getId == null) {
+			Player getPlayer = null;
 			// Redis找不着，再去MySQL中找
 			try {
 				getPlayer = playerDAO.findByUserName(player.getUserName());
 			} catch (Exception e) {
-				// none
+				e.printStackTrace();
 			}
 			if (getPlayer != null) {
 				result.setResultFailed("该用户名已存在！");
-				redisTemplate.opsForValue().set(player.getUserName(), getPlayer);
+				redisTemplate.opsForValue().set(getPlayer.getId(), getPlayer);
+				redisTemplate.opsForHash().put(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, getPlayer.getUserName(), getPlayer.getId());
 				return result;
 			}
 		} else {
@@ -86,10 +88,15 @@ public class PlayerServiceImpl implements PlayerService {
 		player.setGameData("null");
 		player.setGmtCreated(LocalDateTime.now());
 		player.setGmtModified(LocalDateTime.now());
-		redisTemplate.opsForValue().set(player.getUserName(), player);
 		playerDAO.add(player);
+		redisTemplate.opsForValue().set(player.getId(), player);
+		redisTemplate.opsForHash().put(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, player.getUserName(), player.getId());
 		// 加入Redis排名表
-		redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, player.getUserName(), player.getHighScore());
+		redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, player.getId(), player.getHighScore());
+		// 如果这个新注册的名字在无效用户名集合中则去掉
+		if (redisTemplate.opsForSet().isMember(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName())) {
+			redisTemplate.opsForSet().remove(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName());
+		}
 		result.setResultSuccess("注册用户成功！", player);
 		return result;
 	}
@@ -109,9 +116,17 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("密码不能为空！");
 			return result;
 		}
+		// 检测无效用户名防止缓存穿透
+		if (redisTemplate.opsForSet().isMember(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName())) {
+			result.setResultFailed("请勿重复登录无效账户！");
+			return result;
+		}
 		// 先去Redis查询，没有再去数据库
-		Player getPlayer = (Player) redisTemplate.opsForValue().get(player.getUserName());
-		if (getPlayer == null) {
+		Integer getId = (Integer) redisTemplate.opsForHash().get(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, player.getUserName());
+		Player getPlayer = null;
+		if (getId != null) {
+			getPlayer = (Player) redisTemplate.opsForValue().get(getId);
+		} else {
 			try {
 				getPlayer = playerDAO.findByUserName(player.getUserName());
 			} catch (Exception e) {
@@ -119,18 +134,14 @@ public class PlayerServiceImpl implements PlayerService {
 			}
 			if (getPlayer == null) {
 				result.setResultFailed("用户不存在！");
-				// 即使是无效的用户名也给存入Redis，防止缓存穿透
-				Player invalidPlayer = new Player();
-				invalidPlayer.setUserName(player.getUserName());
-				invalidPlayer.setPwd(null);
-				redisTemplate.opsForValue().set(player.getUserName(), invalidPlayer, 1200, TimeUnit.SECONDS);
+				// 无效的用户名存入Redis的无效用户名集合中，防止缓存穿透
+				redisTemplate.opsForSet().add(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName());
+				redisTemplate.expire(CommonValue.REDIS_INVALID_USER_TABLE_NAME, 1200, TimeUnit.SECONDS);
 				return result;
 			} else {
-				redisTemplate.opsForValue().set(player.getUserName(), getPlayer);
+				redisTemplate.opsForValue().set(player.getId(), getPlayer);
+				redisTemplate.opsForHash().put(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, getPlayer.getUserName(), getPlayer.getId());
 			}
-		} else if (StringUtils.isEmpty(getPlayer.getPwd())) { // 若Redis中找出的是没有密码的账户，就说明是无效账户
-			result.setResultFailed("请勿重复登录无效账户！");
-			return result;
 		}
 		if (!PwdUtils.encodePwd(player.getPwd()).equals(getPlayer.getPwd())) {
 			result.setResultFailed("用户名或者密码错误！");
@@ -141,11 +152,25 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Result<Player> delete(String userName) {
+	public Result<Player> delete(int id) {
 		Result<Player> result = new Result<>();
-		redisTemplate.delete(userName);
-		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, userName);
-		playerDAO.delete(userName);
+		Player getPlayer = (Player) redisTemplate.opsForValue().get(id);
+		if (getPlayer == null) {
+			try {
+				getPlayer = playerDAO.findById(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (getPlayer == null) {
+				result.setResultFailed("找不到指定用户，无法注销！");
+				return result;
+			}
+		}
+		String getUsername = getPlayer.getUserName();
+		redisTemplate.delete(id);
+		redisTemplate.opsForHash().delete(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, getUsername);
+		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, id);
+		playerDAO.delete(id);
 		result.setResultSuccess("注销用户完成！", null);
 		return result;
 	}
@@ -157,10 +182,10 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("数据体不能为空！");
 			return result;
 		}
-		Player getPlayer = (Player) redisTemplate.opsForValue().get(player.getUserName());
+		Player getPlayer = (Player) redisTemplate.opsForValue().get(player.getId());
 		if (getPlayer == null) {
 			try {
-				getPlayer = playerDAO.findByUserName(player.getUserName());
+				getPlayer = playerDAO.findById(player.getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -177,16 +202,13 @@ public class PlayerServiceImpl implements PlayerService {
 		} else {
 			String originAvatar = getPlayer.getAvatar();
 			//删除原有头像，默认头像不删除
-			if (!originAvatar.contains("default")) {
-				new File("Resource" + originAvatar).delete();
-			}
 		}
-		if (StringUtils.isEmpty("" + player.getHighScore())) {
+		if (player.getHighScore() == null) {
 			player.setHighScore(getPlayer.getHighScore());
 		} else {
 			// 重新写入Redis排名表信息
-			redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, player.getUserName());
-			redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, player.getUserName(), player.getHighScore());
+			redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, player.getId());
+			redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, player.getId(), player.getHighScore());
 		}
 		if (StringUtils.isEmpty(player.getPwd())) {
 			player.setPwd(getPlayer.getPwd());
@@ -204,7 +226,7 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		player.setGmtCreated(getPlayer.getGmtCreated());
 		player.setGmtModified(LocalDateTime.now());
-		redisTemplate.opsForValue().set(player.getUserName(), player);
+		redisTemplate.opsForValue().set(player.getId(), player);
 		playerDAO.update(player);
 		result.setResultSuccess("修改信息成功！", player);
 		return result;
@@ -214,52 +236,46 @@ public class PlayerServiceImpl implements PlayerService {
 	public Result<List<RankInfo>> getTotalRank() {
 		Result<List<RankInfo>> result = new Result<>();
 		List<RankInfo> rankResult = new ArrayList<>();
-		Set<String> userNames = redisTemplate.opsForZSet().reverseRange("totalRank", 0, 9);
-		if (userNames == null) {
-			List<RankInfo> getRankDO = null;
+		Set<Integer> userIds = redisTemplate.opsForZSet().reverseRange(CommonValue.REDIS_RANK_TABLE_NAME, 0, 9);
+		if (userIds.size() == 0) {
+			List<RankInfo> getRank = null;
 			try {
-				getRankDO = playerDAO.findByHighScoreInTen();
+				getRank = playerDAO.findByHighScoreInTen();
 			} catch (Exception e) {
-				// none
+				e.printStackTrace();
 			}
-			if (getRankDO == null) {
+			if (getRank == null) {
 				result.setResultFailed("查询失败！");
 				return result;
 			} else {
-				for (RankInfo rank : getRankDO) {
+				for (RankInfo rank : getRank) {
 					rankResult.add(rank);
-					redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, rank.getUserName(), rank.getHighScore());
+					redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, rank.getUserId(), rank.getHighScore());
 				}
 			}
 		} else {
 			long order = 1;
-			for (String eachUserName : userNames) {
-				Player getPlayer = (Player) redisTemplate.opsForValue().get(eachUserName);
+			for (int eachUserId : userIds) {
+				//判断缓存排名表每个用户是否有效
+				Player getPlayer = (Player) redisTemplate.opsForValue().get(eachUserId);
 				if (getPlayer == null) {
 					try {
-						getPlayer = playerDAO.findByUserName(eachUserName);
+						getPlayer = playerDAO.findById(eachUserId);
 					} catch (Exception e) {
-						// none
+						e.printStackTrace();
 					}
-					if (getPlayer != null) {
-						redisTemplate.opsForValue().set(eachUserName, getPlayer);
-						RankInfo info = new RankInfo();
-						info.setUserName(getPlayer.getUserName());
-						info.setNickname(getPlayer.getNickname());
-						info.setAvatar(getPlayer.getAvatar());
-						info.setHighScore(getPlayer.getHighScore());
-						info.setSequence(order);
-						rankResult.add(info);
+					if (getPlayer == null) {
+						redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, eachUserId);
+						continue;
 					}
-				} else {
-					RankInfo info = new RankInfo();
-					info.setUserName(getPlayer.getUserName());
-					info.setNickname(getPlayer.getNickname());
-					info.setAvatar(getPlayer.getAvatar());
-					info.setHighScore(getPlayer.getHighScore());
-					info.setSequence(order);
-					rankResult.add(info);
 				}
+				RankInfo info = new RankInfo();
+				info.setUserId(getPlayer.getId());
+				info.setNickname(getPlayer.getNickname());
+				info.setAvatar(getPlayer.getAvatar());
+				info.setHighScore(getPlayer.getHighScore());
+				info.setSequence(order);
+				rankResult.add(info);
 				order++;
 			}
 		}
@@ -268,17 +284,13 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Result<RankInfo> getPlayerRank(Player player) {
+	public Result<RankInfo> getPlayerRank(int id) {
 		Result<RankInfo> result = new Result<>();
-		if (player == null) {
-			result.setResultFailed("数据体不能为空！");
-			return result;
-		}
-		Long rank = redisTemplate.opsForZSet().reverseRank(CommonValue.REDIS_RANK_TABLE_NAME, player.getUserName());
+		Long rank = redisTemplate.opsForZSet().reverseRank(CommonValue.REDIS_RANK_TABLE_NAME, id);
 		if (rank == null) {
 			RankInfo info = null;
 			try {
-				info = playerDAO.findUserRankByUsername(player.getUserName());
+				info = playerDAO.findUserRankByUserId(id);
 			} catch (Exception e) {
 				// none
 			}
@@ -286,19 +298,17 @@ public class PlayerServiceImpl implements PlayerService {
 				result.setResultFailed("查询失败！");
 				return result;
 			} else {
-				redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, info.getUserName(), info.getHighScore());
+				redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, info.getUserId(), info.getHighScore());
 				result.setResultSuccess("查询成功！", info);
 				return result;
 			}
 		} else {
 			rank++;
 		}
-		double score = redisTemplate.opsForZSet().score(CommonValue.REDIS_RANK_TABLE_NAME, player.getUserName());
+		double score = redisTemplate.opsForZSet().score(CommonValue.REDIS_RANK_TABLE_NAME, id);
 		RankInfo rankInfo = new RankInfo();
-		rankInfo.setUserName(player.getUserName());
-		rankInfo.setNickname(player.getNickname());
+		rankInfo.setUserId(id);
 		rankInfo.setHighScore((int) score);
-		rankInfo.setAvatar(player.getAvatar());
 		rankInfo.setSequence(rank);
 		result.setResultSuccess("查询成功！", rankInfo);
 		return result;

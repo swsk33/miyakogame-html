@@ -23,7 +23,7 @@ public interface PlayerService {
 	/**
 	 * 用户销号
 	 */
-	Result<Player> delete(String userName);
+	Result<Player> delete(int id);
 
 	/**
 	 * 用户信息更新
@@ -38,6 +38,6 @@ public interface PlayerService {
 	/**
 	 * 查询某用户排名信息
 	 */
-	Result<RankInfo> getPlayerRank(Player player);
+	Result<RankInfo> getPlayerRank(int id);
 
 }

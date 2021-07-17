@@ -16,8 +16,18 @@ public class CommonValue {
 	public static final String SESSION_NAME = "player";
 
 	/**
-	 * Redis排名表的名称
+	 * Redis排名表zSet的名称
 	 */
 	public static final String REDIS_RANK_TABLE_NAME = "rankInfo";
+
+	/**
+	 * Redis玩家username -> id的映射Map名称
+	 */
+	public static final String REDIS_USERNAME_ID_TABLE_NAME = "username_id";
+
+	/**
+	 * Redis无效用户名（一般是不存在的用户名）的Set名称
+	 */
+	public static final String REDIS_INVALID_USER_TABLE_NAME = "invalid_username";
 
 }

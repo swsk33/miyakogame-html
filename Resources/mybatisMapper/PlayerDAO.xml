@@ -15,14 +15,14 @@
 	</resultMap>
 
 	<resultMap id="rankResultMap" type="link.swsk33web.miyakogame.model.RankInfo">
-		<result column="user_name" property="userName"/>
+		<result column="user_id" property="userId"/>
 		<result column="nickname" property="nickname"/>
 		<result column="avatar" property="avatar"/>
 		<result column="high_score" property="highScore"/>
 		<result column="sequence" property="sequence"/>
 	</resultMap>
 
-	<insert id="add" parameterType="link.swsk33web.miyakogame.dataobject.Player">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="link.swsk33web.miyakogame.dataobject.Player">
 		insert into `user`
 			(user_name, nickname, avatar, high_score, pwd, email, game_data, gmt_created, gmt_modified)
 		values (#{userName}, #{nickname}, #{avatar}, #{highScore}, #{pwd}, #{email}, #{gameData}, now(), now())
@@ -46,6 +46,12 @@
 		where id = #{id}
 	</update>
 
+	<select id="findById" resultMap="playerResultMap">
+		select *
+		from `user`
+		where id = #{id}
+	</select>
+
 	<select id="findByUserName" resultMap="playerResultMap">
 		select *
 		from `user`
@@ -53,7 +59,7 @@
 	</select>
 
 	<select id="findByHighScoreInTen" resultMap="rankResultMap">
-		select user_name,
+		select id               as user_id,
 			   nickname,
 			   avatar,
 			   high_score,
@@ -65,8 +71,8 @@
 			  limit 10) as playerinfo;
 	</select>
 
-	<select id="findUserRankByUsername" resultMap="rankResultMap">
-		select user_name,
+	<select id="findUserRankByUserId" resultMap="rankResultMap">
+		select id               as user_id,
 			   nickname,
 			   avatar,
 			   high_score,
@@ -75,7 +81,7 @@
 			 (select *
 			  from `user`
 			  order by high_score desc) as playertable
-		where user_name = #{userName}
+		where id = #{userId}
 	</select>
 
 </mapper>

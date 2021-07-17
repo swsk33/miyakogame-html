@@ -17,9 +17,9 @@ import java.io.Serializable;
 public class RankInfo implements Serializable {
 
 	/**
-	 * 用户名
+	 * 用户名id
 	 */
-	private String userName;
+	private int userId;
 
 	/**
 	 * 昵称

@@ -28,7 +28,6 @@ userInfoButtons[0].addEventListener('click', () => {
 	//待组装信息
 	let data = {
 		id: onlineUserData.id,
-		userName: onlineUserData.userName,
 		nickname: updateNickNameInput.value,
 		pwd: updatePwdInput.value,
 		email: null

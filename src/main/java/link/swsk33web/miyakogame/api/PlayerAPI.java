@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import link.swsk33web.miyakogame.param.CommonValue;
+import link.swsk33web.miyakogame.util.PwdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import link.swsk33web.miyakogame.dataobject.Player;
@@ -45,20 +46,32 @@ public class PlayerAPI {
 	}
 
 	@GetMapping(CommonValue.API_PREFIX + "delete")
-	public void del(@RequestParam("username") String userName, HttpServletRequest request) {
+	public Result<Player> del(@RequestParam("id") int id, HttpServletRequest request) {
+		Result<Player> result = null;
 		HttpSession session = request.getSession();
-		String sessionUserName = ((Player) session.getAttribute(CommonValue.SESSION_NAME)).getUserName();
-		if (sessionUserName.equals(userName)) {
-			playerService.delete(userName);
-			request.getSession().setAttribute(CommonValue.SESSION_NAME, null);
+		int sessionUserId = ((Player) session.getAttribute(CommonValue.SESSION_NAME)).getId();
+		if (sessionUserId != id) {
+			result = new Result<>();
+			result.setResultFailed("当前登录用户和被注销用户不一致，终止！");
+			return result;
 		}
+		result = playerService.delete(id);
+		request.getSession().setAttribute(CommonValue.SESSION_NAME, null);
+		return result;
 	}
 
 	@PostMapping(CommonValue.API_PREFIX + "update")
 	public Result<Player> update(@RequestBody Player player, HttpServletRequest request) {
-		Result<Player> result = playerService.update(player);
+		Result<Player> result = null;
+		HttpSession session = request.getSession();
+		Player sessionPlayer = (Player) session.getAttribute(CommonValue.SESSION_NAME);
+		if (sessionPlayer.getId() != player.getId()) {
+			result = new Result<>();
+			result.setResultFailed("当前登录用户和被修改用户不一致，终止！");
+			return result;
+		}
+		result = playerService.update(player);
 		if (result.isSuccess()) {
-			HttpSession session = request.getSession();
 			session.setAttribute(CommonValue.SESSION_NAME, result.getData());
 		}
 		return result;
@@ -69,9 +82,9 @@ public class PlayerAPI {
 		return playerService.getTotalRank();
 	}
 
-	@PostMapping(CommonValue.API_PREFIX + "playerank")
-	public Result<RankInfo> getPlayerRank(@RequestBody Player player) {
-		return playerService.getPlayerRank(player);
+	@GetMapping(CommonValue.API_PREFIX + "playerank")
+	public Result<RankInfo> getPlayerRank(@RequestParam("id") int playerId) {
+		return playerService.getPlayerRank(playerId);
 	}
 
 }

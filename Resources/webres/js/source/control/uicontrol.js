@@ -364,7 +364,7 @@ function operateUserInfoUpdatePage(isVisible) {
 }
 
 /**
- * 
+ * 排行榜界面
  * @param {*} isVisible 值为true时显示界面，否则隐藏界面 
  */
 function operateRankPage(isVisible) {
@@ -413,16 +413,7 @@ function operateRankPage(isVisible) {
 			}
 		});
 		if (isUserLogin) {
-			let userData = {
-				userName: onlineUserData.userName
-			}
-			fetch('/miyakogame/api/playerank', {
-				method: 'POST',
-				body: JSON.stringify(userData),
-				headers: {
-					'content-type': 'application/json'
-				}
-			}).then((response) => {
+			fetch('/miyakogame/api/playerank?id=' + onlineUserData.id).then((response) => {
 				return response.json();
 			}).then((result) => {
 				if (result.success) {
