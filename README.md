@@ -2,7 +2,7 @@
 
 ## 介绍
 宫子恰布丁-网页小游戏，为太空入侵者的改版。<br>
-此为Spring工程。<br>
+前端为原生HTML/CSS/JavaScript，后端使用Spring Boot。<br>
 ## 下载
 [服务端部署，提取码：2333](https://swsk33.lanzoui.com/b0br8ycxg)<br>
 

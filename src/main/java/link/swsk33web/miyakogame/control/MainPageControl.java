@@ -2,15 +2,17 @@ package link.swsk33web.miyakogame.control;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import link.swsk33web.miyakogame.param.CommonValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import link.swsk33web.miyakogame.dao.PlayerDAO;
-import link.swsk33web.miyakogame.model.Player;
+import link.swsk33web.miyakogame.dataobject.Player;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 @Controller
 public class MainPageControl {
 
@@ -25,13 +27,13 @@ public class MainPageControl {
 		boolean isLogin = false;
 		// 验证session是否正确
 		HttpSession session = request.getSession();
-		Player sessionPlayer = (Player) session.getAttribute("session");
+		Player sessionPlayer = (Player) session.getAttribute(CommonValue.SESSION_NAME);
 		if (sessionPlayer != null) {
 			// 根据session中信息去Redis中查找，没有就去数据库
 			Player getPlayer = (Player) redisTemplate.opsForValue().get(sessionPlayer.getUserName());
 			if (getPlayer == null) {
 				try {
-					getPlayer = playerDAO.findByUserName(sessionPlayer.getUserName()).toModel();
+					getPlayer = playerDAO.findByUserName(sessionPlayer.getUserName());
 				} catch (Exception e) {
 					// none
 				}
@@ -43,7 +45,7 @@ public class MainPageControl {
 				isLogin = true;
 				model.addAttribute("player", sessionPlayer);
 			} else {
-				session.setAttribute("session", null);
+				session.setAttribute(CommonValue.SESSION_NAME, null);
 			}
 		}
 		model.addAttribute("islogin", isLogin);
@@ -54,7 +56,7 @@ public class MainPageControl {
 	public String register() {
 		return "register";
 	}
-	
+
 	@GetMapping("/miyakogame/player/login")
 	public String login() {
 		return "login";

@@ -68,9 +68,10 @@ body {
 
 		.userName,
 		.nickname,
+		.email,
 		.pwd {
 			position: relative;
-			margin-top: 48px;
+			margin-top: 24px;
 
 			.description {
 				font-size: 12px;
@@ -85,6 +86,12 @@ body {
 		}
 
 		.nickname {
+			.description {
+				left: 88px;
+			}
+		}
+
+		.email {
 			.description {
 				left: 88px;
 			}

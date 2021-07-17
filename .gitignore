@@ -1,7 +1,9 @@
-/.mvn/
-/.settings/
-/target/
-/.vscode/
-/Resources/avatars/users/
+.mvn/
+.settings/
+target/
+.vscode/
+Resources/avatars/users/
+.idea/
+*.iml
 .classpath
 .project

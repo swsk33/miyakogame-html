@@ -248,8 +248,10 @@
 	<!--隐藏标签，用于储存用户登录信息，仅初始化网页时写入数据至下列标签-->
 	<div class="userLoginData">
 		<div class="isLogin">[[${islogin}]]</div>
+		<div class="id" th:if="${islogin}">[[${player.id}]]</div>
 		<div class="userName" th:if="${islogin}">[[${player.userName}]]</div>
 		<div class="nickname" th:if="${islogin}">[[${player.nickname}]]</div>
+		<div class="email" th:if="${islogin}">[[${player.email}]]</div>
 		<div class="avatar" th:if="${islogin}">[[${player.avatar}]]</div>
 		<div class="highScore" th:if="${islogin}">[[${player.highScore}]]</div>
 		<div class="gameData" th:if="${islogin}">[[${player.gameData}]]</div>

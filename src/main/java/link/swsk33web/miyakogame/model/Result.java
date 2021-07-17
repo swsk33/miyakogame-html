@@ -1,61 +1,51 @@
 package link.swsk33web.miyakogame.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+/**
+ * 请求结果类型
+ */
+@Getter
+@Setter
+@NoArgsConstructor
 public class Result<T> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 是否成功
+	 */
+	private boolean success;
 
-	private int code;
-
-	private boolean success = false;
-
+	/**
+	 * 消息
+	 */
 	private String message;
 
+	/**
+	 * 数据体
+	 */
 	private T data;
 
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
-		this.data = data;
-	}
-
+	/**
+	 * 设定成功结果
+	 * @param msg 消息
+	 * @param data 数据体
+	 */
 	public void setResultSuccess(String msg, T data) {
 		this.success = true;
-		this.code = 600;
 		this.message = msg;
 		this.data = data;
 	}
 
+	/**
+	 * 设定失败结果
+	 * @param msg 消息
+	 */
 	public void setResultFailed(String msg) {
 		this.success = false;
-		this.code = 601;
 		this.message = msg;
 	}
 

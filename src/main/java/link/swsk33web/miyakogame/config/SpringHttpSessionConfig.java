@@ -6,8 +6,12 @@ import org.springframework.session.MapSessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
+
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Session配置
+ */
 @Configuration
 @EnableSpringHttpSession
 public class SpringHttpSessionConfig {

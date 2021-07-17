@@ -8,8 +8,10 @@ let propsCount = []; //各个道具的数量
 let weaponCount = []; //各个武器的弹药数量
 let isUserLogin = false; //用户是否登录
 let onlineUserData = {
+	id: null,
 	userName: null,
 	nickname: null,
+	email: null,
 	avatar: null,
 	highScore: null,
 	gameData: null
@@ -19,11 +21,13 @@ let onlineUserData = {
 let userDataDOM = document.querySelector('.userLoginData').children;
 if (userDataDOM[0].innerText == 'true') {
 	isUserLogin = true;
-	onlineUserData.userName = userDataDOM[1].innerText;
-	onlineUserData.nickname = userDataDOM[2].innerText;
-	onlineUserData.avatar = userDataDOM[3].innerText;
-	onlineUserData.highScore = parseInt(userDataDOM[4].innerText);
-	onlineUserData.gameData = userDataDOM[5].innerText;
+	onlineUserData.id = parseInt(userDataDOM[1].innerText);
+	onlineUserData.userName = userDataDOM[2].innerText;
+	onlineUserData.nickname = userDataDOM[3].innerText;
+	onlineUserData.email = userDataDOM[4].innerText;
+	onlineUserData.avatar = userDataDOM[5].innerText;
+	onlineUserData.highScore = parseInt(userDataDOM[6].innerText);
+	onlineUserData.gameData = userDataDOM[7].innerText;
 } else {
 	showTipFrame('登录以存储游戏进度至云端不再丢失，并加入排行榜。')
 }

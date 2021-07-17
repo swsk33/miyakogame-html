@@ -27,9 +27,11 @@ userInfoButtons[0].addEventListener('click', () => {
 	updateRequestTip.style.display = 'flex';
 	//待组装信息
 	let data = {
+		id: onlineUserData.id,
 		userName: onlineUserData.userName,
 		nickname: updateNickNameInput.value,
-		pwd: updatePwdInput.value
+		pwd: updatePwdInput.value,
+		email: null
 	};
 	// 组装头像并获取地址
 	if (uploadInputImg.files.length > 0) {
@@ -59,7 +61,7 @@ userInfoButtons[0].addEventListener('click', () => {
 			return response.json();
 		}).then((result) => {
 			if (result.success) {
-				data.avatar = '/miyakogame/api/avatar/' + result.data.id;
+				data.avatar = result.data;
 				let dataStr = JSON.stringify(data);
 				fetch('/miyakogame/api/update', {
 					method: 'POST',

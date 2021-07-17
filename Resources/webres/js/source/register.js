@@ -1,6 +1,7 @@
 //注册页面
 let userNameInput = document.querySelector('form .userName .content input');
 let nickNameInput = document.querySelector('form .nickname .content input');
+let emailInput = document.querySelector('form .email .content input');
 let pwdInput = document.querySelector('form .pwd .content input');
 //请求动画
 let regRequestTip = document.querySelector('.requesting');
@@ -9,6 +10,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 	let data = {
 		userName: userNameInput.value,
 		nickname: nickNameInput.value,
+		email: emailInput.value,
 		pwd: pwdInput.value
 	}
 	let dataString = JSON.stringify(data);

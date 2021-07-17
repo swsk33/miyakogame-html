@@ -1,9 +1,9 @@
 package link.swsk33web.miyakogame.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
-import link.swsk33web.miyakogame.dataobject.PlayerDO;
-import link.swsk33web.miyakogame.model.Player;
+import link.swsk33web.miyakogame.dataobject.Player;
 import link.swsk33web.miyakogame.model.RankInfo;
 import link.swsk33web.miyakogame.model.Result;
 
@@ -13,26 +13,31 @@ public interface PlayerService {
 	/**
 	 * 用户注册
 	 */
-	public Result<Player> register(PlayerDO playerDO);
+	Result<Player> register(Player player);
 
 	/**
 	 * 用户登录
 	 */
-	public Result<Player> login(PlayerDO playerDO);
+	Result<Player> login(Player player);
+
+	/**
+	 * 用户销号
+	 */
+	Result<Player> delete(String userName);
 
 	/**
 	 * 用户信息更新
 	 */
-	public Result<Player> update(PlayerDO playerDO);
+	Result<Player> update(Player player);
 
 	/**
 	 * 查询全服前十
 	 */
-	public Result<List<RankInfo>> getTotalRank();
+	Result<List<RankInfo>> getTotalRank();
 
 	/**
 	 * 查询某用户排名信息
 	 */
-	public Result<RankInfo> getPlayerRank(PlayerDO playerDO);
+	Result<RankInfo> getPlayerRank(Player player);
 
 }
