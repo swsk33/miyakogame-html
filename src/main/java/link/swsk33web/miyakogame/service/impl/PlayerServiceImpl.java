@@ -165,7 +165,7 @@ public class PlayerServiceImpl implements PlayerService {
 				result.setResultFailed("用户不存在！");
 				// 无效的用户名存入Redis的无效用户名集合中，防止缓存穿透
 				redisTemplate.opsForSet().add(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName());
-				redisTemplate.expire(CommonValue.REDIS_INVALID_USER_TABLE_NAME, 1200, TimeUnit.SECONDS);
+				redisTemplate.expire(CommonValue.REDIS_INVALID_USER_TABLE_NAME, 120, TimeUnit.SECONDS);
 				return result;
 			} else {
 				redisTemplate.opsForValue().set(player.getId(), getPlayer);
@@ -262,6 +262,47 @@ public class PlayerServiceImpl implements PlayerService {
 		playerDAO.update(player);
 		result.setResultSuccess("修改信息成功！", player);
 		return result;
+	}
+
+	@Override
+	public Result<List<Player>> findByEmail(String email) {
+		Result<List<Player>> result = new Result<>();
+		if (StringUtils.isEmpty(email)) {
+			result.setResultFailed("邮箱不能为空！");
+			return result;
+		}
+		List<Player> playerList = playerDAO.findByEmail(email);
+		if (playerList.size() == 0) {
+			result.setResultFailed("该邮箱下没有任何账户！");
+			return result;
+		}
+		result.setResultSuccess("查询完成！", playerList);
+		return result;
+	}
+
+	@Override
+	public Result<Player> sendCode(String username, String email) {
+		Result<Player> result = new Result<>();
+		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(email)) {
+			result.setResultFailed("用户名或者邮箱不能为空！");
+			return result;
+		}
+		int genCode = (int) (Math.random() * 9 + 1) * 100000;
+		redisTemplate.opsForValue().set(username + "_code", genCode, 300, TimeUnit.SECONDS);
+		sendNotifyMail(email, "宫子恰布丁-密码重置", "您的密码重置验证码为：" + genCode + "，请在5分钟内完成验证。");
+		result.setResultSuccess("发送验证码成功！", null);
+		return result;
+	}
+
+	@Override
+	public Result<Player> resetPwd(int code, Player player) {
+		Result<Player> result = new Result<>();
+		//校验验证码是否正确
+		if (code != (int) (redisTemplate.opsForValue().get(player.getUserName() + "_code"))) {
+			result.setResultFailed("验证码错误！");
+			return result;
+		}
+		return update(player);
 	}
 
 	@Override

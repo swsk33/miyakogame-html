@@ -58,6 +58,12 @@
 		where user_name = #{userName}
 	</select>
 
+	<select id="findByEmail" resultMap="playerResultMap">
+		select *
+		from `user`
+		where email = #{email}
+	</select>
+
 	<select id="findByHighScoreInTen" resultMap="rankResultMap">
 		select id               as user_id,
 			   nickname,

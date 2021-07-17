@@ -35,6 +35,11 @@ public interface PlayerDAO {
 	Player findByUserName(String userName);
 
 	/**
+	 * 根据邮件查找用户
+	 */
+	List<Player> findByEmail(String email);
+
+	/**
 	 * 查询最高分前十用户
 	 */
 	List<RankInfo> findByHighScoreInTen();

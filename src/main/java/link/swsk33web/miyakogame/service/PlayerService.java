@@ -31,6 +31,21 @@ public interface PlayerService {
 	Result<Player> update(Player player);
 
 	/**
+	 * 获取一个邮箱下的所有账户
+	 */
+	Result<List<Player>> findByEmail(String email);
+
+	/**
+	 * 发送邮箱验证码
+	 */
+	Result<Player> sendCode(String username, String email);
+
+	/**
+	 * 重置用户密码
+	 */
+	Result<Player> resetPwd(int code, Player player);
+
+	/**
 	 * 查询全服前十
 	 */
 	Result<List<RankInfo>> getTotalRank();

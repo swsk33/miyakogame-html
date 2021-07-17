@@ -77,6 +77,11 @@ public class PlayerAPI {
 		return result;
 	}
 
+	@GetMapping(CommonValue.API_PREFIX + "findbyemail")
+	public Result<List<Player>> findByEmail(@RequestParam("email") String email) {
+		return playerService.findByEmail(email);
+	}
+
 	@GetMapping(CommonValue.API_PREFIX + "rankten")
 	public Result<List<RankInfo>> getRankTen() {
 		return playerService.getTotalRank();
