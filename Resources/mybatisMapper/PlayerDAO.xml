@@ -31,7 +31,7 @@
 	<delete id="delete">
 		delete
 		from `user`
-		where user_name = #{userName}
+		where id = #{id}
 	</delete>
 
 	<update id="update" parameterType="link.swsk33web.miyakogame.dataobject.Player">

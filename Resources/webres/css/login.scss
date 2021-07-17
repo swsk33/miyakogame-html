@@ -99,6 +99,24 @@ body {
 		}
 	}
 
+	.forget {
+		position: relative;
+		width: 156px;
+		height: 20px;
+		line-height: 20px;
+		left: 16px;
+		text-align: center;
+		top: 100px;
+		font-size: 16px;
+
+		&:hover {
+			cursor: pointer;
+			background-color: #ff5e00;
+			color: #ffffff;
+			border-radius: 6px;
+		}
+	}
+
 	.requesting {
 		position: relative;
 		top: 135px;

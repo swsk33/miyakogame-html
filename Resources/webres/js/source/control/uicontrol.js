@@ -358,6 +358,7 @@ function operateUserInfoUpdatePage(isVisible) {
 		userInfoPageDOM.style.display = 'flex';
 		previewImg.src = onlineUserData.avatar;
 		updateNickNameInput.value = onlineUserData.nickname;
+		updateEmailInput.value = onlineUserData.email;
 	} else {
 		userInfoPageDOM.style.display = 'none';
 	}
@@ -431,6 +432,18 @@ function operateRankPage(isVisible) {
 	} else {
 		totalRankList.innerHTML = '';
 		rankPage.style.display = 'none';
+	}
+}
+
+/**
+ * 操纵注销账户提示页
+ * @param {*} isVisible 值为true时显示界面，否则隐藏界面 
+ */
+function operateUserDelTip(isVisible) {
+	if (isVisible) {
+		delUserTip.style.display = 'flex';
+	} else {
+		delUserTip.style.display = 'none';
 	}
 }
 

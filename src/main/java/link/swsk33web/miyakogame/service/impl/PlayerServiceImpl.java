@@ -9,7 +9,10 @@ import link.swsk33web.miyakogame.service.PlayerService;
 import link.swsk33web.miyakogame.util.PwdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -28,7 +31,33 @@ public class PlayerServiceImpl implements PlayerService {
 	private PlayerDAO playerDAO;
 
 	@Autowired
-	private RedisTemplate redisTemplate;
+	private RedisTemplate<Object, Object> redisTemplate;
+
+	@Autowired
+	private JavaMailSender mailSender;
+
+	@Value("${spring.mail.username}")
+	private String sender;
+
+	/**
+	 * 发送通知邮件
+	 *
+	 * @param email 收件人
+	 * @param title 邮件标题
+	 * @param text  邮件正文
+	 */
+	private void sendNotifyMail(String email, String title, String text) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(sender);
+		message.setTo(email);
+		message.setSubject(title);
+		message.setText(text);
+		try {
+			mailSender.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Result<Player> register(Player player) {
@@ -54,7 +83,7 @@ public class PlayerServiceImpl implements PlayerService {
 			return result;
 		}
 		if (!player.getEmail().contains("@")) {
-			result.setResultFailed("邮箱不规范！");
+			result.setResultFailed("邮箱格式不正确！");
 			return result;
 		}
 		// 先从Redis找这个用户
@@ -172,6 +201,7 @@ public class PlayerServiceImpl implements PlayerService {
 		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, id);
 		playerDAO.delete(id);
 		result.setResultSuccess("注销用户完成！", null);
+		sendNotifyMail(getPlayer.getEmail(), "宫子恰布丁-用户注销", "您的用户：" + getPlayer.getNickname() + " 已经成功注销！");
 		return result;
 	}
 
@@ -201,7 +231,6 @@ public class PlayerServiceImpl implements PlayerService {
 			player.setAvatar(getPlayer.getAvatar());
 		} else {
 			String originAvatar = getPlayer.getAvatar();
-			//删除原有头像，默认头像不删除
 		}
 		if (player.getHighScore() == null) {
 			player.setHighScore(getPlayer.getHighScore());
@@ -220,6 +249,9 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		if (StringUtils.isEmpty(player.getEmail())) {
 			player.setEmail(getPlayer.getEmail());
+		} else if (!player.getEmail().contains("@")) {
+			result.setResultFailed("邮箱格式不正确！");
+			return result;
 		}
 		if (StringUtils.isEmpty(player.getGameData())) {
 			player.setGameData(getPlayer.getGameData());
@@ -236,7 +268,7 @@ public class PlayerServiceImpl implements PlayerService {
 	public Result<List<RankInfo>> getTotalRank() {
 		Result<List<RankInfo>> result = new Result<>();
 		List<RankInfo> rankResult = new ArrayList<>();
-		Set<Integer> userIds = redisTemplate.opsForZSet().reverseRange(CommonValue.REDIS_RANK_TABLE_NAME, 0, 9);
+		Set<Object> userIds = redisTemplate.opsForZSet().reverseRange(CommonValue.REDIS_RANK_TABLE_NAME, 0, 9);
 		if (userIds.size() == 0) {
 			List<RankInfo> getRank = null;
 			try {
@@ -255,7 +287,8 @@ public class PlayerServiceImpl implements PlayerService {
 			}
 		} else {
 			long order = 1;
-			for (int eachUserId : userIds) {
+			for (Object eachUserIdObject : userIds) {
+				int eachUserId = (int) eachUserIdObject;
 				//判断缓存排名表每个用户是否有效
 				Player getPlayer = (Player) redisTemplate.opsForValue().get(eachUserId);
 				if (getPlayer == null) {

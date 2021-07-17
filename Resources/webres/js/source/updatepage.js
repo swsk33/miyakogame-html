@@ -4,6 +4,8 @@ let userInfoPageDOM = document.querySelector('.userInfoUpdate');
 let uploadInputImg = document.querySelector('.userInfoUpdate .frame .formBody .avatar .file input')
 //昵称
 let updateNickNameInput = document.querySelector('.userInfoUpdate .frame .formBody .nickname input');
+//邮箱
+let updateEmailInput = document.querySelector('.userInfoUpdate .frame .formBody .email input');
 //密码
 let updatePwdInput = document.querySelector('.userInfoUpdate .frame .formBody .pwd input');
 //预览图
@@ -12,6 +14,14 @@ let previewImg = document.querySelector('.userInfoUpdate .frame .formBody .avata
 let userInfoButtons = document.querySelector('.userInfoUpdate .buttons').children;
 //请求提示
 let updateRequestTip = document.querySelector('.userInfoUpdate .requesting');
+//注销账户按钮
+let delUserBtn = document.querySelector('.userInfoUpdate .frame .del');
+//注销用户确认页
+let delUserTip = document.querySelector('.userInfoUpdate .delUserTip');
+//注销用户密码
+let delUserPwd = document.querySelector('.userInfoUpdate .delUserTip input');
+//用户注销确认页按钮
+let delUserTipBtn = document.querySelector('.userInfoUpdate .delUserTip .buttons').children;
 
 //显示预览图
 uploadInputImg.onchange = () => {
@@ -30,7 +40,7 @@ userInfoButtons[0].addEventListener('click', () => {
 		id: onlineUserData.id,
 		nickname: updateNickNameInput.value,
 		pwd: updatePwdInput.value,
-		email: null
+		email: updateEmailInput.value
 	};
 	// 组装头像并获取地址
 	if (uploadInputImg.files.length > 0) {
@@ -113,4 +123,41 @@ userInfoButtons[0].addEventListener('click', () => {
 //关闭按钮
 userInfoButtons[1].addEventListener('click', () => {
 	operateUserInfoUpdatePage(false);
+});
+
+//用户注销按钮
+delUserBtn.addEventListener('click', () => {
+	operateUserDelTip(true);
+});
+
+//用户注销确认页面按钮
+delUserTipBtn[0].addEventListener('click', () => {
+	updateRequestTip.style.display = 'flex';
+	//待组装信息
+	let data = {
+		id: onlineUserData.id,
+		pwd: delUserPwd.value
+	};
+	fetch('/miyakogame/api/delete', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+			'content-type': 'application/json'
+		}
+	}).then((response) => {
+		return response.json();
+	}).then((result) => {
+		if (result.success) {
+			showTipFrame('注销账户成功！3s后刷新页面...', null, '.tip-true');
+			setTimeout(() => {
+				window.location.pathname = '/miyakogame';
+			}, 3000);
+		} else {
+			showTipFrame('注销账户失败，原因：' + result.message, null, '.tip-false');
+		}
+		updateRequestTip.style.display = 'none';
+	});
+});
+delUserTipBtn[1].addEventListener('click', () => {
+	operateUserDelTip(false);
 });

@@ -45,17 +45,17 @@ public class PlayerAPI {
 		session.setAttribute(CommonValue.SESSION_NAME, null);
 	}
 
-	@GetMapping(CommonValue.API_PREFIX + "delete")
-	public Result<Player> del(@RequestParam("id") int id, HttpServletRequest request) {
+	@PostMapping(CommonValue.API_PREFIX + "delete")
+	public Result<Player> del(@RequestBody Player player, HttpServletRequest request) {
 		Result<Player> result = null;
 		HttpSession session = request.getSession();
-		int sessionUserId = ((Player) session.getAttribute(CommonValue.SESSION_NAME)).getId();
-		if (sessionUserId != id) {
+		String sessionPwd = ((Player) session.getAttribute(CommonValue.SESSION_NAME)).getPwd();
+		if (!PwdUtils.encodePwd(player.getPwd()).equals(sessionPwd)) {
 			result = new Result<>();
-			result.setResultFailed("当前登录用户和被注销用户不一致，终止！");
+			result.setResultFailed("密码不正确！");
 			return result;
 		}
-		result = playerService.delete(id);
+		result = playerService.delete(player.getId());
 		request.getSession().setAttribute(CommonValue.SESSION_NAME, null);
 		return result;
 	}
