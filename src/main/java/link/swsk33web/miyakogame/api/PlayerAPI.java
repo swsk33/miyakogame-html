@@ -82,6 +82,11 @@ public class PlayerAPI {
 		return playerService.findByEmail(email);
 	}
 
+	@PostMapping(CommonValue.API_PREFIX + "resetpwd")
+	public Result<Player> resetPwd(@RequestBody Player player, @RequestParam("code") int code) {
+		return playerService.resetPwd(player, code);
+	}
+
 	@GetMapping(CommonValue.API_PREFIX + "rankten")
 	public Result<List<RankInfo>> getRankTen() {
 		return playerService.getTotalRank();

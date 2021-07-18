@@ -3,6 +3,7 @@ package link.swsk33web.miyakogame.service.impl;
 import java.io.File;
 import javax.annotation.PostConstruct;
 
+import link.swsk33web.miyakogame.param.CommonValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +21,7 @@ public class AvatarServiceImpl implements AvatarService {
 
 	@PostConstruct
 	public void fileinit() {
+		CommonValue.AVATAR_PATH = imgDir.getAbsolutePath();
 		if (!imgDir.exists()) {
 			imgDir.mkdirs();
 		}

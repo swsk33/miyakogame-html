@@ -36,14 +36,9 @@ public interface PlayerService {
 	Result<List<Player>> findByEmail(String email);
 
 	/**
-	 * 发送邮箱验证码
-	 */
-	Result<Player> sendCode(String username, String email);
-
-	/**
 	 * 重置用户密码
 	 */
-	Result<Player> resetPwd(int code, Player player);
+	Result<Player> resetPwd(Player player, int code);
 
 	/**
 	 * 查询全服前十

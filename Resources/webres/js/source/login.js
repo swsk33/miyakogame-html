@@ -31,3 +31,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		loginRequestTip.style.display = 'none';
 	});
 });
+
+//开启鼠标效果
+mouseMoveDropDotControl(true);
+mouseClickLineControl(true);

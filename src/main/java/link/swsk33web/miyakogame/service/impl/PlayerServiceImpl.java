@@ -5,6 +5,9 @@ import link.swsk33web.miyakogame.dataobject.Player;
 import link.swsk33web.miyakogame.model.RankInfo;
 import link.swsk33web.miyakogame.model.Result;
 import link.swsk33web.miyakogame.param.CommonValue;
+import link.swsk33web.miyakogame.param.MailServiceType;
+import link.swsk33web.miyakogame.service.AvatarService;
+import link.swsk33web.miyakogame.service.MailService;
 import link.swsk33web.miyakogame.service.PlayerService;
 import link.swsk33web.miyakogame.util.PwdUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,33 +34,13 @@ public class PlayerServiceImpl implements PlayerService {
 	private PlayerDAO playerDAO;
 
 	@Autowired
+	private AvatarService avatarService;
+
+	@Autowired
 	private RedisTemplate<Object, Object> redisTemplate;
 
 	@Autowired
-	private JavaMailSender mailSender;
-
-	@Value("${spring.mail.username}")
-	private String sender;
-
-	/**
-	 * 发送通知邮件
-	 *
-	 * @param email 收件人
-	 * @param title 邮件标题
-	 * @param text  邮件正文
-	 */
-	private void sendNotifyMail(String email, String title, String text) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom(sender);
-		message.setTo(email);
-		message.setSubject(title);
-		message.setText(text);
-		try {
-			mailSender.send(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private MailService mailService;
 
 	@Override
 	public Result<Player> register(Player player) {
@@ -201,7 +184,7 @@ public class PlayerServiceImpl implements PlayerService {
 		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, id);
 		playerDAO.delete(id);
 		result.setResultSuccess("注销用户完成！", null);
-		sendNotifyMail(getPlayer.getEmail(), "宫子恰布丁-用户注销", "您的用户：" + getPlayer.getNickname() + " 已经成功注销！");
+		mailService.sendNotifyMail(getPlayer.getEmail(), "宫子恰布丁-用户注销", "您的用户：" + getPlayer.getNickname() + " 已经成功注销！");
 		return result;
 	}
 
@@ -229,8 +212,12 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		if (StringUtils.isEmpty(player.getAvatar())) {
 			player.setAvatar(getPlayer.getAvatar());
-		} else {
-			String originAvatar = getPlayer.getAvatar();
+		} else if (!player.getAvatar().equals(getPlayer.getAvatar())) {
+			String originAvatarFileName = getPlayer.getAvatar();
+			if (!originAvatarFileName.contains("default")) {
+				originAvatarFileName = originAvatarFileName.substring(originAvatarFileName.lastIndexOf("/") + 1);
+				new File(CommonValue.AVATAR_PATH + File.separator + originAvatarFileName).delete();
+			}
 		}
 		if (player.getHighScore() == null) {
 			player.setHighScore(getPlayer.getHighScore());
@@ -281,24 +268,10 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Result<Player> sendCode(String username, String email) {
-		Result<Player> result = new Result<>();
-		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(email)) {
-			result.setResultFailed("用户名或者邮箱不能为空！");
-			return result;
-		}
-		int genCode = (int) (Math.random() * 9 + 1) * 100000;
-		redisTemplate.opsForValue().set(username + "_code", genCode, 300, TimeUnit.SECONDS);
-		sendNotifyMail(email, "宫子恰布丁-密码重置", "您的密码重置验证码为：" + genCode + "，请在5分钟内完成验证。");
-		result.setResultSuccess("发送验证码成功！", null);
-		return result;
-	}
-
-	@Override
-	public Result<Player> resetPwd(int code, Player player) {
+	public Result<Player> resetPwd(Player player, int code) {
 		Result<Player> result = new Result<>();
 		//校验验证码是否正确
-		if (code != (int) (redisTemplate.opsForValue().get(player.getUserName() + "_code"))) {
+		if (code != (int) (redisTemplate.opsForValue().get(MailServiceType.PASSWORD_RESET.toString() + "_" + player.getId()))) {
 			result.setResultFailed("验证码错误！");
 			return result;
 		}

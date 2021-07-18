@@ -16,6 +16,11 @@ public class CommonValue {
 	public static final String SESSION_NAME = "player";
 
 	/**
+	 * 玩家自定义头像存放路径
+	 */
+	public static String AVATAR_PATH;
+
+	/**
 	 * Redis排名表zSet的名称
 	 */
 	public static final String REDIS_RANK_TABLE_NAME = "rankInfo";
