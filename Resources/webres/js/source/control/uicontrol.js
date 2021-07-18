@@ -12,8 +12,9 @@ let succeedPage = document.querySelector('.succeed'); //获取胜利界面
 let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
 let pausePage = document.querySelector('.pause'); //获取暂停界面
-let loadingPage = document.querySelector('.loading'); //获取加载页面
 let rankPage = document.querySelector('.leaderboard'); //获取排行榜页面
+let loadingPage = document.querySelector('.loading'); //获取加载页面
+let processBarOutline = document.querySelector('.loading .processBar'); //获取进度条外框
 let processBar = document.querySelector('.loading .processBar .processValue'); //获取进度条
 let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
 let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
@@ -40,26 +41,11 @@ function operateStartPage(isVisible) {
 		}
 		startPage.style.display = 'flex';
 	} else {
-		let totalMagnification = 3570;
 		let pageWidth = startPage.offsetWidth;
-		let eachMove = pageWidth / totalMagnification;
-		let startRate = 119;
-		let keyFrame = 60;
-		startPage.style.borderRight = '5px solid #014dff';
-		let fadeControl = setInterval(() => {
-			pageWidth = pageWidth - startRate * eachMove;
-			startPage.style.width = pageWidth + 'px';
-			startRate = startRate - 2;
-			keyFrame--;
-			if (keyFrame == 40) {
-				startPage.children[0].style.display = 'none';
-				startPage.children[1].style.display = 'none';
-			}
-			if (keyFrame <= 0) {
-				startPage.style.display = 'none';
-				clearInterval(fadeControl);
-			}
-		}, 16);
+		startPage.style.left = -pageWidth + 'px';
+		setTimeout(() => {
+			startPage.style.display = 'none';
+		}, 800);
 	}
 }
 
@@ -96,22 +82,8 @@ function operateLoadingPage(isVisible) {
  * @param {*} value 进度百分比
  */
 function setLoadingBar(value) {
-	let originValue = processNum.innerHTML.substring(8, processNum.innerHTML.indexOf('%'));
-	let distance = value - parseFloat(originValue);
-	if (distance > 0) {
-		let section = 169;
-		let sectionValue = distance / section;
-		let eachLoadSection = 25;
-		let loadInterval = setInterval(function () {
-			originValue = parseFloat(originValue) + eachLoadSection * sectionValue;
-			processBar.style.width = originValue + '%';
-			processNum.innerHTML = 'process ' + originValue.toFixed(2) + '%';
-			eachLoadSection = eachLoadSection - 2;
-			if (eachLoadSection < 0) {
-				clearInterval(loadInterval);
-			}
-		}, 16);
-	}
+	processBar.style.width = value + '%';
+	processNum.innerHTML = 'process ' + value.toFixed(2) + '%';
 }
 
 /**
@@ -454,36 +426,22 @@ function operateUserDelTip(isVisible) {
 function enemyFadeEffect(enemyObject) {
 	enemyObject.isEaten = true;
 	addScore(enemyObject.score);
-	let currentKeyFrame = 20;
-	let totalKeyFrame = currentKeyFrame;
-	let sizeRatio = 1;
-	let deg = 0;
+	enemyObject.dom.style.transform = 'scale(0) rotate(90deg)';
 	let showScore = document.createElement('div');
-	let showScoreTransparency = 1;
-	let textMoveRatio = 5;
 	showScore.innerText = '+' + enemyObject.score;
 	showScore.style.position = 'absolute';
 	showScore.style.fontSize = '24px';
 	showScore.style.left = enemyObject.dom.offsetLeft - enemyObject.dom.offsetWidth / 2 + 'px';
 	showScore.style.top = enemyObject.dom.offsetTop + 'px';
+	showScore.style.opacity = 1;
+	showScore.style.transitionProperty = 'top, opacity';
+	showScore.style.transitionDuration = '0.5s';
+	showScore.style.transitionTimingFunction = 'cubic-bezier(0, 0, 0, 1.0)';
 	document.querySelector('body').appendChild(showScore);
-	let effectControl = setInterval(() => {
-		enemyObject.dom.style.transform = 'scale(' + sizeRatio.toFixed(2) + ') rotate(' + deg + 'deg)';
-		showScore.style.color = 'rgba(0, 0, 0,' + showScoreTransparency + ')';
-		showScore.style.top = (showScore.offsetTop - textMoveRatio) + 'px';
-		sizeRatio = sizeRatio - 1 / totalKeyFrame;
-		deg = deg + 90 / totalKeyFrame;
-		showScoreTransparency = showScoreTransparency - 1 / totalKeyFrame;
-		if (currentKeyFrame <= 16) {
-			textMoveRatio = textMoveRatio - textMoveRatio / 16;
-		} else {
-			textMoveRatio = textMoveRatio - 1;
-		}
-		currentKeyFrame--;
-		if (currentKeyFrame <= 0) {
-			enemyObject.dom.style.display = 'none';
-			showScore.remove();
-			clearInterval(effectControl);
-		}
-	}, 16);
+	showScore.style.top = (enemyObject.dom.offsetTop - 50) + 'px';
+	showScore.style.opacity = 0;
+	setTimeout(() => {
+		enemyObject.dom.style.display = 'none';
+		showScore.remove();
+	}, 500);
 }

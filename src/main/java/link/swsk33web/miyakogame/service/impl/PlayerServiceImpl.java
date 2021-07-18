@@ -103,6 +103,7 @@ public class PlayerServiceImpl implements PlayerService {
 		playerDAO.add(player);
 		redisTemplate.opsForValue().set(player.getId(), player);
 		redisTemplate.opsForHash().put(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, player.getUserName(), player.getId());
+		redisTemplate.opsForList().rightPush(player.getEmail(), player);
 		// 加入Redis排名表
 		redisTemplate.opsForZSet().add(CommonValue.REDIS_RANK_TABLE_NAME, player.getId(), player.getHighScore());
 		// 如果这个新注册的名字在无效用户名集合中则去掉
@@ -186,6 +187,7 @@ public class PlayerServiceImpl implements PlayerService {
 		redisTemplate.delete(id);
 		redisTemplate.opsForHash().delete(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, getUsername);
 		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, id);
+		redisTemplate.delete(getPlayer.getEmail());
 		playerDAO.delete(id);
 		result.setResultSuccess("注销用户完成！", null);
 		mailService.sendNotifyMail(getPlayer.getEmail(), "宫子恰布丁-用户注销", "您的用户：" + getPlayer.getNickname() + " 已经成功注销！");
@@ -307,6 +309,7 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("验证码错误！");
 			return result;
 		}
+		mailService.sendNotifyMail(player.getEmail(), "宫子恰布丁-密码重置", "您的账户（用户名：" + player.getUserName() + " ; 昵称：" + player.getNickname() + "）已完成密码重置！请牢记您的新密码！");
 		return update(player);
 	}
 

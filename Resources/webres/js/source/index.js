@@ -17,6 +17,9 @@ if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') !=
 	let loadValue = 0;
 	let audioDataProportion = 70;
 	let imgDataProportion = 30;
+	//初始化加载页
+	processBarOutline.style.width = 350 + 'px';
+	loadingPage.querySelector('.loadingImg').style.transform = 'scale(1)';
 	//开始预加载图片和音频并检查加载进度、设定进度条
 	loadAllImg();
 	checkAllAudioLoad();
@@ -44,7 +47,7 @@ if (userBrowserUA.indexOf('Android') != -1 || userBrowserUA.indexOf('iPhone') !=
 			isAudioAllLoaded = null;
 			clearInterval(loadingBarControl);
 		}
-	}, 100);
+	}, 16);
 }
 //开启鼠标效果
 mouseMoveDropDotControl(true);

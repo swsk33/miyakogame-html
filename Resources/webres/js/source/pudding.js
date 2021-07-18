@@ -33,7 +33,6 @@ for (let i = 0; i < puddingCol; i++) {
 		eachPuddingDom.style.display = 'block';
 		eachPuddingDom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 		eachPuddingDom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
-		eachPuddingDom.style.transform = 'scale(1) rotate(0deg)';
 		let eachPuddingScore;
 		if (i < 2) {
 			eachPuddingScore = 1;
@@ -57,7 +56,6 @@ function initializePuddings() {
 			puddingArray[i * 8 + j].dom.style.display = 'block';
 			puddingArray[i * 8 + j].dom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 			puddingArray[i * 8 + j].dom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
-			puddingArray[i * 8 + j].dom.style.transform = 'scale(1) rotate(0deg)';
 			puddingArray[i * 8 + j].isEaten = false;
 		}
 	}

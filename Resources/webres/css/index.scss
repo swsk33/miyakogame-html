@@ -135,6 +135,7 @@
 					width: 60px;
 					height: 60px;
 					background: url(../img/puddings/p1.png) no-repeat center/cover;
+					transition: transform 0.5s linear;
 				}
 			}
 		}
@@ -146,6 +147,7 @@
 				width: 60px;
 				height: 60px;
 				background: url(../img/puddings/p2.png) no-repeat center/cover;
+				transition: transform 0.5s linear;
 			}
 		}
 
@@ -156,6 +158,7 @@
 				width: 60px;
 				height: 60px;
 				background: url(../img/puddings/p3.png) no-repeat center/cover;
+				transition: transform 0.5s linear;
 			}
 		}
 	}
@@ -179,6 +182,8 @@
 		.loadingImg {
 			position: relative;
 			right: 0.5rem;
+			transform: scale(0);
+			transition: transform 0.5s ease-out;
 		}
 
 		.loadingText {
@@ -190,19 +195,23 @@
 
 	.processBar {
 		position: relative;
-		width: 350px;
+		width: 0;
 		height: 18px;
 		margin-top: 16px;
 		border-color: blue;
 		border-width: 3px;
 		border-style: solid;
+		border-radius: 18px;
+		transition: width 0.8s cubic-bezier(0, 0, 0, 1.0);
 
 		.processValue {
 			position: absolute;
 			top: -0.5px;
 			width: 0;
 			height: 19px;
+			border-radius: 19px;
 			background-color: greenyellow;
+			transition: width 0.8s cubic-bezier(0, 0, 0, 1.0);
 		}
 	}
 
@@ -244,9 +253,12 @@
 	box-sizing: border-box;
 	display: none;
 	flex-direction: column;
+	left: 0;
+	top: 0;
 	width: 100%;
 	height: 100vh;
 	background-color: #c2ffff;
+	transition: left 0.8s cubic-bezier(0, 0, 0, 1.0);
 
 	.title {
 		display: flex;
