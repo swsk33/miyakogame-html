@@ -934,6 +934,7 @@
 						border-radius: 4px;
 					}
 
+					//上传图片按钮
 					input {
 						position: absolute;
 						width: 100px;
@@ -974,22 +975,6 @@
 				justify-content: center;
 				align-items: center;
 				margin-top: 20px;
-
-				input {
-					width: 280px;
-					height: 32px;
-					outline: none;
-					border-style: solid;
-					border-color: blue;
-					border-width: 2px;
-					border-radius: 5px;
-
-					&:focus {
-						border-color: rgb(255, 0, 157);
-						border-width: 3px;
-						box-shadow: 0 0 5px rgb(255, 0, 157);
-					}
-				}
 			}
 
 			.nickname {

@@ -6,7 +6,7 @@ let loginRequestTip = document.querySelector('.requesting');
 //忘记密码按钮
 let forgetBtn = document.querySelector('.formbody .forget');
 //忘记密码-邮箱查询窗口
-let queryUser = document.querySelector('forget-queryEmail');
+let queryUser = document.querySelector('.forget-queryEmail');
 
 document.querySelector('.formbody .ok').addEventListener('click', () => {
 	let data = {
