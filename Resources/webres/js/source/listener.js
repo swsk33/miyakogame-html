@@ -90,12 +90,21 @@ window.addEventListener('keydown', (e) => {
 
 //新游戏按钮
 startPageBtn[1].addEventListener('click', () => {
+	newGameTipFrame.style.display = 'flex';
+});
+
+//新游戏提示按钮
+newgameTipBtn[0].addEventListener('click', () => {
+	newGameTipFrame.style.display = 'none';
 	resetData();
 	clearBullets();
 	document.querySelector('.startAudio').play();
 	operateStartPage(false);
 	initializePuddings();
 	startGameProcess();
+});
+newgameTipBtn[1].addEventListener('click', () => {
+	newGameTipFrame.style.display = 'none';
 });
 
 //商店按钮

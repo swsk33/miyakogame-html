@@ -21,6 +21,8 @@ let notSupportPage = document.querySelector('.notsupport'); //获取不支持提
 let helpPage = document.querySelector('.help'); //获取帮助界面
 let shopPage = document.querySelector('.shop'); //获取商店页面
 let startPageBtn = document.querySelector('.start ul').children; //获取开始界面的所有按钮
+let newGameTipFrame = document.querySelector('.newgameTip'); //新游戏提示界面
+let newgameTipBtn = newGameTipFrame.querySelector('.buttons').children; //新游戏提示界面按钮
 
 /**
  * 开始页面控制

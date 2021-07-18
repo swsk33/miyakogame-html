@@ -567,6 +567,36 @@
 	}
 }
 
+.newgameTip {
+	.frame {
+		height: 160px;
+		width: 350px;
+
+		.text,
+		.buttons {
+			left: 5%;
+			width: 90%;
+		}
+
+		.text {
+			margin-top: 10%;
+			font-size: 16px;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.buttons {
+			margin-top: 8%;
+			display: flex;
+			justify-content: space-evenly;
+
+			div {
+				width: 64px;
+			}
+		}
+	}
+}
+
 .shop {
 	.frame {
 		.text {
