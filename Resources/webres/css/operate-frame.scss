@@ -1,0 +1,39 @@
+//统一操作窗口样式
+.mask {
+	position: absolute;
+	display: none;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.9);
+
+	//蒙层内请求动画
+	.requesting {
+		position: absolute;
+		top: 56px;
+		left: calc(50vw - 125px);
+		display: none;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			height: 64px;
+		}
+
+		.tip {
+			margin-left: 10px;
+			font-size: 24px;
+		}
+	}
+
+	//蒙层内窗口
+	.frame {
+		position: absolute;
+		width: 600px;
+		height: 450px;
+		left: calc(50vw - 300px);
+		top: calc(50vh - 225px);
+		background-color: #aaffff;
+		border-radius: 10px;
+		box-shadow: 2px 2px 2px 1px rgba(2, 2, 2, 0.3);
+	}
+}

@@ -11,7 +11,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 	}
 	let dataString = JSON.stringify(data);
 	loginRequestTip.style.display = 'flex';
-	fetch('/miyakogame/api/login', {
+	fetch('/miyakogame/api/player/login', {
 		method: 'POST',
 		body: dataString,
 		headers: {

@@ -199,7 +199,7 @@ if (userBtn != null) {
 	});
 	//退出登录页面
 	eachListBtn[1].addEventListener('click', () => {
-		fetch('/miyakogame/api/logout');
+		fetch('/miyakogame/api/player/logout');
 		showTipFrame('已登出！3s后刷新页面...', null, '.tip-true');
 		setTimeout(() => {
 			window.location.pathname = '/miyakogame';

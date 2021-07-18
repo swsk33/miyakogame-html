@@ -376,7 +376,7 @@ function operateRankPage(isVisible) {
 		rankPage.style.display = 'flex';
 		loadingTip.style.display = 'flex';
 		let rankArray;
-		fetch('/miyakogame/api/rankten').then((response) => {
+		fetch('/miyakogame/api/player/rankten').then((response) => {
 			return response.json();
 		}).then((result) => {
 			if (result.success) {
@@ -414,7 +414,7 @@ function operateRankPage(isVisible) {
 			}
 		});
 		if (isUserLogin) {
-			fetch('/miyakogame/api/playerank?id=' + onlineUserData.id).then((response) => {
+			fetch('/miyakogame/api/player/playerank?id=' + onlineUserData.id).then((response) => {
 				return response.json();
 			}).then((result) => {
 				if (result.success) {

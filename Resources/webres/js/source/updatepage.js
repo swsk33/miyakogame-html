@@ -72,7 +72,7 @@ userInfoButtons[0].addEventListener('click', () => {
 			if (result.success) {
 				data.avatar = result.data;
 				let dataStr = JSON.stringify(data);
-				fetch('/miyakogame/api/update', {
+				fetch('/miyakogame/api/player/update', {
 					method: 'POST',
 					body: dataStr,
 					headers: {
@@ -98,7 +98,7 @@ userInfoButtons[0].addEventListener('click', () => {
 		});
 	} else { //不修改头像时，仅组装用户信息
 		let dataStr = JSON.stringify(data);
-		fetch('/miyakogame/api/update', {
+		fetch('/miyakogame/api/player/update', {
 			method: 'POST',
 			body: dataStr,
 			headers: {
@@ -138,7 +138,7 @@ delUserTipBtn[0].addEventListener('click', () => {
 		id: onlineUserData.id,
 		pwd: delUserPwd.value
 	};
-	fetch('/miyakogame/api/delete', {
+	fetch('/miyakogame/api/player/delete', {
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers: {

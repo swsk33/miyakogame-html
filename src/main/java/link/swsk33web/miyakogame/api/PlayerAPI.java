@@ -14,12 +14,13 @@ import link.swsk33web.miyakogame.model.Result;
 import link.swsk33web.miyakogame.service.PlayerService;
 
 @RestController
+@RequestMapping(CommonValue.API_PREFIX + "player")
 public class PlayerAPI {
 
 	@Autowired
 	private PlayerService playerService;
 
-	@PostMapping(CommonValue.API_PREFIX + "reg")
+	@PostMapping("/reg")
 	public Result<Player> register(@RequestBody Player player, HttpServletRequest request) {
 		Result<Player> result = playerService.register(player);
 		if (result.isSuccess()) {
@@ -29,7 +30,7 @@ public class PlayerAPI {
 		return result;
 	}
 
-	@PostMapping(CommonValue.API_PREFIX + "login")
+	@PostMapping("/login")
 	public Result<Player> login(@RequestBody Player player, HttpServletRequest request) {
 		Result<Player> result = playerService.login(player);
 		if (result.isSuccess()) {
@@ -39,13 +40,13 @@ public class PlayerAPI {
 		return result;
 	}
 
-	@GetMapping(CommonValue.API_PREFIX + "logout")
+	@GetMapping("/logout")
 	public void logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute(CommonValue.SESSION_NAME, null);
 	}
 
-	@PostMapping(CommonValue.API_PREFIX + "delete")
+	@PostMapping("/delete")
 	public Result<Player> del(@RequestBody Player player, HttpServletRequest request) {
 		Result<Player> result = null;
 		HttpSession session = request.getSession();
@@ -60,7 +61,7 @@ public class PlayerAPI {
 		return result;
 	}
 
-	@PostMapping(CommonValue.API_PREFIX + "update")
+	@PostMapping("/update")
 	public Result<Player> update(@RequestBody Player player, HttpServletRequest request) {
 		Result<Player> result = null;
 		HttpSession session = request.getSession();
@@ -77,22 +78,22 @@ public class PlayerAPI {
 		return result;
 	}
 
-	@GetMapping(CommonValue.API_PREFIX + "findbyemail")
+	@GetMapping("/findbyemail")
 	public Result<List<Player>> findByEmail(@RequestParam("email") String email) {
 		return playerService.findByEmail(email);
 	}
 
-	@PostMapping(CommonValue.API_PREFIX + "resetpwd")
+	@PostMapping("/resetpwd")
 	public Result<Player> resetPwd(@RequestBody Player player, @RequestParam("code") int code) {
 		return playerService.resetPwd(player, code);
 	}
 
-	@GetMapping(CommonValue.API_PREFIX + "rankten")
+	@GetMapping("/rankten")
 	public Result<List<RankInfo>> getRankTen() {
 		return playerService.getTotalRank();
 	}
 
-	@GetMapping(CommonValue.API_PREFIX + "playerank")
+	@GetMapping("/playerank")
 	public Result<RankInfo> getPlayerRank(@RequestParam("id") int playerId) {
 		return playerService.getPlayerRank(playerId);
 	}

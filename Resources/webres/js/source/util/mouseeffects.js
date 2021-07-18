@@ -34,7 +34,7 @@ function genDropDot() {
 			my = my + addition;
 			dropDot.style.top = my + 'px';
 			addition = addition + 0.1;
-			if (addition > 5 || my + 5 >= gameTopBar.offsetHeight + gameBackground.offsetHeight || mx + 5 >= gameBackground.offsetWidth) {
+			if (addition > 5 || my + 5 >= window.innerHeight || mx + 5 >= window.innerWidth) {
 				clearInterval(dotMove);
 				dropDot.remove();
 			}
@@ -108,7 +108,7 @@ function genDivergenceLine() {
 			line.style.top = initY + 'px';
 			line.style.height = length + 'px';
 			keyFrame++;
-			if (keyFrame > totalFrame || initX + 10 >= gameBackground.offsetWidth || initY + 10 >= gameTopBar.offsetHeight + gameBackground.offsetHeight) {
+			if (keyFrame > totalFrame || initX + 10 >= window.innerWidth || initY + 10 >= window.innerHeight) {
 				line.remove();
 				clearInterval(lineMove);
 			}

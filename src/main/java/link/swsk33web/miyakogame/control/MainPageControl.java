@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import link.swsk33web.miyakogame.dao.PlayerDAO;
 import link.swsk33web.miyakogame.dataobject.Player;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Controller
+@RequestMapping("/miyakogame")
 public class MainPageControl {
 
 	@Autowired
@@ -22,7 +24,7 @@ public class MainPageControl {
 	@Autowired
 	private RedisTemplate redisTemplate;
 
-	@GetMapping("/miyakogame")
+	@GetMapping
 	public String getIndex(HttpServletRequest request, Model model) {
 		boolean isLogin = false;
 		// 验证session是否正确
@@ -52,12 +54,12 @@ public class MainPageControl {
 		return "index";
 	}
 
-	@GetMapping("/miyakogame/player/register")
+	@GetMapping("/player/register")
 	public String register() {
 		return "register";
 	}
 
-	@GetMapping("/miyakogame/player/login")
+	@GetMapping("/player/login")
 	public String login() {
 		return "login";
 	}

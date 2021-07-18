@@ -27,8 +27,8 @@ public class WebAppConfigurer implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		List<String> pathPatterns = new ArrayList<>();
-		pathPatterns.add(CommonValue.API_PREFIX + "update");
-		pathPatterns.add(CommonValue.API_PREFIX + "delete");
+		pathPatterns.add(CommonValue.API_PREFIX + "player/update");
+		pathPatterns.add(CommonValue.API_PREFIX + "player/delete");
 		pathPatterns.add(CommonValue.API_PREFIX + "avatar/upload");
 		registry.addInterceptor(getInterceptor()).addPathPatterns(pathPatterns);
 	}

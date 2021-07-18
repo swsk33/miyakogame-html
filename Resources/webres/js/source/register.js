@@ -15,7 +15,7 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 	}
 	let dataString = JSON.stringify(data);
 	regRequestTip.style.display = 'flex';
-	fetch('/miyakogame/api/reg', {
+	fetch('/miyakogame/api/player/reg', {
 		method: 'POST',
 		body: dataString,
 		headers: {

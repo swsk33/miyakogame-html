@@ -63,7 +63,7 @@ function saveData() {
 	if (isUserLogin) {
 		onlineUserData.highScore = highScore;
 		onlineUserData.gameData = dataStr;
-		fetch('/miyakogame/api/update', {
+		fetch('/miyakogame/api/player/update', {
 			method: 'POST',
 			body: JSON.stringify(onlineUserData),
 			headers: {
