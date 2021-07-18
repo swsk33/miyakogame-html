@@ -35,4 +35,9 @@ public class CommonValue {
 	 */
 	public static final String REDIS_INVALID_USER_TABLE_NAME = "invalid_username";
 
+	/**
+	 * Redis无效邮箱（一般是不存在的邮箱）的Set名称
+	 */
+	public static final String REDIS_INVALID_EMAIL_TABLE_NAME = "invalid_email";
+
 }

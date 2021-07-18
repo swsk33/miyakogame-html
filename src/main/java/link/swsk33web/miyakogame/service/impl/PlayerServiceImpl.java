@@ -109,6 +109,10 @@ public class PlayerServiceImpl implements PlayerService {
 		if (redisTemplate.opsForSet().isMember(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName())) {
 			redisTemplate.opsForSet().remove(CommonValue.REDIS_INVALID_USER_TABLE_NAME, player.getUserName());
 		}
+		// 如果这个新注册的账户邮箱在无效邮箱集合中则去掉
+		if (redisTemplate.opsForSet().isMember(CommonValue.REDIS_INVALID_EMAIL_TABLE_NAME, player.getEmail())) {
+			redisTemplate.opsForSet().remove(CommonValue.REDIS_INVALID_EMAIL_TABLE_NAME, player.getEmail());
+		}
 		result.setResultSuccess("注册用户成功！", player);
 		return result;
 	}
@@ -258,10 +262,30 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("邮箱不能为空！");
 			return result;
 		}
-		List<Player> playerList = playerDAO.findByEmail(email);
-		if (playerList.size() == 0) {
-			result.setResultFailed("该邮箱下没有任何账户！");
+		//验证无效邮箱防止缓存穿透
+		if (redisTemplate.opsForSet().isMember(CommonValue.REDIS_INVALID_EMAIL_TABLE_NAME, email)) {
+			result.setResultFailed("请勿重复输入无效邮箱！");
 			return result;
+		}
+		//先去redis查找
+		List playerList = redisTemplate.opsForList().range(email, 0, -1);
+		if (playerList == null || playerList.size() == 0) {
+			try {
+				playerList = playerDAO.findByEmail(email);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (playerList == null || playerList.size() == 0) {
+				result.setResultFailed("该邮箱下没有任何账户！");
+				//把这个邮箱存入无效邮箱防止缓存穿透
+				redisTemplate.opsForSet().add(CommonValue.REDIS_INVALID_EMAIL_TABLE_NAME, email);
+				redisTemplate.expire(CommonValue.REDIS_INVALID_EMAIL_TABLE_NAME, 120, TimeUnit.SECONDS);
+				return result;
+			} else {
+				for (Object player : playerList) {
+					redisTemplate.opsForList().rightPush(email, (Player) player);
+				}
+			}
 		}
 		result.setResultSuccess("查询完成！", playerList);
 		return result;
