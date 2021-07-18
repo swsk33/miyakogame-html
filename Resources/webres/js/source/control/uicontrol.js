@@ -40,6 +40,7 @@ function operateStartPage(isVisible) {
 			startPageBtn[0].addEventListener('click', continueGame);
 		}
 		startPage.style.display = 'flex';
+		startPage.style.left = '0';
 	} else {
 		let pageWidth = startPage.offsetWidth;
 		startPage.style.left = -pageWidth + 'px';

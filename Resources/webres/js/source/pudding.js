@@ -56,6 +56,7 @@ function initializePuddings() {
 			puddingArray[i * 8 + j].dom.style.display = 'block';
 			puddingArray[i * 8 + j].dom.style.left = (gameBackground.offsetWidth - puddingMatrixSize.matrixWidth + i * (puddingSize.puddingWidth + 10)) + 'px';
 			puddingArray[i * 8 + j].dom.style.top = (j * (puddingSize.puddingHeight + 5)) + 'px';
+			puddingArray[i * 8 + j].dom.style.transform = 'scale(1) rotate(0deg)';
 			puddingArray[i * 8 + j].isEaten = false;
 		}
 	}
