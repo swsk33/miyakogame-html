@@ -292,8 +292,16 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Result<Player> resetPwd(Player player, int code) {
+	public Result<Player> resetPwd(Player player, Integer code) {
 		Result<Player> result = new Result<>();
+		if (code == null) {
+			result.setResultFailed("验证码不能为空！");
+			return result;
+		}
+		if (StringUtils.isEmpty(player.getPwd())) {
+			result.setResultFailed("新密码不能为空！");
+			return result;
+		}
 		//校验验证码是否正确
 		if (code != (int) (redisTemplate.opsForValue().get(MailServiceType.PASSWORD_RESET.toString() + "_" + player.getId()))) {
 			result.setResultFailed("验证码错误！");

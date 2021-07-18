@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
 			result.setResultFailed("用户id或者邮箱不能为空！");
 			return result;
 		}
-		int genCode = (int) (Math.random() * 9 + 1) * 100000;
+		int genCode = (int) ((Math.random() * 9 + 1) * 100000);
 		redisTemplate.opsForValue().set(type.toString() + "_" + userId, genCode, 300, TimeUnit.SECONDS);
 		String serviceName;
 		String serviceDes;

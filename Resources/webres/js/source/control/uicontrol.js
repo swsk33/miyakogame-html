@@ -172,7 +172,7 @@ function operatePausePage(isVisible) {
  */
 function opreateHelpPage(isVisible) {
 	if (isVisible) {
-		helpPage.style.display = 'block';
+		helpPage.style.display = 'flex';
 	} else {
 		helpPage.style.display = 'none';
 	}

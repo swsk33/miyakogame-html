@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping(CommonValue.API_PREFIX + "mail")
 public class EmailAPI {
@@ -19,8 +17,8 @@ public class EmailAPI {
 	@Autowired
 	private MailService mailService;
 
-	@GetMapping(CommonValue.API_PREFIX + "/sendcode")
-	public Result sendCode(@RequestParam("id") int id, @RequestParam("email") String email, @RequestParam("type") String type, HttpServletRequest request) {
+	@GetMapping("/sendcode")
+	public Result sendCode(@RequestParam("id") int id, @RequestParam("email") String email, @RequestParam("type") String type) {
 		return mailService.sendCode(email, id, MailServiceType.valueOf(type));
 	}
 

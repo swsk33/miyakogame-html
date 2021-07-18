@@ -1,11 +1,13 @@
 //统一模态操作窗口样式
 .mask {
 	position: absolute;
-	//默认不显示，需要时在js中设定display为flex或者block显示
+	//默认不显示，需要时在js中设定display为flex
 	display: none;
+	justify-content: center;
+	align-items: center;
 	left: 0;
 	top: 0;
-	width: 100%;
+	width: 100vw;
 	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.9);
 
@@ -14,7 +16,7 @@
 		position: absolute;
 		top: 56px;
 		left: calc(50vw - 125px);
-		//默认不显示，需要时在js中设定display为flex或者block显示
+		//默认不显示，需要时在js中设定display为flex
 		display: none;
 		justify-content: center;
 		align-items: center;
@@ -31,15 +33,13 @@
 
 	//蒙层内窗口
 	.frame {
-		position: absolute;
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		user-select: none;
 		width: 600px;
 		height: 450px;
-		left: calc(50vw - 300px);
-		top: calc(50vh - 225px);
 		background-color: #aaffff;
 		border-radius: 10px;
 		box-shadow: 2px 2px 2px 1px rgba(2, 2, 2, 0.3);

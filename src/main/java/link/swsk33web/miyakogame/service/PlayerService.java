@@ -38,7 +38,7 @@ public interface PlayerService {
 	/**
 	 * 重置用户密码
 	 */
-	Result<Player> resetPwd(Player player, int code);
+	Result<Player> resetPwd(Player player, Integer code);
 
 	/**
 	 * 查询全服前十

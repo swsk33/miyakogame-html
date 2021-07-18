@@ -83,8 +83,8 @@ public class PlayerAPI {
 		return playerService.findByEmail(email);
 	}
 
-	@PostMapping("/resetpwd")
-	public Result<Player> resetPwd(@RequestBody Player player, @RequestParam("code") int code) {
+	@RequestMapping("/resetpwd")
+	public Result<Player> resetPwd(@RequestBody Player player, @RequestParam("code") Integer code) {
 		return playerService.resetPwd(player, code);
 	}
 
