@@ -3,6 +3,10 @@ let loginUserNameInput = document.querySelector('.formbody .userName input');
 let loginPwdInput = document.querySelector('.formbody .pwd input');
 //请求动画
 let loginRequestTip = document.querySelector('.requesting');
+//忘记密码按钮
+let forgetBtn = document.querySelector('.formbody .forget');
+//忘记密码-邮箱查询窗口
+let queryUser = document.querySelector('forget-queryEmail');
 
 document.querySelector('.formbody .ok').addEventListener('click', () => {
 	let data = {
@@ -30,6 +34,10 @@ document.querySelector('.formbody .ok').addEventListener('click', () => {
 		}
 		loginRequestTip.style.display = 'none';
 	});
+});
+
+forgetBtn.addEventListener('click', () => {
+	queryUser.style.display = 'flex';
 });
 
 //开启鼠标效果

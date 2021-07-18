@@ -521,84 +521,51 @@
 }
 
 .help {
-	.frame {
-		.introduce {
-			display: inline-block;
-			margin-left: 20px;
-			width: 560px;
-			font-size: 24px;
-			margin-top: 28px;
-		}
 
+	div {
+		position: relative;
+		width: 80%;
+		margin-top: 24px;
+	}
+
+	.introduce {
+		font-size: 24px;
+		margin-top: 28px;
+	}
+
+	.t1 {
 		img {
-			display: inline-block;
-			margin-top: 20px;
-			margin-left: 20px;
-			width: 45px;
-			height: 46px;
+			height: 48px;
 		}
 
-		.t1 {
-			position: relative;
-			display: inline-block;
-			font-size: 20px;
-			box-sizing: border-box;
-			bottom: 15px;
-			left: 10px;
-		}
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		font-size: 20px;
+		box-sizing: border-box;
+	}
 
-		.t2 {
-			display: inline-block;
-			margin-left: 20px;
-			width: 560px;
-			font-size: 21px;
-			margin-top: 10px;
-		}
+	.ok {
+		position: absolute;
+		width: 100px;
+		height: 26px;
+		text-align: center;
+		bottom: 28px;
+		font-size: 24px;
+		line-height: 26px;
+		user-select: none;
+		cursor: pointer;
 
-		.t3 {
-			margin-left: 20px;
-			width: 560px;
-			font-size: 21px;
-			margin-top: 10px;
-		}
-
-		.t4 {
-			margin-left: 20px;
-			width: 560px;
-			font-size: 21px;
-			margin-top: 10px;
-		}
-
-		.t5 {
-			margin-left: 20px;
-			width: 560px;
-			font-size: 21px;
-			margin-top: 10px;
-		}
-
-		.ok {
-			position: absolute;
-			width: 100%;
-			display: inline-block;
-			text-align: center;
-			bottom: 36px;
-			font-size: 24px;
-			user-select: none;
-
-			&:hover {
-				color: blue;
-				background-color: #dfdeff;
-			}
+		&:hover {
+			color: white;
+			background-color: blue;
+			border-radius: 8px;
 		}
 	}
 }
 
 .shop {
 	.frame {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
 		.text {
 			position: absolute;
 			top: 25px;
@@ -763,11 +730,6 @@
 
 .leaderboard {
 	.frame {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		user-select: none;
-
 		.leadTitle {
 			position: absolute;
 			top: 18px;
@@ -933,11 +895,6 @@
 
 .userInfoUpdate {
 	.frame {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		user-select: none;
-
 		.title {
 			position: relative;
 			font-size: 28px;
