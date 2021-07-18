@@ -521,7 +521,6 @@
 }
 
 .help {
-
 	div {
 		position: relative;
 		width: 80%;
@@ -548,18 +547,10 @@
 	.ok {
 		position: absolute;
 		width: 100px;
-		height: 26px;
-		text-align: center;
 		bottom: 28px;
-		font-size: 24px;
-		line-height: 26px;
-		user-select: none;
-		cursor: pointer;
 
 		&:hover {
-			color: white;
 			background-color: blue;
-			border-radius: 8px;
 		}
 	}
 }
@@ -701,27 +692,23 @@
 			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
-			user-select: none;
+
+			.ok,
+			.cancel {
+				font-size: 18px;
+				position: relative;
+				width: 42px;
+			}
 
 			.ok {
-				position: relative;
-
 				&:hover {
-					cursor: pointer;
-					color: white;
 					background-color: #9900ff;
-					border-radius: 3px;
 				}
 			}
 
 			.cancel {
-				position: relative;
-
 				&:hover {
-					cursor: pointer;
-					color: white;
 					background-color: #ff4800;
-					border-radius: 3px;
 				}
 			}
 		}
@@ -881,13 +868,9 @@
 			position: relative;
 			top: 80px;
 			width: 80px;
-			text-align: center;
 
 			&:hover {
-				cursor: pointer;
-				color: white;
 				background-color: #ff4800;
-				border-radius: 3px;
 			}
 		}
 	}
@@ -992,22 +975,16 @@
 			justify-content: center;
 			align-items: center;
 			bottom: 45px;
-			font-size: 28px;
-			line-height: 36px;
-			text-align: center;
 
 			.ok,
-			.close,
-			.del {
+			.close {
 				position: relative;
 				height: 36px;
+				line-height: 36px;
 				width: 150px;
 
 				&:hover {
-					cursor: pointer;
 					background-color: #ff4800;
-					color: #ffffff;
-					border-radius: 5px;
 				}
 			}
 
@@ -1024,10 +1001,8 @@
 			color: red;
 
 			&:hover {
-				cursor: pointer;
+				color: white;
 				background-color: #ff4800;
-				color: #ffffff;
-				border-radius: 5px;
 			}
 		}
 	}
@@ -1083,7 +1058,6 @@
 			.ok,
 			.cancel {
 				width: 64px;
-				text-align: center;
 
 				&:hover {
 					cursor: pointer;

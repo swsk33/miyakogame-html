@@ -1,4 +1,4 @@
-//统一操作窗口样式
+//统一模态操作窗口样式
 .mask {
 	position: absolute;
 	//默认不显示，需要时在js中设定display为flex或者block显示
@@ -45,7 +45,7 @@
 		box-shadow: 2px 2px 2px 1px rgba(2, 2, 2, 0.3);
 	}
 
-	//蒙层内的输入框
+	//蒙层窗口内的输入框
 	input {
 		width: 280px;
 		height: 32px;
@@ -59,6 +59,22 @@
 			border-color: rgb(255, 0, 157);
 			border-width: 3px;
 			box-shadow: 0 0 5px rgb(255, 0, 157);
+		}
+	}
+
+	//蒙层窗口内div按钮
+	.div-btn {
+		font-size: 24px;
+		height: 28px;
+		line-height: 28px;
+		text-align: center;
+		cursor: pointer;
+		user-select: none;
+
+		&:hover {
+			color: white;
+			background-color: purple;
+			border-radius: 6px;
 		}
 	}
 }
