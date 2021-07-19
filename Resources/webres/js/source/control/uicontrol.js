@@ -1,26 +1,26 @@
 //界面控制器
 //关键网页dom
-let currentScoreDom = document.querySelector('.game .topBar .scorePanel .currentScore'); //当前分数dom
-let highScoreDom = document.querySelector('.game .topBar .scorePanel .highScore'); //最高分数dom
-let levelDom = document.querySelector('.game .topBar .level'); //关卡dom
-let healthDom = document.querySelector('.game .topBar .health .t'); //获取生命值文字部分dom
-let propsDom = document.querySelector('.game .topBar .props'); //获取道具指示部分的dom
-let weaponDom = document.querySelector('.game .topBar .weapon'); //获取武器指示部分的dom
 let gameBackground = document.querySelector('.game .gameBg'); //获取游戏背景
 let gameTopBar = document.querySelector('.game .topBar'); //获取游戏上栏
+let currentScoreDom = gameTopBar.querySelector('.scorePanel .currentScore'); //当前分数dom
+let highScoreDom = gameTopBar.querySelector('.scorePanel .highScore'); //最高分数dom
+let levelDom = gameTopBar.querySelector('.level'); //关卡dom
+let healthDom = gameTopBar.querySelector('.health .t'); //获取生命值文字部分dom
+let propsDom = gameTopBar.querySelector('.props'); //获取道具指示部分的dom
+let weaponDom = gameTopBar.querySelector('.weapon'); //获取武器指示部分的dom
 let succeedPage = document.querySelector('.succeed'); //获取胜利界面
 let failedPage = document.querySelector('.failed'); //获取失败界面
 let startPage = document.querySelector('.start'); //获取开始界面
 let pausePage = document.querySelector('.pause'); //获取暂停界面
 let rankPage = document.querySelector('.leaderboard'); //获取排行榜页面
 let loadingPage = document.querySelector('.loading'); //获取加载页面
-let processBarOutline = document.querySelector('.loading .processBar'); //获取进度条外框
-let processBar = document.querySelector('.loading .processBar .processValue'); //获取进度条
-let processNum = document.querySelector('.loading .processNum'); //获取加载动画数值
+let processBarOutline = loadingPage.querySelector('.processBar'); //获取进度条外框
+let processBar = processBarOutline.querySelector('.processValue'); //获取进度条
+let processNum = loadingPage.querySelector('.processNum'); //获取加载动画数值
 let notSupportPage = document.querySelector('.notsupport'); //获取不支持提示页面
 let helpPage = document.querySelector('.help'); //获取帮助界面
 let shopPage = document.querySelector('.shop'); //获取商店页面
-let startPageBtn = document.querySelector('.start ul').children; //获取开始界面的所有按钮
+let startPageBtn = startPage.querySelector('ul').children; //获取开始界面的所有按钮
 let newGameTipFrame = document.querySelector('.newgameTip'); //新游戏提示界面
 let newgameTipBtn = newGameTipFrame.querySelector('.buttons').children; //新游戏提示界面按钮
 
@@ -74,9 +74,14 @@ function operateTopBarContent(isVisible) {
  */
 function operateLoadingPage(isVisible) {
 	if (isVisible) {
+		loadingPage.style.top = 0;
 		loadingPage.style.display = 'flex';
 	} else {
-		loadingPage.style.display = 'none';
+		let height = loadingPage.offsetHeight;
+		loadingPage.style.top = -height + 'px';
+		setTimeout(() => {
+			loadingPage.style.display = 'none';
+		}, 800);
 	}
 }
 

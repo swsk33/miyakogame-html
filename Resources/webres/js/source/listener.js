@@ -90,7 +90,16 @@ window.addEventListener('keydown', (e) => {
 
 //新游戏按钮
 startPageBtn[1].addEventListener('click', () => {
-	newGameTipFrame.style.display = 'flex';
+	if (!readData()) {
+		newGameTipFrame.style.display = 'flex';
+	} else {
+		resetData();
+		clearBullets();
+		document.querySelector('.startAudio').play();
+		operateStartPage(false);
+		initializePuddings();
+		startGameProcess();
+	}
 });
 
 //新游戏提示按钮

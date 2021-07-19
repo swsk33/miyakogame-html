@@ -309,6 +309,7 @@ public class PlayerServiceImpl implements PlayerService {
 			result.setResultFailed("验证码错误！");
 			return result;
 		}
+		redisTemplate.delete(MailServiceType.PASSWORD_RESET.toString() + "_" + player.getId());
 		mailService.sendNotifyMail(player.getEmail(), "宫子恰布丁-密码重置", "您的账户（用户名：" + player.getUserName() + " ; 昵称：" + player.getNickname() + "）已完成密码重置！请牢记您的新密码！");
 		return update(player);
 	}
