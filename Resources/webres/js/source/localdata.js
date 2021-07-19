@@ -31,6 +31,7 @@ if (userDataDOM[0].innerText == 'true') {
 } else {
 	showTipFrame('登录以存储游戏进度至云端不再丢失，并加入排行榜。')
 }
+document.querySelector('.userLoginData').remove();
 
 /**
  * 加分函数

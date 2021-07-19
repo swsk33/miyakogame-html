@@ -371,7 +371,7 @@ function operateRankPage(isVisible) {
 					let userNameText = document.createElement('div');
 					userNameText.className = 'text';
 					userNameText.innerText = getUserRank.nickname;
-					if (getUserRank.userName == onlineUserData.userName) {
+					if (getUserRank.userId == onlineUserData.id) {
 						userNameText.style.color = 'blue';
 					}
 					eachUserInfo.appendChild(userAvatar);

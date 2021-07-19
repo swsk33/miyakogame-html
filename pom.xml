@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>link.swsk33-web</groupId>
 	<artifactId>miyakogame</artifactId>
-	<version>4.0.1</version>
+	<version>4.0.2</version>
 	<name>宫子恰布丁</name>
 	<description>自制HTML小游戏-宫子恰布丁。</description>
 	<packaging>jar</packaging>
