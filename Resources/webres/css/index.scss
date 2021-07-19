@@ -919,14 +919,17 @@
 		font-size: 26px;
 	}
 
-	img {
-		height: 35px;
-		width: 35px;
-		border-style: solid;
-		border-width: 1px;
-		border-color: #ff5500;
-		border-radius: 50%;
+	.frame {
+		img {
+			height: 35px;
+			width: 35px;
+			border-style: solid;
+			border-width: 1px;
+			border-color: #ff5500;
+			border-radius: 50%;
+		}
 	}
+
 
 	.pointer {
 		position: relative;
