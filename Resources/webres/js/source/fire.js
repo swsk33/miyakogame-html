@@ -107,7 +107,6 @@ function bulletFlyMainControl(bullets, enemies) {
  * 清空所有子弹
  */
 function clearBullets() {
-
 	for (let i = 0; i < bulletArray.length; i++) {
 		if (Object.prototype.toString.call(bulletArray[i].dom) != '[object Array]') {
 			bulletArray[i].dom.remove();
