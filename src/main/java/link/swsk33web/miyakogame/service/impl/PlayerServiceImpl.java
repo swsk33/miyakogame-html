@@ -213,6 +213,7 @@ public class PlayerServiceImpl implements PlayerService {
 				return result;
 			}
 		}
+		player.setUserName(getPlayer.getUserName());
 		if (StringUtils.isEmpty(player.getNickname())) {
 			player.setNickname(getPlayer.getNickname());
 		}
@@ -240,6 +241,8 @@ public class PlayerServiceImpl implements PlayerService {
 		} else {
 			player.setPwd(PwdUtils.encodePwd(player.getPwd()));
 		}
+		//刷新缓存邮箱对用户列表信息
+		redisTemplate.delete(player.getEmail());
 		if (StringUtils.isEmpty(player.getEmail())) {
 			player.setEmail(getPlayer.getEmail());
 		} else if (!player.getEmail().contains("@")) {

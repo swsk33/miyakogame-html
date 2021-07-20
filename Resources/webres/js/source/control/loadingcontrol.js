@@ -1,9 +1,6 @@
 //检测各种元素加载情况
 //所有的图片资源的地址
-let allImg = ['/img/avatars/angry.png',
-	'/img/avatars/excepted.png',
-	'/img/avatars/happy.png',
-	'/img/avatars/not-support.png',
+let allImg = [
 	'/img/bullets/bullet.png',
 	'/img/bullets/bullet-penetrate.png',
 	'/img/bullets/bullet-boom.gif',
@@ -15,7 +12,6 @@ let allImg = ['/img/avatars/angry.png',
 	'/img/puddings/p2.png',
 	'/img/puddings/p3.png',
 	'/img/textImg/title.png',
-	'/img/waiting.gif',
 	'/img/miyako-normal.png',
 	'/img/youl-dynamic.gif',
 	'/img/youl-static.png'
