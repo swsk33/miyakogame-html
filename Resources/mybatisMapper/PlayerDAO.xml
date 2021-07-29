@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="link.swsk33web.miyakogame.dao.PlayerDAO">
-	<resultMap id="playerResultMap" type="link.swsk33web.miyakogame.dataobject.Player">
+<mapper namespace="fun.swsk33site.miyakogame.dao.PlayerDAO">
+	<resultMap id="playerResultMap" type="fun.swsk33site.miyakogame.dataobject.Player">
 		<id column="id" property="id"/>
 		<result column="user_name" property="userName"/>
 		<result column="nickname" property="nickname"/>
@@ -14,7 +14,7 @@
 		<result column="gmt_modified" property="gmtModified"/>
 	</resultMap>
 
-	<resultMap id="rankResultMap" type="link.swsk33web.miyakogame.model.RankInfo">
+	<resultMap id="rankResultMap" type="fun.swsk33site.miyakogame.model.RankInfo">
 		<result column="user_id" property="userId"/>
 		<result column="nickname" property="nickname"/>
 		<result column="avatar" property="avatar"/>
@@ -22,7 +22,7 @@
 		<result column="sequence" property="sequence"/>
 	</resultMap>
 
-	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="link.swsk33web.miyakogame.dataobject.Player">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="fun.swsk33site.miyakogame.dataobject.Player">
 		insert into `user`
 			(user_name, nickname, avatar, high_score, pwd, email, game_data, gmt_created, gmt_modified)
 		values (#{userName}, #{nickname}, #{avatar}, #{highScore}, #{pwd}, #{email}, #{gameData}, now(), now())
@@ -34,7 +34,7 @@
 		where id = #{id}
 	</delete>
 
-	<update id="update" parameterType="link.swsk33web.miyakogame.dataobject.Player">
+	<update id="update" parameterType="fun.swsk33site.miyakogame.dataobject.Player">
 		update `user`
 		set nickname     = #{nickname},
 			avatar       = #{avatar},

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,9 +8,9 @@
 		<version>2.5.2</version>
 		<relativePath/>
 	</parent>
-	<groupId>link.swsk33-web</groupId>
+	<groupId>fun.swsk33-site</groupId>
 	<artifactId>miyakogame</artifactId>
-	<version>4.0.3</version>
+	<version>4.1.0</version>
 	<name>宫子恰布丁</name>
 	<description>自制HTML小游戏-宫子恰布丁。</description>
 	<packaging>jar</packaging>
