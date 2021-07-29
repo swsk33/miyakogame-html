@@ -1224,13 +1224,14 @@
 			flex-direction: column;
 			align-items: center;
 			top: 28px;
+			font-size: 24px;
 		}
 
 		input {
 			position: relative;
 			width: 280px;
 			height: 32px;
-			top: 64px;
+			top: 48px;
 			outline: none;
 			border-style: solid;
 			border-color: blue;
@@ -1247,7 +1248,7 @@
 		.buttons {
 			position: absolute;
 			display: flex;
-			bottom: 45px;
+			bottom: 36px;
 			width: 45%;
 			justify-content: space-between;
 			align-items: center;
