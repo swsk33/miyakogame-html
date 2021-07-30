@@ -9,9 +9,9 @@ let weaponList = [];
  * @param {*} texture 子弹贴图url
  * @param {*} interval 射击间隔（ms）
  * @param {*} soundClassName 射击音效（音频dom的类名）
- * @param {*} shooting 子弹发射方法（回调函数，需要有两个形参x，y，分别表示子弹初始位置的横纵坐标，并返回子弹的dom节点或者dom节点数组）
- * @param {*} flying 子弹飞行方法（回调函数，需要有一个形参bulletDOM表示子弹对应的dom节点对象，需要计时器循环调用）
- * @param {*} hitTrigger 子弹击中时触发的函数（回调函数，需要有三个形参bulletDOM，enemy，enemies，分别表示子弹dom节点（无论武器一次发射单发还是多发，这里传入的始终是单个子弹的dom）、构造敌人对象和所有敌人数组）
+ * @param {*} shooting 子弹发射方法，用于生成子弹dom，可以理解为初始化子弹dom的作用（回调函数，需要有两个形参x，y，分别表示子弹初始位置的横纵坐标，并返回子弹的dom节点或者dom节点数组）
+ * @param {*} flying 子弹飞行方法，决定子弹飞行方向速度等等（回调函数，需要有两个形参bulletDOM，enemies分别表示子弹对应的dom节点对象、构造敌人数组，若为单个敌人也放入数组作为单元素数组传入，需要计时器循环调用）
+ * @param {*} hitTrigger 子弹击中时触发的函数，击中敌人时发生事件，一般敌人消失这个事件会被写入此（回调函数，需要有三个形参bulletDOM，enemy，enemies，分别表示子弹dom节点（无论武器一次发射单发还是多发，这里传入的始终是单个子弹的dom）、构造敌人对象和所有敌人数组）
  */
 function Weapon(name, price, texture, interval, soundClassName, shooting, flying, hitTrigger) {
 	this.name = name;
@@ -33,7 +33,7 @@ let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600
 	dom.style.top = y + 'px';
 	gameBackground.appendChild(dom);
 	return dom;
-}, (bulletDOM) => {
+}, (bulletDOM, emenies) => {
 	let x = bulletDOM.offsetLeft;
 	x = x + 8;
 	bulletDOM.style.left = x + 'px';
@@ -52,7 +52,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 15, '/img/bullets/bullet-pene
 	dom.style.top = y + 'px';
 	gameBackground.appendChild(dom);
 	return dom;
-}, (bulletDOM) => {
+}, (bulletDOM, emenies) => {
 	let x = bulletDOM.offsetLeft;
 	x = x + 9;
 	bulletDOM.style.left = x + 'px';
@@ -62,7 +62,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 15, '/img/bullets/bullet-pene
 });
 
 //爆裂之火模板
-let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
+let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
 	let dom = document.createElement('img');
 	dom.src = boomWildfire.texture;
 	dom.style.position = 'absolute';
@@ -70,7 +70,7 @@ let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif'
 	dom.style.top = y + 'px';
 	gameBackground.appendChild(dom);
 	return dom;
-}, (bulletDOM) => {
+}, (bulletDOM, emenies) => {
 	let x = bulletDOM.offsetLeft;
 	x = x + 7;
 	bulletDOM.style.left = x + 'px';
@@ -128,7 +128,7 @@ let boomWildfire = new Weapon('爆裂之火', 10, '/img/bullets/bullet-boom.gif'
 });
 
 //散布式魔法
-let scatterMagic = new Weapon('散布式魔法', 15, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
+let scatterMagic = new Weapon('散布式魔法', 20, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
 	let doms = [];
 	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 	let count = 8;
@@ -154,7 +154,7 @@ let scatterMagic = new Weapon('散布式魔法', 15, '/img/bullets/scatter-icon.
 		}
 	}, 60);
 	return doms;
-}, (bulletDOM) => {
+}, (bulletDOM, emenies) => {
 	for (let i = 0; i < bulletDOM.length; i++) {
 		let direction = bulletDOM[i].flydirect;
 		let v = 8;
@@ -171,8 +171,49 @@ let scatterMagic = new Weapon('散布式魔法', 15, '/img/bullets/scatter-icon.
 	bulletDOM.remove();
 });
 
+//弹弹魔法
+let bounceMagic = new Weapon('弹弹魔法', 2, '/img/bullets/bounce-icon.png', 300, '.fire-bounce-shootAudio', (x, y) => {
+	let direction = (genRandom(-60, 60) / 180) * Math.PI;
+	let dom = document.createElement('img');
+	dom.src = '/img/bullets/bounce-' + genRandom(1, 2) + '.png';
+	dom.style.position = 'absolute';
+	dom.style.left = x + 'px';
+	dom.style.top = y + 'px';
+	dom.flydirect = direction;
+	gameBackground.appendChild(dom);
+	return dom;
+}, (bulletDOM, emenies) => {
+	let x = bulletDOM.offsetLeft;
+	let y = bulletDOM.offsetTop;
+	let v = 7;
+	//判断是否到达上下边界，是的话就发生反弹
+	if (y - v <= 0 || y + v + bulletDOM.offsetHeight >= gameBackground.offsetHeight) {
+		bulletDOM.flydirect = -bulletDOM.flydirect;
+		document.querySelector('.fire-bounce-reflectAudio').play();
+	}
+	x = x + Math.cos(bulletDOM.flydirect) * v;
+	y = y + Math.sin(bulletDOM.flydirect) * v;
+	bulletDOM.style.left = x + 'px';
+	bulletDOM.style.top = y + 'px';
+}, (bulletDOM, enemy, enemies) => {
+	document.querySelector('.scoreAduio').play();
+	enemyFadeEffect(enemy);
+	bulletDOM.remove();
+});
+
+//追踪光球
+let traceBall = new Weapon('追踪光球', 10, '/img/bullets/trace.png', 600, '.fire-traceAudio', (x, y) => {
+
+}, (bulletDOM, emenies) => {
+
+}, (bulletDOM, enemy, enemies) => {
+
+});
+
 //设定武器列表
 weaponList.push(defaultWeapon);
 weaponList.push(penetrateWildfire);
 weaponList.push(boomWildfire);
 weaponList.push(scatterMagic);
+weaponList.push(bounceMagic);
+weaponList.push(traceBall);
