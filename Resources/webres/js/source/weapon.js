@@ -2,6 +2,9 @@
 //武器模板（魔法）列表
 let weaponList = [];
 
+//颜色常量
+const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
+
 /**
  * 武器类构造函数，用于构造一个武器模板
  * @param {*} name 武器（魔法）名
@@ -59,7 +62,7 @@ function domFlyX(dom, velocity) {
  */
 function domFlyY(dom, velocity) {
 	let y = dom.offsetTop;
-	x = y - velocity;
+	y = y + velocity;
 	dom.style.top = y + 'px';
 }
 
@@ -109,7 +112,6 @@ let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif'
 	domFlyX(bulletDOM, 7);
 }, (bulletDOM, enemy, enemies) => {
 	document.querySelector('.score-boomAudio').play();
-	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 	let bulletAtX = bulletDOM.offsetLeft - bulletDOM.offsetWidth / 2;
 	let bulletAtY = bulletDOM.offsetTop - bulletDOM.offsetHeight / 2;
 	let radius = 1;
@@ -163,7 +165,6 @@ let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif'
 //散布式魔法
 let scatterMagic = new Weapon('散布式魔法', 20, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
 	let doms = [];
-	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 	let count = 8;
 	let shootControl = setInterval(() => {
 		let direction = genRandom(-20, 20);
@@ -235,7 +236,6 @@ let traceBall = new Weapon('追踪光球', 5, '/img/bullets/trace.png', 300, '.f
 	}
 	let v = 8;
 	//添加子弹尾迹
-	const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3', '#0700ff', '#c000ff'];
 	let color = colors[genRandom(0, colors.length - 1)];
 	let dotRadius = Math.random();
 	if (dotRadius < 0.5) {
@@ -247,12 +247,19 @@ let traceBall = new Weapon('追踪光球', 5, '/img/bullets/trace.png', 300, '.f
 	dot.style.height = dotRadius + 'px';
 	dot.style.borderRadius = '50%';
 	dot.style.backgroundColor = color;
-	dot.style.boxShadow = '0px 0px 1px 2px ' + color;
+	dot.style.boxShadow = '0px 0px 6px 3px ' + color;
 	dot.style.left = bulletDOM.offsetLeft + bulletDOM.offsetWidth / 2 + 'px';
 	dot.style.top = bulletDOM.offsetTop + bulletDOM.offsetHeight / 2 + 'px';
 	gameBackground.appendChild(dot);
-	let dotDropSpeed = 1;
-	let dotDisappearTime = 100;
+	let addition = 0.05;
+	let dropInterval = setInterval(() => {
+		domFlyY(dot, addition);
+		addition = addition + 0.1;
+		if (addition >= 3 || dot.offsetTop + dot.offsetHeight >= window.innerHeight || dot.offsetLeft + dot.offsetWidth >= window.innerWidth) {
+			dot.remove();
+			clearInterval(dropInterval);
+		}
+	}, 16);
 	//如果锁敌失败则沿着当前方向飞行
 	if (bulletDOM.targetEnemy == null || bulletDOM.targetEnemy.isEaten) {
 		domFly(bulletDOM, v, bulletDOM.flydirect);
