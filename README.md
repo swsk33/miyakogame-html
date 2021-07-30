@@ -20,8 +20,10 @@ mvn clean package
 5. 把生成的jar包和`Resources`文件夹上传至服务器，服务器需要安装java运行环境，须确保它们在同一目录下，并使用`cd`命令进入两者所在目录，运行其中jar文件即可
 6. `Resources`文件夹里面的文件并不是运行网站全部必须的，在部署网站之前可以删除以下文件：
 	- 文件夹：
-		- Resources/avatars/users
-		- Resources/sql
-		- Resources/webres/js/source
+		- `Resources/avatars/users`
+		- `Resources/sql`
+		- `Resources/webres/js/source`
 	- 文件：
-		- Resources/webres/css/*.scss（Resources/webres/css目录下全部扩展名为scss的文件）
+		- `Resources/config/说明.txt`
+		- `Resources/ssl/说明.txt`（若不配置https可以直接删除文件夹Resources/ssl）
+		- `Resources/webres/css/*.scss`（Resources/webres/css目录下全部扩展名为scss的文件）
