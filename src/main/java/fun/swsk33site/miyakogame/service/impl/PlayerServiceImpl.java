@@ -370,7 +370,7 @@ public class PlayerServiceImpl implements PlayerService {
 			try {
 				info = playerDAO.findUserRankByUserId(id);
 			} catch (Exception e) {
-				// none
+				e.printStackTrace();
 			}
 			if (info == null) {
 				result.setResultFailed("查询失败！");
