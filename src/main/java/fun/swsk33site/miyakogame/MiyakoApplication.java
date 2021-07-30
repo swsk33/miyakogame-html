@@ -11,6 +11,9 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 //import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 
+/**
+ * Spring Boot启动类，配置文件位于项目文件夹/Resources/config/config.properties
+ */
 @SpringBootApplication
 @PropertySource(value = {"file:Resources/config/config.properties"})
 public class MiyakoApplication {

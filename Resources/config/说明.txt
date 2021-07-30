@@ -1,0 +1,1 @@
+请先将配置文件config.properties.bak的最后.bak去掉并正确配置里面一些配置项再使用。

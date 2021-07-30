@@ -1,9 +1,10 @@
 .mvn/
-.settings/
 target/
 .vscode/
 Resources/avatars/users/
+Resources/config/*.properties
 .idea/
 *.iml
+.settings/
 .classpath
 .project
