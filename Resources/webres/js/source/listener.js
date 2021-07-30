@@ -1,4 +1,7 @@
 //监听键盘事件
+//是否可以弹出道具提示
+let showNoPropTip = true;
+
 window.addEventListener('keydown', (e) => {
 	if (!isPaused) {
 		//宫子向上移动
@@ -56,7 +59,14 @@ window.addEventListener('keydown', (e) => {
 
 		if (e.keyCode == 86) {
 			if (propsCount[currentPropsIndex] <= 0) {
-				showTipFrame('该道具数量不足！', propsList[currentPropsIndex].img, '.tip-false');
+				//2s内不可弹出同一提示
+				if (showNoPropTip) {
+					showTipFrame('该道具数量不足！', propsList[currentPropsIndex].img, '.tip-false');
+					showNoPropTip = false;
+					setTimeout(() => {
+						showNoPropTip = true;
+					}, 2000);
+				}
 			} else {
 				document.querySelector(propsList[currentPropsIndex].soundClassName).play();
 				propsList[currentPropsIndex].effect(miyako, puddingArray);

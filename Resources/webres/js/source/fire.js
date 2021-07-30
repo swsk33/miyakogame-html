@@ -2,6 +2,9 @@
 //子弹构造对象数组
 let bulletArray = [];
 
+//是否可以弹出武器弹药提示
+let showNoBulletTip = true;
+
 /**
  * 根据武器模板射击子弹
  * 该函数实际上是对武器模板对象的深复制，因为直接使用武器模板赋值会导致武器模板的dom属性也被修改，不仅破坏了模板信息，还不能实现多个不同子弹效果
@@ -48,7 +51,14 @@ function fire(weapon) {
 			refreshDom();
 		}
 	} else if (weaponCount[currentWeaponIndex] == 0) { //当前武器没子弹时发出提示
-		showTipFrame('当前武器没有弹药！请切换武器！', weaponList[currentWeaponIndex].texture, '.tip-false');
+		//2s内不能重复弹出同一个提示
+		if (showNoBulletTip) {
+			showTipFrame('当前武器没有弹药！请切换武器！', weaponList[currentWeaponIndex].texture, '.tip-false');
+			showNoBulletTip = false;
+			setTimeout(() => {
+				showNoBulletTip = true;
+			}, 2000);
+		}
 	}
 }
 

@@ -199,7 +199,7 @@ let scatterMagic = new Weapon('散布式魔法', 20, '/img/bullets/scatter-icon.
 });
 
 //弹弹魔法
-let bounceMagic = new Weapon('弹弹魔法', 2, '/img/bullets/bounce-icon.png', 300, '.fire-bounce-shootAudio', (x, y) => {
+let bounceMagic = new Weapon('弹弹魔法', 5, '/img/bullets/bounce-icon.png', 300, '.fire-bounce-shootAudio', (x, y) => {
 	let direction = genRandom(-60, 60);
 	let dom = generateImageBulletDOM('/img/bullets/bounce-' + genRandom(1, 2) + '.png', x, y);
 	dom.flydirect = direction;
@@ -219,7 +219,7 @@ let bounceMagic = new Weapon('弹弹魔法', 2, '/img/bullets/bounce-icon.png', 
 });
 
 //追踪光球
-let traceBall = new Weapon('追踪光球', 5, '/img/bullets/trace.png', 300, '.fire-traceAudio', (x, y) => {
+let traceBall = new Weapon('追踪光球', 12, '/img/bullets/trace.png', 1100, '.fire-traceAudio', (x, y) => {
 	let dom = generateImageBulletDOM(traceBall.texture, x, y);
 	dom.flydirect = 0;
 	dom.targetEnemy = null;
@@ -235,7 +235,7 @@ let traceBall = new Weapon('追踪光球', 5, '/img/bullets/trace.png', 300, '.f
 		}
 	}
 	let v = 8;
-	//添加子弹尾迹
+	//添加子弹尾迹点
 	let color = colors[genRandom(0, colors.length - 1)];
 	let dotRadius = Math.random();
 	if (dotRadius < 0.5) {
@@ -247,19 +247,24 @@ let traceBall = new Weapon('追踪光球', 5, '/img/bullets/trace.png', 300, '.f
 	dot.style.height = dotRadius + 'px';
 	dot.style.borderRadius = '50%';
 	dot.style.backgroundColor = color;
-	dot.style.boxShadow = '0px 0px 6px 3px ' + color;
+	dot.style.boxShadow = '0px 0px 3.5px 2px ' + color;
 	dot.style.left = bulletDOM.offsetLeft + bulletDOM.offsetWidth / 2 + 'px';
-	dot.style.top = bulletDOM.offsetTop + bulletDOM.offsetHeight / 2 + 'px';
+	dot.style.top = bulletDOM.offsetTop + bulletDOM.offsetHeight / 2 + genRandom(-2, 2) + 'px';
+	dot.style.transitionProperty = 'left, top';
+	dot.style.transitionDuration = '1s';
+	dot.style.transitionTimingFunction = 'ease-out';
 	gameBackground.appendChild(dot);
-	let addition = 0.05;
-	let dropInterval = setInterval(() => {
-		domFlyY(dot, addition);
-		addition = addition + 0.1;
-		if (addition >= 3 || dot.offsetTop + dot.offsetHeight >= window.innerHeight || dot.offsetLeft + dot.offsetWidth >= window.innerWidth) {
-			dot.remove();
-			clearInterval(dropInterval);
-		}
-	}, 16);
+	//随机尾迹点运动方向
+	let dotFlydirect;
+	if (Math.random() < 0.5) {
+		dotFlydirect = genRandom(100, 135);
+	} else {
+		dotFlydirect = genRandom(225, 260);
+	}
+	domFly(dot, 25, dotFlydirect);
+	setTimeout(() => {
+		dot.remove();
+	}, 350);
 	//如果锁敌失败则沿着当前方向飞行
 	if (bulletDOM.targetEnemy == null || bulletDOM.targetEnemy.isEaten) {
 		domFly(bulletDOM, v, bulletDOM.flydirect);
