@@ -176,11 +176,18 @@ public class PlayerServiceImpl implements PlayerService {
 			}
 		}
 		String getUsername = getPlayer.getUserName();
+		//移除redis玩家缓存、排名表、用户名对id表、邮箱对用户信息
 		redisTemplate.delete(id);
 		redisTemplate.opsForHash().delete(CommonValue.REDIS_USERNAME_ID_TABLE_NAME, getUsername);
 		redisTemplate.opsForZSet().remove(CommonValue.REDIS_RANK_TABLE_NAME, id);
 		redisTemplate.delete(getPlayer.getEmail());
 		playerDAO.delete(id);
+		//删除玩家头像文件
+		String originImgFile = getPlayer.getAvatar();
+		if (!originImgFile.contains("default")) {
+			originImgFile = originImgFile.substring(originImgFile.lastIndexOf("/") + 1);
+			new File(CommonValue.AVATAR_PATH + File.separator + originImgFile).delete();
+		}
 		result.setResultSuccess("注销用户完成！", null);
 		mailService.sendNotifyMail(getPlayer.getEmail(), "宫子恰布丁-用户注销", "您的用户：" + getPlayer.getNickname() + " 已经成功注销！");
 		return result;

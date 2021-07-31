@@ -8,16 +8,18 @@ const colors = ['#ff0f26', '#ff7d0f', '#ffe72e', '#b2ff2e', '#3cff2e', '#2effd3'
 /**
  * 武器类构造函数，用于构造一个武器模板
  * @param {*} name 武器（魔法）名
+ * @param {*} description 武器描述
  * @param {*} price 武器价格
  * @param {*} texture 子弹贴图url
  * @param {*} interval 射击间隔（ms）
- * @param {*} soundClassName 射击音效（音频dom的类名）
+ * @param {*} soundClassName 射击音效（audio标签选择器（.类名））
  * @param {*} shooting 子弹发射方法，用于生成子弹dom，可以理解为初始化子弹dom的作用（回调函数，需要有两个形参x，y，分别表示子弹初始位置的横纵坐标，并返回子弹的dom节点或者dom节点数组）
  * @param {*} flying 子弹飞行方法，决定子弹飞行方向速度等等（回调函数，需要有两个形参bulletDOM，enemies分别表示子弹对应的dom节点对象、构造敌人数组，若为单个敌人也放入数组作为单元素数组传入，需要计时器循环调用）
  * @param {*} hitTrigger 子弹击中时触发的函数，击中敌人时发生事件，一般敌人消失这个事件会被写入此（回调函数，需要有三个形参bulletDOM，enemy，enemies，分别表示子弹dom节点（无论武器一次发射单发还是多发，这里传入的始终是单个子弹的dom）、构造敌人对象和所有敌人数组）
  */
-function Weapon(name, price, texture, interval, soundClassName, shooting, flying, hitTrigger) {
+function Weapon(name, description, price, texture, interval, soundClassName, shooting, flying, hitTrigger) {
 	this.name = name;
+	this.description = description;
 	this.price = price;
 	this.texture = texture;
 	this.interval = interval;
@@ -84,8 +86,11 @@ function domFly(dom, velocity, direction) {
 	dom.style.top = y + 'px';
 }
 
+/*
+ * 下面是各个武器代码
+ */
 //默认武器模板
-let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600, '.fireAudio', (x, y) => {
+let defaultWeapon = new Weapon('常规鬼火', '最普通的鬼火武器，宫子借助它吃布丁，冷却0.6s', 0, '/img/bullets/bullet.png', 600, '.fireAudio', (x, y) => {
 	return generateImageBulletDOM(defaultWeapon.texture, x, y);
 }, (bulletDOM, enemies) => {
 	domFlyX(bulletDOM, 8);
@@ -96,7 +101,7 @@ let defaultWeapon = new Weapon('常规鬼火', 0, '/img/bullets/bullet.png', 600
 });
 
 //穿透鬼火模板
-let penetrateWildfire = new Weapon('穿透鬼火', 15, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penetrateAudio', (x, y) => {
+let penetrateWildfire = new Weapon('穿透鬼火', '可以穿透水平方向上的布丁，冷却1.5s', 10, '/img/bullets/bullet-penetrate.png', 1500, '.fire-penetrateAudio', (x, y) => {
 	return generateImageBulletDOM(penetrateWildfire.texture, x, y);
 }, (bulletDOM, enemies) => {
 	domFlyX(bulletDOM, 9);
@@ -106,7 +111,7 @@ let penetrateWildfire = new Weapon('穿透鬼火', 15, '/img/bullets/bullet-pene
 });
 
 //爆裂之火模板
-let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
+let boomWildfire = new Weapon('爆裂之火', '遇到布丁会爆炸的鬼火，一次吃掉多个布丁，冷却1.25s', 15, '/img/bullets/bullet-boom.gif', 1250, '.fire-boomAudio', (x, y) => {
 	return generateImageBulletDOM(boomWildfire.texture, x, y);
 }, (bulletDOM, enemies) => {
 	domFlyX(bulletDOM, 7);
@@ -163,7 +168,7 @@ let boomWildfire = new Weapon('爆裂之火', 15, '/img/bullets/bullet-boom.gif'
 });
 
 //散布式魔法
-let scatterMagic = new Weapon('散布式魔法', 20, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
+let scatterMagic = new Weapon('散布式魔法', '一次发射8个魔法球，射角分散，冷却2s', 20, '/img/bullets/scatter-icon.png', 2000, '.fire-scatterAudio', (x, y) => {
 	let doms = [];
 	let count = 8;
 	let shootControl = setInterval(() => {
@@ -199,7 +204,7 @@ let scatterMagic = new Weapon('散布式魔法', 20, '/img/bullets/scatter-icon.
 });
 
 //弹弹魔法
-let bounceMagic = new Weapon('弹弹魔法', 5, '/img/bullets/bounce-icon.png', 300, '.fire-bounce-shootAudio', (x, y) => {
+let bounceMagic = new Weapon('弹弹魔法', '遇到上下边界会发生反弹的魔法星星，只不过射击角度有点随机...冷却0.3s', 5, '/img/bullets/bounce-icon.png', 300, '.fire-bounce-shootAudio', (x, y) => {
 	let direction = genRandom(-60, 60);
 	let dom = generateImageBulletDOM('/img/bullets/bounce-' + genRandom(1, 2) + '.png', x, y);
 	dom.flydirect = direction;
@@ -219,7 +224,7 @@ let bounceMagic = new Weapon('弹弹魔法', 5, '/img/bullets/bounce-icon.png', 
 });
 
 //追踪光球
-let traceBall = new Weapon('追踪光球', 12, '/img/bullets/trace.png', 1100, '.fire-traceAudio', (x, y) => {
+let traceBall = new Weapon('追踪光球', '发射后能够自动追踪布丁的魔法光球，冷却1.1s', 12, '/img/bullets/trace.png', 1100, '.fire-traceAudio', (x, y) => {
 	let dom = generateImageBulletDOM(traceBall.texture, x, y);
 	dom.flydirect = 0;
 	dom.targetEnemy = null;

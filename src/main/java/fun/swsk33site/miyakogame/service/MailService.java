@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public interface MailService {
 
 	/**
-	 * 发送通知邮件
+	 * 发送通知邮件，为异步方法
 	 *
 	 * @param email 收件人
 	 * @param title 邮件标题

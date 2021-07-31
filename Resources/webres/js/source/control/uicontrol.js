@@ -255,8 +255,23 @@ function operateShopPage(isVisible) {
 			let eachWeaponItem = document.createElement('li');
 			let img = document.createElement('img');
 			img.src = weaponList[i].texture;
+			let descriptionDialog = document.createElement('div');
+			descriptionDialog.style.position = 'absolute';
+			descriptionDialog.style.backgroundColor = 'white';
+			descriptionDialog.style.borderStyle = 'solid';
+			descriptionDialog.style.borderWidth = '1.5px';
+			descriptionDialog.style.borderRadius = '3px';
+			descriptionDialog.innerText = weaponList[i].description;
 			let name = document.createElement('div');
 			name.innerText = weaponList[i].name + ' ' + weaponList[i].price;
+			name.addEventListener('mouseenter', (e) => {
+				descriptionDialog.style.left = (e.pageX - descriptionDialog.offsetWidth) + 'px';
+				descriptionDialog.style.top = (e.pageY - 36) + 'px';
+				document.querySelector('body').appendChild(descriptionDialog);
+			});
+			name.addEventListener('mouseleave', () => {
+				descriptionDialog.remove();
+			});
 			let count = document.createElement('div');
 			count.style.color = 'purple';
 			count.innerText = '0';

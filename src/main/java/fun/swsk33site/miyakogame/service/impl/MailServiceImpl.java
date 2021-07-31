@@ -32,11 +32,13 @@ public class MailServiceImpl implements MailService {
 		message.setTo(email);
 		message.setSubject(title);
 		message.setText(text);
-		try {
-			mailSender.send(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		new Thread(() -> {
+			try {
+				mailSender.send(message);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	@Override

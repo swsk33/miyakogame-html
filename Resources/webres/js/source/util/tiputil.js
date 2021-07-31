@@ -7,15 +7,12 @@
  */
 function showTipFrame(text, img, soundClassName) {
 	let tipDialog = document.createElement('div');
-	let bgTrans = 0;
-	let contentTrans = 0;
-	let dialogHeight = 60;
-	let tipAtY = -dialogHeight;
 	tipDialog.style.position = 'absolute';
 	tipDialog.style.width = '500px';
-	tipDialog.style.height = dialogHeight + 'px';
+	tipDialog.style.height = '60px';
 	tipDialog.style.display = 'flex';
-	tipDialog.style.backgroundColor = 'rgba(255, 255, 255, ' + bgTrans + ')';
+	tipDialog.style.backgroundColor = 'white';
+	tipDialog.style.opacity = 0;
 	tipDialog.style.borderColor = 'black';
 	tipDialog.style.borderStyle = 'dashed';
 	tipDialog.style.borderWidth = '2.5px';
@@ -23,7 +20,11 @@ function showTipFrame(text, img, soundClassName) {
 	tipDialog.style.justifyContent = 'center';
 	tipDialog.style.alignItems = 'center';
 	tipDialog.style.left = ((window.innerWidth - 500) / 2) + 'px';
-	tipDialog.style.top = tipAtY + 'px';
+	tipDialog.style.top = '-60px';
+	tipDialog.style.transitionProperty = 'top, opacity';
+	tipDialog.style.transitionDuration = '1s';
+	tipDialog.style.transitionDelay = '0s, 0.3s';
+	tipDialog.style.transitionTimingFunction = 'ease-out';
 	let textDOM = document.createElement('div');
 	let imgDOM = document.createElement('img');
 	textDOM.innerText = text;
@@ -39,24 +40,15 @@ function showTipFrame(text, img, soundClassName) {
 	if (soundClassName != null) {
 		document.querySelector(soundClassName).play();
 	}
-	let keyFrame = 240;
-	let tipControl = setInterval(() => {
-		if (keyFrame <= 45) {
-			tipAtY = tipAtY - dialogHeight / 45;
-			bgTrans = bgTrans - 0.8 / 45;
-			contentTrans = contentTrans - 1 / 45;
-		} else if (keyFrame >= 195) {
-			tipAtY = tipAtY + dialogHeight / 45;
-			bgTrans = bgTrans + 0.8 / 45;
-			contentTrans = contentTrans + 1 / 45;
-		}
-		tipDialog.style.top = tipAtY + 'px';
-		tipDialog.style.backgroundColor = 'rgba(255, 255, 255, ' + bgTrans + ')';
-		tipDialog.style.color = 'rgba(0, 0, 0, ' + contentTrans + ')';
-		keyFrame--;
-		if (keyFrame <= 0) {
-			tipDialog.remove();
-			clearInterval(tipControl);
-		}
-	}, 16);
+	setTimeout(() => {
+		tipDialog.style.opacity = 0.95;
+		tipDialog.style.top = '1px';
+	}, 1);
+	setTimeout(() => {
+		tipDialog.style.opacity = 0;
+		tipDialog.style.top = '-60px';
+	}, 2501);
+	setTimeout(() => {
+		tipDialog.remove();
+	}, 3510);
 }

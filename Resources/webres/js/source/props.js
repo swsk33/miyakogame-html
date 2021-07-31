@@ -8,7 +8,7 @@ let propsList = [];
  * @param {*} description 道具描述
  * @param {*} price 道具价格
  * @param {*} img 道具贴图
- * @param {*} soundClassName 道具音效（audio标签类名）
+ * @param {*} soundClassName 道具音效（audio标签选择器（.类名））
  * @param {*} effect 道具效果（回调函数，需要传入两个形参：character，enemies，表示角色DOM和敌人构造数组）
  */
 function Props(name, description, price, img, soundClassName, effect) {
