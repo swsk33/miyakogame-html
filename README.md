@@ -1,6 +1,9 @@
 # 宫子恰布丁-HTML小游戏
 
 ## 介绍
+
+该版本以不再维护！请访问：[宫子恰布丁-Vue重构版](https://gitee.com/swsk33/miyakogame-vue)
+
 宫子恰布丁-网页小游戏，为太空入侵者的改版。<br>
 前端为原生HTML/CSS/JavaScript，后端使用Spring Boot。<br>
 
